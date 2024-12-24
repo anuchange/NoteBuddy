@@ -2,6 +2,9 @@ from groq import Groq
 import streamlit as st
 from .config import Config
 import time
+import base64
+import io
+from PIL import Image
 from typing import List, Dict, Any, Optional
 
 class GroqHandler:
@@ -171,6 +174,8 @@ class GroqHandler:
 
 Format the notes in a clear, hierarchical structure using markdown formatting. Include bullet points and sub-points where appropriate. If specific formulas, equations, or technical details are mentioned, include them with proper formatting.
 
+Headings should be content-specific, not necessarily matching the lecture structure. Use clear, concise language to explain complex topics effectively.
+
 Lecture Content:
 {text}
 
@@ -180,4 +185,173 @@ Please maintain academic language while ensuring the notes are clear and accessi
         """Remove the redundant summary combination step."""
         pass  # We don't need to combine summaries anymore since we're keeping detailed section notes
 
+    def chat_completion(self, message: str, image=None) -> str:
+            """
+            Get chat completion from Groq
+            Args:
+                message: User's text message
+                image: Optional PIL Image object
+            Returns:
+                str: Assistant's response
+            """
+            try:
+                # Prepare messages
+                messages = [
+                    {
+                        "role": "system",
+                        "content": self._get_chat_system_prompt()
+                    }
+                ]
+                
+                # If there's an image, format message with image
+                if image:
+                    messages.append({
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "image",
+                                "source": {
+                                    "type": "image",
+                                    "data": image
+                                }
+                            },
+                            {
+                                "type": "text",
+                                "text": message
+                            }
+                        ]
+                    })
+                else:
+                    messages.append({
+                        "role": "user",
+                        "content": message
+                    })
 
+                # Get completion from Groq
+                response = self.client.chat.completions.create(
+                    messages=messages,
+                    model=Config.GROQ_VISION_MODEL,
+                    temperature=0.7,
+                    max_tokens=2048,
+                    stream=False
+                )
+
+                if response and response.choices:
+                    return response.choices[0].message.content
+                return "I apologize, but I couldn't process your message."
+
+            except Exception as e:
+                st.error(f"Error in chat completion: {str(e)}")
+                return "An error occurred while processing your message."
+
+    def _get_chat_system_prompt(self) -> str:
+        """Get system prompt for chat"""
+        return """You are a helpful AI assistant integrated with a note-taking application. 
+You can:
+- Help users with note-taking and summarization
+- Analyze images and screenshots they share
+- Provide clear explanations and clarifications
+- Help organize and structure information
+
+When working with images:
+- Describe what you see in detail
+- Identify any text or important information
+- Relate the image content to the discussion context
+- Provide relevant suggestions or insights
+
+Keep responses concise yet informative, and maintain context of the conversation."""
+
+    def encode_image(self, image):
+        """
+        Encode PIL Image to base64 data URL
+        Args:
+            image: PIL Image object
+        Returns:
+            str: base64 data URL
+        """
+        try:
+            # Convert PIL Image to bytes
+            buffered = io.BytesIO()
+            image.save(buffered, format="JPEG")
+            img_str = base64.b64encode(buffered.getvalue()).decode()
+            return f"data:image/jpeg;base64,{img_str}"
+        except Exception as e:
+            st.error(f"Error encoding image: {str(e)}")
+            return None
+
+    def process_streamed_chat(self, message: str, image=None):
+            """
+            Process chat message with streaming response
+            Args:
+                message: User's text message
+                image: Optional PIL Image
+            Yields:
+                str: Response chunks
+            """
+            try:
+                if image:
+                    # For vision model: no system message, only user message with image
+                    image_url = self.encode_image(image)
+                    if image_url:
+                        messages = [
+                            {
+                                "role": "user",
+                                "content": [
+                                    {"type": "text", "text": message},
+                                    {
+                                        "type": "image_url",
+                                        "image_url": {
+                                            "url": image_url
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                        model = Config.GROQ_VISION_MODEL
+                    else:
+                        # Fallback to text-only if image encoding fails
+                        messages = [
+                            {
+                                "role": "system",
+                                "content": "You are a helpful AI assistant."
+                            },
+                            {
+                                "role": "user",
+                                "content": f"[Image processing failed] {message}"
+                            }
+                        ]
+                        model = Config.GROQ_MODEL
+                else:
+                    # Text-only message with system context
+                    messages = [
+                        {
+                            "role": "system",
+                            "content": "You are a helpful AI assistant."
+                        },
+                        {
+                            "role": "user",
+                            "content": message
+                        }
+                    ]
+                    model = Config.GROQ_MODEL
+
+                response = self.client.chat.completions.create(
+                    messages=messages,
+                    model=model,
+                    temperature=0.7,
+                    max_tokens=1024,
+                    stream=True
+                )
+                
+                for chunk in response:
+                    if chunk.choices and chunk.choices[0].delta.content:
+                        yield chunk.choices[0].delta.content
+                        
+            except Exception as e:
+                error_msg = f"""
+                Error in chat processing:
+                Type: {type(e)}
+                Message: {str(e)}
+                """
+                st.session_state.last_error = error_msg
+                yield "I apologize, but I encountered an error processing your message. Please check the error details above."

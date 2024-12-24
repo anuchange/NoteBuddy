@@ -56,7 +56,14 @@ def main():
                                 ]
         
         # Display timestamps
-        UIComponents.display_timestamps()
+        # UIComponents.display_timestamps()
+
+        # Add chat interface in col1 after timestamps
+        if st.session_state.video_id:  # Show chat if we have a valid video
+            st.write("---")
+            UIComponents.initialize_chat()
+            UIComponents.display_chat_interface()
+            UIComponents.display_chat_controls()
     
     with col2:
         st.title("Notes")
