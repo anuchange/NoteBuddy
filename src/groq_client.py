@@ -293,7 +293,7 @@ Keep responses concise yet informative, and maintain context of the conversation
             try:
                 if encoded_image:
                     # For vision model: no system message, only user message with image
-                    image_url = self.encode_image(encoded_image)
+                    image_url = encoded_image
                     if image_url:
                         messages = [
                             {
