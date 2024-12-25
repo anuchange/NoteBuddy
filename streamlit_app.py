@@ -1,9 +1,9 @@
 import streamlit as st
 from src.config import Config
 from src.groq_client import GroqHandler
-from src.youtube import YouTubeHandler
-from src.note_manager import NoteManager
-from src.ui_components import UIComponents
+from streamlit_src.youtube import YouTubeHandler
+from streamlit_src.note_manager import NoteManager
+from streamlit_src.ui_components import UIComponents
 
 def main():
     """Main application function"""

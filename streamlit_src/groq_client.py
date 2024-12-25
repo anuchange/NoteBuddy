@@ -1,22 +1,20 @@
 from groq import Groq
+import streamlit as st
 from .config import Config
 import time
 import base64
 import io
 from PIL import Image
-from .logger import get_logger
 from typing import List, Dict, Any, Optional
-
-logger = get_logger()
 
 class GroqHandler:
     def __init__(self):
         """Initialize Groq client with configuration settings."""
-
         self.client = Groq(api_key=Config.GROQ_API_KEY)
+        # Increased chunk size since we want more detailed content
         self.CHUNK_SIZE = 6000      # Characters per chunk
         self.OVERLAP_SIZE = 200     # Increased overlap for better context
-        self.RATE_LIMIT_DELAY = 1   
+        self.RATE_LIMIT_DELAY = 2   
         self.MAX_RETRIES = 3        
 
     def split_text_into_chunks(self, text: str) -> List[str]:
@@ -83,18 +81,18 @@ class GroqHandler:
         except Exception as e:
             if retry_count < self.MAX_RETRIES:
                 wait_time = self.RATE_LIMIT_DELAY * (2 ** retry_count)
-                logger.warning(f"Processing error. Retrying in {wait_time} seconds...")
+                st.warning(f"Processing error. Retrying in {wait_time} seconds...")
                 time.sleep(wait_time)
                 return self.process_chunk_with_retry(chunk, system_prompt, retry_count + 1)
             else:
-                logger.error(f"Failed to process content after {self.MAX_RETRIES} retries: {str(e)}")
+                st.error(f"Failed to process content after {self.MAX_RETRIES} retries: {str(e)}")
                 return None
 
     def generate_educational_notes(self, transcript_text: str) -> Optional[str]:
         """Generate detailed educational notes from transcript."""
         try:
             if len(transcript_text) > self.CHUNK_SIZE:
-                logger.info("This appears to be a longer lecture. Processing in sections...")
+                st.info("This appears to be a longer lecture. Processing in sections...")
                 return self.process_long_content(transcript_text)
             
             prompt = self.create_educational_prompt(transcript_text)
@@ -108,18 +106,18 @@ class GroqHandler:
             return None
 
         except Exception as e:
-            logger.error(f"Error processing educational content: {str(e)}")
+            st.error(f"Error processing educational content: {str(e)}")
             return None
 
     def process_long_content(self, transcript_text: str) -> Optional[str]:
         """Process longer lectures by sections while maintaining educational context."""
         chunks = self.split_text_into_chunks(transcript_text)
-        logger.info(f"Processing lecture in {len(chunks)} sections to maintain detail and clarity...")
+        st.info(f"Processing lecture in {len(chunks)} sections to maintain detail and clarity...")
         
         # Process each chunk as a standalone section
         section_notes = []
         for i, chunk in enumerate(chunks, 1):
-            logger.info(f"Processing section {i} of {len(chunks)}...")
+            st.write(f"Processing section {i} of {len(chunks)}...")
             
             if i > 1:
                 time.sleep(self.RATE_LIMIT_DELAY)
@@ -243,7 +241,7 @@ Please maintain academic language while ensuring the notes are clear and accessi
                 return "I apologize, but I couldn't process your message."
 
             except Exception as e:
-                logger.error(f"Error in chat completion: {str(e)}")
+                st.error(f"Error in chat completion: {str(e)}")
                 return "An error occurred while processing your message."
 
     def _get_chat_system_prompt(self) -> str:
@@ -263,25 +261,25 @@ When working with images:
 
 Keep responses concise yet informative, and maintain context of the conversation."""
 
-    # def encode_image(self, image):
-    #     """
-    #     Encode PIL Image to base64 data URL
-    #     Args:
-    #         image: PIL Image object
-    #     Returns:
-    #         str: base64 data URL
-    #     """
-    #     try:
-    #         # Convert PIL Image to bytes
-    #         buffered = io.BytesIO()
-    #         image.save(buffered, format="JPEG")
-    #         img_str = base64.b64encode(buffered.getvalue()).decode()
-    #         return f"data:image/jpeg;base64,{img_str}"
-    #     except Exception as e:
-    #         logger.error(f"Error encoding image: {str(e)}")
-    #         return None
+    def encode_image(self, image):
+        """
+        Encode PIL Image to base64 data URL
+        Args:
+            image: PIL Image object
+        Returns:
+            str: base64 data URL
+        """
+        try:
+            # Convert PIL Image to bytes
+            buffered = io.BytesIO()
+            image.save(buffered, format="JPEG")
+            img_str = base64.b64encode(buffered.getvalue()).decode()
+            return f"data:image/jpeg;base64,{img_str}"
+        except Exception as e:
+            st.error(f"Error encoding image: {str(e)}")
+            return None
 
-    def process_streamed_chat(self, message: str, encoded_image=None):
+    def process_streamed_chat(self, message: str, image=None):
             """
             Process chat message with streaming response
             Args:
@@ -291,9 +289,9 @@ Keep responses concise yet informative, and maintain context of the conversation
                 str: Response chunks
             """
             try:
-                if encoded_image:
+                if image:
                     # For vision model: no system message, only user message with image
-                    image_url = self.encode_image(encoded_image)
+                    image_url = self.encode_image(image)
                     if image_url:
                         messages = [
                             {
@@ -341,7 +339,7 @@ Keep responses concise yet informative, and maintain context of the conversation
                     messages=messages,
                     model=model,
                     temperature=0.7,
-                    max_tokens=3000,
+                    max_tokens=1024,
                     stream=True
                 )
                 
@@ -355,5 +353,5 @@ Keep responses concise yet informative, and maintain context of the conversation
                 Type: {type(e)}
                 Message: {str(e)}
                 """
-                logger.error(error_msg)
+                st.session_state.last_error = error_msg
                 yield "I apologize, but I encountered an error processing your message. Please check the error details above."

@@ -6,6 +6,8 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "groq>=0.13.1",
+    "markdown2[all]>=2.5.2",
+    "markdown>=3.7",
     "openai>=1.58.1",
     "pandas>=2.2.3",
     "pillow>=11.0.0",
