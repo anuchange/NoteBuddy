@@ -1,6 +1,7 @@
 from .youtube_handler import YouTubeHandler
 from .groq_client import GroqHandler
 from .html_convertor import convert_markdown_to_html
+from fastapi.responses import HTMLResponse
 
 # Initialize YouTube handler
 youtube_handler = YouTubeHandler()
@@ -30,7 +31,8 @@ def generate_notes(youtube_url: str):
 
     # Convert to HTML with monokai style (dark theme for better visibility)
     html_output = convert_markdown_to_html(summary, code_style='monokai')
-    return html_output
+    response = HTMLResponse(content=html_output)
+    return response
 
 def chat_response_generation(message: str, encoded_image: str):
 
@@ -41,4 +43,6 @@ def chat_response_generation(message: str, encoded_image: str):
 
     # Convert to HTML with monokai style (dark theme for better visibility)
     html_output = convert_markdown_to_html(full_response, code_style='monokai')
-    return html_output
+    response = HTMLResponse(content=html_output)
+    # print(response.body.decode())
+    return response
