@@ -1,0 +1,547 @@
+<div class="flex justify-start">
+    <div class="bg-white text-gray-800 px-4 py-3 rounded-xl max-w-[80%] shadow-sm">
+        <div class="break-words">
+
+
+
+            <!-- Mermaid Support -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.3.0/mermaid.min.js"></script>
+
+            <!-- MathJax Support -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js"></script>
+
+            <!-- Highlight.js for additional code highlighting -->
+            <link rel="stylesheet"
+                href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+
+            <style>
+                body {
+                    max-width: 900px;
+                    margin: 0 auto;
+                    padding: 20px;
+                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                    line-height: 1.6;
+                }
+
+                /* Code blocks styling */
+                .highlight_me {
+                    background-color: #272822;
+                    padding: 1em;
+                    border-radius: 4px;
+                    margin: 1em 0;
+                    overflow-x: auto;
+                }
+
+                /* Table styling */
+                table {
+                    border-collapse: collapse;
+                    width: 100%;
+                    margin: 1em 0;
+                }
+
+                th,
+                td {
+                    border: 1px solid #ddd;
+                    padding: 8px;
+                    text-align: left;
+                }
+
+                th {
+                    background-color: #f5f5f5;
+                }
+
+                /* Mermaid diagram styling */
+                .mermaid {
+                    text-align: center;
+                    margin: 1em 0;
+                }
+
+                /* Math equations styling */
+                .math {
+                    overflow-x: auto;
+                    margin: 1em 0;
+                }
+
+                pre {
+                    line-height: 125%;
+                }
+
+                td.linenos .normal {
+                    color: inherit;
+                    background-color: transparent;
+                    padding-left: 5px;
+                    padding-right: 5px;
+                }
+
+                span.linenos {
+                    color: inherit;
+                    background-color: transparent;
+                    padding-left: 5px;
+                    padding-right: 5px;
+                }
+
+                td.linenos .special {
+                    color: #000000;
+                    background-color: #ffffc0;
+                    padding-left: 5px;
+                    padding-right: 5px;
+                }
+
+                span.linenos.special {
+                    color: #000000;
+                    background-color: #ffffc0;
+                    padding-left: 5px;
+                    padding-right: 5px;
+                }
+
+                .highlight_me .hll {
+                    background-color: #49483e
+                }
+
+                .highlight_me {
+                    background: #272822;
+                    color: #f8f8f2
+                }
+
+                .highlight_me .c {
+                    color: #959077
+                }
+
+                /* Comment */
+                .highlight_me .err {
+                    color: #ed007e;
+                    background-color: #1e0010
+                }
+
+                /* Error */
+                .highlight_me .esc {
+                    color: #f8f8f2
+                }
+
+                /* Escape */
+                .highlight_me .g {
+                    color: #f8f8f2
+                }
+
+                /* Generic */
+                .highlight_me .k {
+                    color: #66d9ef
+                }
+
+                /* Keyword */
+                .highlight_me .l {
+                    color: #ae81ff
+                }
+
+                /* Literal */
+                .highlight_me .n {
+                    color: #f8f8f2
+                }
+
+                /* Name */
+                .highlight_me .o {
+                    color: #ff4689
+                }
+
+                /* Operator */
+                .highlight_me .x {
+                    color: #f8f8f2
+                }
+
+                /* Other */
+                .highlight_me .p {
+                    color: #f8f8f2
+                }
+
+                /* Punctuation */
+                .highlight_me .ch {
+                    color: #959077
+                }
+
+                /* Comment.Hashbang */
+                .highlight_me .cm {
+                    color: #959077
+                }
+
+                /* Comment.Multiline */
+                .highlight_me .cp {
+                    color: #959077
+                }
+
+                /* Comment.Preproc */
+                .highlight_me .cpf {
+                    color: #959077
+                }
+
+                /* Comment.PreprocFile */
+                .highlight_me .c1 {
+                    color: #959077
+                }
+
+                /* Comment.Single */
+                .highlight_me .cs {
+                    color: #959077
+                }
+
+                /* Comment.Special */
+                .highlight_me .gd {
+                    color: #ff4689
+                }
+
+                /* Generic.Deleted */
+                .highlight_me .ge {
+                    color: #f8f8f2;
+                    font-style: italic
+                }
+
+                /* Generic.Emph */
+                .highlight_me .ges {
+                    color: #f8f8f2;
+                    font-weight: bold;
+                    font-style: italic
+                }
+
+                /* Generic.EmphStrong */
+                .highlight_me .gr {
+                    color: #f8f8f2
+                }
+
+                /* Generic.Error */
+                .highlight_me .gh {
+                    color: #f8f8f2
+                }
+
+                /* Generic.Heading */
+                .highlight_me .gi {
+                    color: #a6e22e
+                }
+
+                /* Generic.Inserted */
+                .highlight_me .go {
+                    color: #66d9ef
+                }
+
+                /* Generic.Output */
+                .highlight_me .gp {
+                    color: #ff4689;
+                    font-weight: bold
+                }
+
+                /* Generic.Prompt */
+                .highlight_me .gs {
+                    color: #f8f8f2;
+                    font-weight: bold
+                }
+
+                /* Generic.Strong */
+                .highlight_me .gu {
+                    color: #959077
+                }
+
+                /* Generic.Subheading */
+                .highlight_me .gt {
+                    color: #f8f8f2
+                }
+
+                /* Generic.Traceback */
+                .highlight_me .kc {
+                    color: #66d9ef
+                }
+
+                /* Keyword.Constant */
+                .highlight_me .kd {
+                    color: #66d9ef
+                }
+
+                /* Keyword.Declaration */
+                .highlight_me .kn {
+                    color: #ff4689
+                }
+
+                /* Keyword.Namespace */
+                .highlight_me .kp {
+                    color: #66d9ef
+                }
+
+                /* Keyword.Pseudo */
+                .highlight_me .kr {
+                    color: #66d9ef
+                }
+
+                /* Keyword.Reserved */
+                .highlight_me .kt {
+                    color: #66d9ef
+                }
+
+                /* Keyword.Type */
+                .highlight_me .ld {
+                    color: #e6db74
+                }
+
+                /* Literal.Date */
+                .highlight_me .m {
+                    color: #ae81ff
+                }
+
+                /* Literal.Number */
+                .highlight_me .s {
+                    color: #e6db74
+                }
+
+                /* Literal.String */
+                .highlight_me .na {
+                    color: #a6e22e
+                }
+
+                /* Name.Attribute */
+                .highlight_me .nb {
+                    color: #f8f8f2
+                }
+
+                /* Name.Builtin */
+                .highlight_me .nc {
+                    color: #a6e22e
+                }
+
+                /* Name.Class */
+                .highlight_me .no {
+                    color: #66d9ef
+                }
+
+                /* Name.Constant */
+                .highlight_me .nd {
+                    color: #a6e22e
+                }
+
+                /* Name.Decorator */
+                .highlight_me .ni {
+                    color: #f8f8f2
+                }
+
+                /* Name.Entity */
+                .highlight_me .ne {
+                    color: #a6e22e
+                }
+
+                /* Name.Exception */
+                .highlight_me .nf {
+                    color: #a6e22e
+                }
+
+                /* Name.Function */
+                .highlight_me .nl {
+                    color: #f8f8f2
+                }
+
+                /* Name.Label */
+                .highlight_me .nn {
+                    color: #f8f8f2
+                }
+
+                /* Name.Namespace */
+                .highlight_me .nx {
+                    color: #a6e22e
+                }
+
+                /* Name.Other */
+                .highlight_me .py {
+                    color: #f8f8f2
+                }
+
+                /* Name.Property */
+                .highlight_me .nt {
+                    color: #ff4689
+                }
+
+                /* Name.Tag */
+                .highlight_me .nv {
+                    color: #f8f8f2
+                }
+
+                /* Name.Variable */
+                .highlight_me .ow {
+                    color: #ff4689
+                }
+
+                /* Operator.Word */
+                .highlight_me .pm {
+                    color: #f8f8f2
+                }
+
+                /* Punctuation.Marker */
+                .highlight_me .w {
+                    color: #f8f8f2
+                }
+
+                /* Text.Whitespace */
+                .highlight_me .mb {
+                    color: #ae81ff
+                }
+
+                /* Literal.Number.Bin */
+                .highlight_me .mf {
+                    color: #ae81ff
+                }
+
+                /* Literal.Number.Float */
+                .highlight_me .mh {
+                    color: #ae81ff
+                }
+
+                /* Literal.Number.Hex */
+                .highlight_me .mi {
+                    color: #ae81ff
+                }
+
+                /* Literal.Number.Integer */
+                .highlight_me .mo {
+                    color: #ae81ff
+                }
+
+                /* Literal.Number.Oct */
+                .highlight_me .sa {
+                    color: #e6db74
+                }
+
+                /* Literal.String.Affix */
+                .highlight_me .sb {
+                    color: #e6db74
+                }
+
+                /* Literal.String.Backtick */
+                .highlight_me .sc {
+                    color: #e6db74
+                }
+
+                /* Literal.String.Char */
+                .highlight_me .dl {
+                    color: #e6db74
+                }
+
+                /* Literal.String.Delimiter */
+                .highlight_me .sd {
+                    color: #e6db74
+                }
+
+                /* Literal.String.Doc */
+                .highlight_me .s2 {
+                    color: #e6db74
+                }
+
+                /* Literal.String.Double */
+                .highlight_me .se {
+                    color: #ae81ff
+                }
+
+                /* Literal.String.Escape */
+                .highlight_me .sh {
+                    color: #e6db74
+                }
+
+                /* Literal.String.Heredoc */
+                .highlight_me .si {
+                    color: #e6db74
+                }
+
+                /* Literal.String.Interpol */
+                .highlight_me .sx {
+                    color: #e6db74
+                }
+
+                /* Literal.String.Other */
+                .highlight_me .sr {
+                    color: #e6db74
+                }
+
+                /* Literal.String.Regex */
+                .highlight_me .s1 {
+                    color: #e6db74
+                }
+
+                /* Literal.String.Single */
+                .highlight_me .ss {
+                    color: #e6db74
+                }
+
+                /* Literal.String.Symbol */
+                .highlight_me .bp {
+                    color: #f8f8f2
+                }
+
+                /* Name.Builtin.Pseudo */
+                .highlight_me .fm {
+                    color: #a6e22e
+                }
+
+                /* Name.Function.Magic */
+                .highlight_me .vc {
+                    color: #f8f8f2
+                }
+
+                /* Name.Variable.Class */
+                .highlight_me .vg {
+                    color: #f8f8f2
+                }
+
+                /* Name.Variable.Global */
+                .highlight_me .vi {
+                    color: #f8f8f2
+                }
+
+                /* Name.Variable.Instance */
+                .highlight_me .vm {
+                    color: #f8f8f2
+                }
+
+                /* Name.Variable.Magic */
+                .highlight_me .il {
+                    color: #ae81ff
+                }
+
+                /* Literal.Number.Integer.Long */
+            </style>
+
+
+            <p><strong>Simple Addition Code</strong></p>
+            <div class="highlight_me">
+                <pre><span></span><code><span class="k">def</span> <span class="nf">add_numbers</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Returns the sum of two numbers.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="c1"># Example usage:</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">add_numbers</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>  <span class="c1"># Output: 4</span>
+</code></pre>
+            </div>
+
+            <p>Alternatively, you can also use a one-liner:</p>
+            <div class="highlight_me">
+                <pre><span></span><code><span class="n">result</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>  <span class="c1"># Output: 4</span>
+</code></pre>
+            </div>
+
+            <script>
+                // Initialize Mermaid
+                mermaid.initialize({ startOnLoad: true });
+
+                // Initialize MathJax
+                MathJax.Hub.Config({
+                    tex2jax: {
+                        inlineMath: [['$', '$'], ['\(', '\)']],
+                        displayMath: [['$$', '$$'], ['\[', '\]']],
+                        processEscapes: true
+                    }
+                });
+
+                // Initialize highlight.js
+                hljs.highlightAll();
+            </script>
+
+
+        </div>
+    </div>
+</div>
