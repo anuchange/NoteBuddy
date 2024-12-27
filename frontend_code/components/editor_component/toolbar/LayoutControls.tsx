@@ -1,6 +1,6 @@
 import React from 'react';
 import { Editor } from '@tiptap/react';
-import { IndentIcon, OutdentIcon, ArrowUpDown, MoveHorizontal } from 'lucide-react';
+import { ArrowUpDown, MoveHorizontal } from 'lucide-react';
 import Button from '../Button';
 import {
   Popover,
@@ -18,26 +18,9 @@ const spacingValues = ['0', '2', '4', '8', '12', '16'];
 const LayoutControls: React.FC<LayoutControlsProps> = ({ editor }) => {
   return (
     <div className="flex items-center gap-1">
-      <Button
-        onClick={() => editor.chain().focus().indent().run()}
-        size="sm"
-        className="hover:bg-gray-100"
-        title="Indent"
-      >
-        <IndentIcon size={18} />
-      </Button>
-      <Button
-        onClick={() => editor.chain().focus().outdent().run()}
-        size="sm"
-        className="hover:bg-gray-100"
-        title="Outdent"
-      >
-        <OutdentIcon size={18} />
-      </Button>
-
       <Popover>
         <PopoverTrigger asChild>
-          <Button size="sm" className="hover:bg-gray-100" title="Line Height">
+          <Button size="sm" title="Line Height">
             <ArrowUpDown size={18} />
           </Button>
         </PopoverTrigger>
@@ -47,10 +30,11 @@ const LayoutControls: React.FC<LayoutControlsProps> = ({ editor }) => {
               <Button
                 key={height}
                 size="sm"
-                onClick={() => editor.chain().focus().setLineHeight(height).run()}
-                className={`hover:bg-gray-100 ${
-                  editor.isActive({ lineHeight: height }) ? 'bg-gray-200' : ''
-                }`}
+                onClick={() => {
+                  const style = editor.getAttributes('textStyle');
+                  editor.chain().focus().setStyle({ ...style, lineHeight: height }).run();
+                }}
+                className="hover:bg-gray-100"
               >
                 {height}
               </Button>
@@ -61,7 +45,7 @@ const LayoutControls: React.FC<LayoutControlsProps> = ({ editor }) => {
 
       <Popover>
         <PopoverTrigger asChild>
-          <Button size="sm" className="hover:bg-gray-100" title="Paragraph Spacing">
+          <Button size="sm" title="Paragraph Spacing">
             <MoveHorizontal size={18} />
           </Button>
         </PopoverTrigger>
@@ -71,12 +55,11 @@ const LayoutControls: React.FC<LayoutControlsProps> = ({ editor }) => {
               <Button
                 key={spacing}
                 size="sm"
-                onClick={() => 
-                  editor.chain().focus().setParagraphSpacing(parseInt(spacing)).run()
-                }
-                className={`hover:bg-gray-100 ${
-                  editor.isActive({ paragraphSpacing: spacing }) ? 'bg-gray-200' : ''
-                }`}
+                onClick={() => {
+                  const style = editor.getAttributes('textStyle');
+                  editor.chain().focus().setStyle({ ...style, marginBottom: `${spacing}px` }).run();
+                }}
+                className="hover:bg-gray-100"
               >
                 {spacing}px
               </Button>

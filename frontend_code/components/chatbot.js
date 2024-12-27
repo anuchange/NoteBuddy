@@ -1,10 +1,8 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { Send, ImageIcon, X } from "lucide-react";
 import Button from "./button";
 import axios from "axios";
-import { remark } from "remark";
-import html from "remark-html";
 
 const MessageType = {
   TEXT: "text",
@@ -30,8 +28,6 @@ const ChatBotUI = () => {
     if (file) {
       if (file.type.startsWith("image/")) {
         const reader = new FileReader();
-        console.log("file", file, e.target.result);
-
         reader.onload = (e) => {
           setSelectedImage(e.target.result);
         };
@@ -46,11 +42,9 @@ const ChatBotUI = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (inputText.trim() || selectedImage) {
-      // Clear previous query and response
       setCurrentQuery(null);
       setCurrentResponse(null);
 
-      // Set new query
       const query = {
         id: Date.now(),
         content: inputText,
@@ -58,7 +52,6 @@ const ChatBotUI = () => {
         image: selectedImage,
       };
       setCurrentQuery(query);
-
       setIsLoading(true);
 
       try {
@@ -66,15 +59,13 @@ const ChatBotUI = () => {
           query: inputText,
           image: selectedImage,
         });
-        setCurrentResponse(response.data);
-        // setGotResponse(true);
+        setCurrentResponse(response.data.replace(/&para;/g, ""));
       } catch (error) {
         setError("Failed to get response. Please try again.");
       } finally {
         setIsLoading(false);
       }
 
-      // Clear input
       setInputText("");
       setSelectedImage(null);
       fileInputRef.current.value = "";
@@ -86,7 +77,9 @@ const ChatBotUI = () => {
       <div className="flex flex-col h-full p-6 gap-4">
         {/* Header */}
         <div className="border-b pb-4">
-          <h2 className="text-xl font-semibold text-gray-800">AI Assistant</h2>
+          <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+            AI Assistant
+          </h2>
         </div>
 
         {/* Chat Area */}
@@ -95,7 +88,7 @@ const ChatBotUI = () => {
             <div className="mb-6">
               <div className="flex justify-end">
                 <div className="bg-blue-600 text-white px-4 py-3 rounded-xl max-w-[80%] shadow-sm">
-                  <p className="break-words">{currentQuery.content}</p>
+                  <p className="break-words m-0">{currentQuery.content}</p>
                   {currentQuery.image && (
                     <img
                       src={currentQuery.image}
@@ -119,14 +112,20 @@ const ChatBotUI = () => {
               </div>
             </div>
           )}
+
           {currentResponse && (
             <div className="flex justify-start">
               <div className="bg-white text-gray-800 px-4 py-3 rounded-xl max-w-[80%] shadow-sm">
-                {/* Use a div or span instead of nesting <p> */}
                 <div
-                  className="break-words"
+                  className="break-words [&>h1]:scroll-m-20 [&>h1]:text-4xl [&>h1]:font-extrabold [&>h1]:tracking-tight [&>h1]:lg:text-5xl
+                             [&>h2]:scroll-m-20 [&>h2]:text-3xl [&>h2]:font-semibold [&>h2]:tracking-tight [&>h2]:first:mt-0
+                             [&>h3]:scroll-m-20 [&>h3]:text-2xl [&>h3]:font-semibold [&>h3]:tracking-tight
+                             [&>h4]:scroll-m-20 [&>h4]:text-xl [&>h4]:font-semibold [&>h4]:tracking-tight
+                             [&>h5]:scroll-m-20 [&>h5]:text-lg [&>h5]:font-semibold [&>h5]:tracking-tight
+                             [&>h6]:scroll-m-20 [&>h6]:text-base [&>h6]:font-semibold [&>h6]:tracking-tight
+                             [&>p]:leading-7 [&>p]:mb-4"
                   dangerouslySetInnerHTML={{ __html: currentResponse }}
-                ></div>
+                />
               </div>
             </div>
           )}

@@ -1,547 +1,611 @@
-<div class="flex justify-start">
-    <div class="bg-white text-gray-800 px-4 py-3 rounded-xl max-w-[80%] shadow-sm">
-        <div class="break-words">
-
-
-
-            <!-- Mermaid Support -->
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.3.0/mermaid.min.js"></script>
-
-            <!-- MathJax Support -->
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js"></script>
-
-            <!-- Highlight.js for additional code highlighting -->
-            <link rel="stylesheet"
-                href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-
-            <style>
-                body {
-                    max-width: 900px;
-                    margin: 0 auto;
-                    padding: 20px;
-                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-                    line-height: 1.6;
-                }
-
-                /* Code blocks styling */
-                .highlight_me {
-                    background-color: #272822;
-                    padding: 1em;
-                    border-radius: 4px;
-                    margin: 1em 0;
-                    overflow-x: auto;
-                }
-
-                /* Table styling */
-                table {
-                    border-collapse: collapse;
-                    width: 100%;
-                    margin: 1em 0;
-                }
-
-                th,
-                td {
-                    border: 1px solid #ddd;
-                    padding: 8px;
-                    text-align: left;
-                }
-
-                th {
-                    background-color: #f5f5f5;
-                }
-
-                /* Mermaid diagram styling */
-                .mermaid {
-                    text-align: center;
-                    margin: 1em 0;
-                }
-
-                /* Math equations styling */
-                .math {
-                    overflow-x: auto;
-                    margin: 1em 0;
-                }
-
-                pre {
-                    line-height: 125%;
-                }
-
-                td.linenos .normal {
-                    color: inherit;
-                    background-color: transparent;
-                    padding-left: 5px;
-                    padding-right: 5px;
-                }
-
-                span.linenos {
-                    color: inherit;
-                    background-color: transparent;
-                    padding-left: 5px;
-                    padding-right: 5px;
-                }
-
-                td.linenos .special {
-                    color: #000000;
-                    background-color: #ffffc0;
-                    padding-left: 5px;
-                    padding-right: 5px;
-                }
-
-                span.linenos.special {
-                    color: #000000;
-                    background-color: #ffffc0;
-                    padding-left: 5px;
-                    padding-right: 5px;
-                }
-
-                .highlight_me .hll {
-                    background-color: #49483e
-                }
-
-                .highlight_me {
-                    background: #272822;
-                    color: #f8f8f2
-                }
-
-                .highlight_me .c {
-                    color: #959077
-                }
-
-                /* Comment */
-                .highlight_me .err {
-                    color: #ed007e;
-                    background-color: #1e0010
-                }
-
-                /* Error */
-                .highlight_me .esc {
-                    color: #f8f8f2
-                }
-
-                /* Escape */
-                .highlight_me .g {
-                    color: #f8f8f2
-                }
-
-                /* Generic */
-                .highlight_me .k {
-                    color: #66d9ef
-                }
-
-                /* Keyword */
-                .highlight_me .l {
-                    color: #ae81ff
-                }
-
-                /* Literal */
-                .highlight_me .n {
-                    color: #f8f8f2
-                }
-
-                /* Name */
-                .highlight_me .o {
-                    color: #ff4689
-                }
-
-                /* Operator */
-                .highlight_me .x {
-                    color: #f8f8f2
-                }
-
-                /* Other */
-                .highlight_me .p {
-                    color: #f8f8f2
-                }
-
-                /* Punctuation */
-                .highlight_me .ch {
-                    color: #959077
-                }
-
-                /* Comment.Hashbang */
-                .highlight_me .cm {
-                    color: #959077
-                }
-
-                /* Comment.Multiline */
-                .highlight_me .cp {
-                    color: #959077
-                }
-
-                /* Comment.Preproc */
-                .highlight_me .cpf {
-                    color: #959077
-                }
-
-                /* Comment.PreprocFile */
-                .highlight_me .c1 {
-                    color: #959077
-                }
-
-                /* Comment.Single */
-                .highlight_me .cs {
-                    color: #959077
-                }
-
-                /* Comment.Special */
-                .highlight_me .gd {
-                    color: #ff4689
-                }
-
-                /* Generic.Deleted */
-                .highlight_me .ge {
-                    color: #f8f8f2;
-                    font-style: italic
-                }
-
-                /* Generic.Emph */
-                .highlight_me .ges {
-                    color: #f8f8f2;
-                    font-weight: bold;
-                    font-style: italic
-                }
-
-                /* Generic.EmphStrong */
-                .highlight_me .gr {
-                    color: #f8f8f2
-                }
-
-                /* Generic.Error */
-                .highlight_me .gh {
-                    color: #f8f8f2
-                }
-
-                /* Generic.Heading */
-                .highlight_me .gi {
-                    color: #a6e22e
-                }
-
-                /* Generic.Inserted */
-                .highlight_me .go {
-                    color: #66d9ef
-                }
-
-                /* Generic.Output */
-                .highlight_me .gp {
-                    color: #ff4689;
-                    font-weight: bold
-                }
-
-                /* Generic.Prompt */
-                .highlight_me .gs {
-                    color: #f8f8f2;
-                    font-weight: bold
-                }
-
-                /* Generic.Strong */
-                .highlight_me .gu {
-                    color: #959077
-                }
-
-                /* Generic.Subheading */
-                .highlight_me .gt {
-                    color: #f8f8f2
-                }
-
-                /* Generic.Traceback */
-                .highlight_me .kc {
-                    color: #66d9ef
-                }
-
-                /* Keyword.Constant */
-                .highlight_me .kd {
-                    color: #66d9ef
-                }
-
-                /* Keyword.Declaration */
-                .highlight_me .kn {
-                    color: #ff4689
-                }
-
-                /* Keyword.Namespace */
-                .highlight_me .kp {
-                    color: #66d9ef
-                }
-
-                /* Keyword.Pseudo */
-                .highlight_me .kr {
-                    color: #66d9ef
-                }
-
-                /* Keyword.Reserved */
-                .highlight_me .kt {
-                    color: #66d9ef
-                }
-
-                /* Keyword.Type */
-                .highlight_me .ld {
-                    color: #e6db74
-                }
-
-                /* Literal.Date */
-                .highlight_me .m {
-                    color: #ae81ff
-                }
-
-                /* Literal.Number */
-                .highlight_me .s {
-                    color: #e6db74
-                }
-
-                /* Literal.String */
-                .highlight_me .na {
-                    color: #a6e22e
-                }
-
-                /* Name.Attribute */
-                .highlight_me .nb {
-                    color: #f8f8f2
-                }
-
-                /* Name.Builtin */
-                .highlight_me .nc {
-                    color: #a6e22e
-                }
-
-                /* Name.Class */
-                .highlight_me .no {
-                    color: #66d9ef
-                }
-
-                /* Name.Constant */
-                .highlight_me .nd {
-                    color: #a6e22e
-                }
-
-                /* Name.Decorator */
-                .highlight_me .ni {
-                    color: #f8f8f2
-                }
-
-                /* Name.Entity */
-                .highlight_me .ne {
-                    color: #a6e22e
-                }
-
-                /* Name.Exception */
-                .highlight_me .nf {
-                    color: #a6e22e
-                }
-
-                /* Name.Function */
-                .highlight_me .nl {
-                    color: #f8f8f2
-                }
-
-                /* Name.Label */
-                .highlight_me .nn {
-                    color: #f8f8f2
-                }
-
-                /* Name.Namespace */
-                .highlight_me .nx {
-                    color: #a6e22e
-                }
-
-                /* Name.Other */
-                .highlight_me .py {
-                    color: #f8f8f2
-                }
-
-                /* Name.Property */
-                .highlight_me .nt {
-                    color: #ff4689
-                }
-
-                /* Name.Tag */
-                .highlight_me .nv {
-                    color: #f8f8f2
-                }
-
-                /* Name.Variable */
-                .highlight_me .ow {
-                    color: #ff4689
-                }
-
-                /* Operator.Word */
-                .highlight_me .pm {
-                    color: #f8f8f2
-                }
-
-                /* Punctuation.Marker */
-                .highlight_me .w {
-                    color: #f8f8f2
-                }
-
-                /* Text.Whitespace */
-                .highlight_me .mb {
-                    color: #ae81ff
-                }
-
-                /* Literal.Number.Bin */
-                .highlight_me .mf {
-                    color: #ae81ff
-                }
-
-                /* Literal.Number.Float */
-                .highlight_me .mh {
-                    color: #ae81ff
-                }
-
-                /* Literal.Number.Hex */
-                .highlight_me .mi {
-                    color: #ae81ff
-                }
-
-                /* Literal.Number.Integer */
-                .highlight_me .mo {
-                    color: #ae81ff
-                }
-
-                /* Literal.Number.Oct */
-                .highlight_me .sa {
-                    color: #e6db74
-                }
-
-                /* Literal.String.Affix */
-                .highlight_me .sb {
-                    color: #e6db74
-                }
-
-                /* Literal.String.Backtick */
-                .highlight_me .sc {
-                    color: #e6db74
-                }
-
-                /* Literal.String.Char */
-                .highlight_me .dl {
-                    color: #e6db74
-                }
-
-                /* Literal.String.Delimiter */
-                .highlight_me .sd {
-                    color: #e6db74
-                }
-
-                /* Literal.String.Doc */
-                .highlight_me .s2 {
-                    color: #e6db74
-                }
-
-                /* Literal.String.Double */
-                .highlight_me .se {
-                    color: #ae81ff
-                }
-
-                /* Literal.String.Escape */
-                .highlight_me .sh {
-                    color: #e6db74
-                }
-
-                /* Literal.String.Heredoc */
-                .highlight_me .si {
-                    color: #e6db74
-                }
-
-                /* Literal.String.Interpol */
-                .highlight_me .sx {
-                    color: #e6db74
-                }
-
-                /* Literal.String.Other */
-                .highlight_me .sr {
-                    color: #e6db74
-                }
-
-                /* Literal.String.Regex */
-                .highlight_me .s1 {
-                    color: #e6db74
-                }
-
-                /* Literal.String.Single */
-                .highlight_me .ss {
-                    color: #e6db74
-                }
-
-                /* Literal.String.Symbol */
-                .highlight_me .bp {
-                    color: #f8f8f2
-                }
-
-                /* Name.Builtin.Pseudo */
-                .highlight_me .fm {
-                    color: #a6e22e
-                }
-
-                /* Name.Function.Magic */
-                .highlight_me .vc {
-                    color: #f8f8f2
-                }
-
-                /* Name.Variable.Class */
-                .highlight_me .vg {
-                    color: #f8f8f2
-                }
-
-                /* Name.Variable.Global */
-                .highlight_me .vi {
-                    color: #f8f8f2
-                }
-
-                /* Name.Variable.Instance */
-                .highlight_me .vm {
-                    color: #f8f8f2
-                }
-
-                /* Name.Variable.Magic */
-                .highlight_me .il {
-                    color: #ae81ff
-                }
-
-                /* Literal.Number.Integer.Long */
-            </style>
-
-
-            <p><strong>Simple Addition Code</strong></p>
-            <div class="highlight_me">
-                <pre><span></span><code><span class="k">def</span> <span class="nf">add_numbers</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""</span>
-<span class="sd">    Returns the sum of two numbers.</span>
-<span class="sd">    """</span>
-    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
-
-<span class="c1"># Example usage:</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">add_numbers</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>  <span class="c1"># Output: 4</span>
-</code></pre>
-            </div>
-
-            <p>Alternatively, you can also use a one-liner:</p>
-            <div class="highlight_me">
-                <pre><span></span><code><span class="n">result</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>  <span class="c1"># Output: 4</span>
-</code></pre>
-            </div>
-
-            <script>
-                // Initialize Mermaid
-                mermaid.initialize({ startOnLoad: true });
-
-                // Initialize MathJax
-                MathJax.Hub.Config({
-                    tex2jax: {
-                        inlineMath: [['$', '$'], ['\(', '\)']],
-                        displayMath: [['$$', '$$'], ['\[', '\]']],
-                        processEscapes: true
-                    }
-                });
-
-                // Initialize highlight.js
-                hljs.highlightAll();
-            </script>
-
-
-        </div>
-    </div>
-</div>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Mermaid Support -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.3.0/mermaid.min.js"></script>
+
+    <!-- MathJax Support -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js"></script>
+
+    <!-- Highlight.js for additional code highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+
+    <style>
+        body {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+        }
+
+        /* Code blocks styling */
+        .highlight {
+            background-color: #272822;
+            padding: 1em;
+            border-radius: 4px;
+            margin: 1em 0;
+            overflow-x: auto;
+        }
+
+        /* Table styling */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1em 0;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f5f5f5;
+        }
+
+        /* Mermaid diagram styling */
+        .mermaid {
+            text-align: center;
+            margin: 1em 0;
+        }
+
+        /* Math equations styling */
+        .math {
+            overflow-x: auto;
+            margin: 1em 0;
+        }
+
+        pre {
+            line-height: 125%;
+        }
+
+        td.linenos .normal {
+            color: inherit;
+            background-color: transparent;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        span.linenos {
+            color: inherit;
+            background-color: transparent;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        td.linenos .special {
+            color: #000000;
+            background-color: #ffffc0;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        span.linenos.special {
+            color: #000000;
+            background-color: #ffffc0;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .highlight .hll {
+            background-color: #49483e
+        }
+
+        .highlight {
+            background: #272822;
+            color: #f8f8f2
+        }
+
+        .highlight .c {
+            color: #959077
+        }
+
+        /* Comment */
+        .highlight .err {
+            color: #ed007e;
+            background-color: #1e0010
+        }
+
+        /* Error */
+        .highlight .esc {
+            color: #f8f8f2
+        }
+
+        /* Escape */
+        .highlight .g {
+            color: #f8f8f2
+        }
+
+        /* Generic */
+        .highlight .k {
+            color: #66d9ef
+        }
+
+        /* Keyword */
+        .highlight .l {
+            color: #ae81ff
+        }
+
+        /* Literal */
+        .highlight .n {
+            color: #f8f8f2
+        }
+
+        /* Name */
+        .highlight .o {
+            color: #ff4689
+        }
+
+        /* Operator */
+        .highlight .x {
+            color: #f8f8f2
+        }
+
+        /* Other */
+        .highlight .p {
+            color: #f8f8f2
+        }
+
+        /* Punctuation */
+        .highlight .ch {
+            color: #959077
+        }
+
+        /* Comment.Hashbang */
+        .highlight .cm {
+            color: #959077
+        }
+
+        /* Comment.Multiline */
+        .highlight .cp {
+            color: #959077
+        }
+
+        /* Comment.Preproc */
+        .highlight .cpf {
+            color: #959077
+        }
+
+        /* Comment.PreprocFile */
+        .highlight .c1 {
+            color: #959077
+        }
+
+        /* Comment.Single */
+        .highlight .cs {
+            color: #959077
+        }
+
+        /* Comment.Special */
+        .highlight .gd {
+            color: #ff4689
+        }
+
+        /* Generic.Deleted */
+        .highlight .ge {
+            color: #f8f8f2;
+            font-style: italic
+        }
+
+        /* Generic.Emph */
+        .highlight .ges {
+            color: #f8f8f2;
+            font-weight: bold;
+            font-style: italic
+        }
+
+        /* Generic.EmphStrong */
+        .highlight .gr {
+            color: #f8f8f2
+        }
+
+        /* Generic.Error */
+        .highlight .gh {
+            color: #f8f8f2
+        }
+
+        /* Generic.Heading */
+        .highlight .gi {
+            color: #a6e22e
+        }
+
+        /* Generic.Inserted */
+        .highlight .go {
+            color: #66d9ef
+        }
+
+        /* Generic.Output */
+        .highlight .gp {
+            color: #ff4689;
+            font-weight: bold
+        }
+
+        /* Generic.Prompt */
+        .highlight .gs {
+            color: #f8f8f2;
+            font-weight: bold
+        }
+
+        /* Generic.Strong */
+        .highlight .gu {
+            color: #959077
+        }
+
+        /* Generic.Subheading */
+        .highlight .gt {
+            color: #f8f8f2
+        }
+
+        /* Generic.Traceback */
+        .highlight .kc {
+            color: #66d9ef
+        }
+
+        /* Keyword.Constant */
+        .highlight .kd {
+            color: #66d9ef
+        }
+
+        /* Keyword.Declaration */
+        .highlight .kn {
+            color: #ff4689
+        }
+
+        /* Keyword.Namespace */
+        .highlight .kp {
+            color: #66d9ef
+        }
+
+        /* Keyword.Pseudo */
+        .highlight .kr {
+            color: #66d9ef
+        }
+
+        /* Keyword.Reserved */
+        .highlight .kt {
+            color: #66d9ef
+        }
+
+        /* Keyword.Type */
+        .highlight .ld {
+            color: #e6db74
+        }
+
+        /* Literal.Date */
+        .highlight .m {
+            color: #ae81ff
+        }
+
+        /* Literal.Number */
+        .highlight .s {
+            color: #e6db74
+        }
+
+        /* Literal.String */
+        .highlight .na {
+            color: #a6e22e
+        }
+
+        /* Name.Attribute */
+        .highlight .nb {
+            color: #f8f8f2
+        }
+
+        /* Name.Builtin */
+        .highlight .nc {
+            color: #a6e22e
+        }
+
+        /* Name.Class */
+        .highlight .no {
+            color: #66d9ef
+        }
+
+        /* Name.Constant */
+        .highlight .nd {
+            color: #a6e22e
+        }
+
+        /* Name.Decorator */
+        .highlight .ni {
+            color: #f8f8f2
+        }
+
+        /* Name.Entity */
+        .highlight .ne {
+            color: #a6e22e
+        }
+
+        /* Name.Exception */
+        .highlight .nf {
+            color: #a6e22e
+        }
+
+        /* Name.Function */
+        .highlight .nl {
+            color: #f8f8f2
+        }
+
+        /* Name.Label */
+        .highlight .nn {
+            color: #f8f8f2
+        }
+
+        /* Name.Namespace */
+        .highlight .nx {
+            color: #a6e22e
+        }
+
+        /* Name.Other */
+        .highlight .py {
+            color: #f8f8f2
+        }
+
+        /* Name.Property */
+        .highlight .nt {
+            color: #ff4689
+        }
+
+        /* Name.Tag */
+        .highlight .nv {
+            color: #f8f8f2
+        }
+
+        /* Name.Variable */
+        .highlight .ow {
+            color: #ff4689
+        }
+
+        /* Operator.Word */
+        .highlight .pm {
+            color: #f8f8f2
+        }
+
+        /* Punctuation.Marker */
+        .highlight .w {
+            color: #f8f8f2
+        }
+
+        /* Text.Whitespace */
+        .highlight .mb {
+            color: #ae81ff
+        }
+
+        /* Literal.Number.Bin */
+        .highlight .mf {
+            color: #ae81ff
+        }
+
+        /* Literal.Number.Float */
+        .highlight .mh {
+            color: #ae81ff
+        }
+
+        /* Literal.Number.Hex */
+        .highlight .mi {
+            color: #ae81ff
+        }
+
+        /* Literal.Number.Integer */
+        .highlight .mo {
+            color: #ae81ff
+        }
+
+        /* Literal.Number.Oct */
+        .highlight .sa {
+            color: #e6db74
+        }
+
+        /* Literal.String.Affix */
+        .highlight .sb {
+            color: #e6db74
+        }
+
+        /* Literal.String.Backtick */
+        .highlight .sc {
+            color: #e6db74
+        }
+
+        /* Literal.String.Char */
+        .highlight .dl {
+            color: #e6db74
+        }
+
+        /* Literal.String.Delimiter */
+        .highlight .sd {
+            color: #e6db74
+        }
+
+        /* Literal.String.Doc */
+        .highlight .s2 {
+            color: #e6db74
+        }
+
+        /* Literal.String.Double */
+        .highlight .se {
+            color: #ae81ff
+        }
+
+        /* Literal.String.Escape */
+        .highlight .sh {
+            color: #e6db74
+        }
+
+        /* Literal.String.Heredoc */
+        .highlight .si {
+            color: #e6db74
+        }
+
+        /* Literal.String.Interpol */
+        .highlight .sx {
+            color: #e6db74
+        }
+
+        /* Literal.String.Other */
+        .highlight .sr {
+            color: #e6db74
+        }
+
+        /* Literal.String.Regex */
+        .highlight .s1 {
+            color: #e6db74
+        }
+
+        /* Literal.String.Single */
+        .highlight .ss {
+            color: #e6db74
+        }
+
+        /* Literal.String.Symbol */
+        .highlight .bp {
+            color: #f8f8f2
+        }
+
+        /* Name.Builtin.Pseudo */
+        .highlight .fm {
+            color: #a6e22e
+        }
+
+        /* Name.Function.Magic */
+        .highlight .vc {
+            color: #f8f8f2
+        }
+
+        /* Name.Variable.Class */
+        .highlight .vg {
+            color: #f8f8f2
+        }
+
+        /* Name.Variable.Global */
+        .highlight .vi {
+            color: #f8f8f2
+        }
+
+        /* Name.Variable.Instance */
+        .highlight .vm {
+            color: #f8f8f2
+        }
+
+        /* Name.Variable.Magic */
+        .highlight .il {
+            color: #ae81ff
+        }
+
+        /* Literal.Number.Integer.Long */
+    </style>
+</head>
+
+<body>
+    <h3 id="introduction-to-go-and-artificial-intelligence">Introduction to Go and Artificial Intelligence<a
+            class="headerlink" href="#introduction-to-go-and-artificial-intelligence" title="Permanent link">&para;</a>
+    </h3>
+    <h4 id="key-concepts-and-definitions">Key Concepts and Definitions<a class="headerlink"
+            href="#key-concepts-and-definitions" title="Permanent link">&para;</a></h4>
+    <ul>
+        <li><strong>Go</strong>: a strategic board game with a 19x19 square grid, played by two players (black and
+            white) who capture areas on the board by surrounding their opponent's pieces.</li>
+        <li><strong>Alphago</strong>: a powerful artificial intelligence program developed by Google's DeepMind lab,
+            capable of playing Go at a level surpassing human players.</li>
+        <li><strong>Lisa Doll (Lee Sedol)</strong>: a professional Go player, widely considered one of the greatest
+            players of all time, known for his aggressive and unconventional play styles.</li>
+    </ul>
+    <h4 id="main-ideas-and-supporting-details">Main Ideas and Supporting Details<a class="headerlink"
+            href="#main-ideas-and-supporting-details" title="Permanent link">&para;</a></h4>
+    <ul>
+        <li>The game of Go is simple to understand but complex to play, with an estimated 2.1 x 10^170 possible
+            positions, more than 300 times the number of possible positions in chess.</li>
+        <li>Go has a rich history, dating back over 4,000 years, and is considered one of the oldest continually played
+            games in the world.</li>
+        <li>The game is not just a simple board game, but an abstract representation of war, and is also linked to
+            ancient Chinese cosmology, with the board and pieces being metaphors for our relationship to the universe.
+        </li>
+    </ul>
+    <h3 id="the-impact-of-artificial-intelligence-on-go">The Impact of Artificial Intelligence on Go<a
+            class="headerlink" href="#the-impact-of-artificial-intelligence-on-go" title="Permanent link">&para;</a>
+    </h3>
+    <h4 id="important-relationships-and-connections">Important Relationships and Connections<a class="headerlink"
+            href="#important-relationships-and-connections" title="Permanent link">&para;</a></h4>
+    <ul>
+        <li>The development of Alphago has led to a new paradigm in Go, with the AI program capable of making moves that
+            humans may have thought were creative or unconventional.</li>
+        <li>The defeat of Lee Sedol by Alphago in 2016 marked a significant milestone in the development of artificial
+            intelligence, highlighting the potential for AI to surpass human ability in complex tasks.</li>
+        <li>The relationship between Go and artificial intelligence is one of mutual influence, with the game providing
+            a challenging testbed for AI development, and AI driving innovation in the game.</li>
+    </ul>
+    <h4 id="practical-applications">Practical Applications<a class="headerlink" href="#practical-applications"
+            title="Permanent link">&para;</a></h4>
+    <ul>
+        <li>The development of Alphago has led to new possibilities for AI in other areas, such as healthcare and
+            finance.</li>
+        <li>The study of Go and AI can provide insights into the potential for AI to improve human decision-making and
+            problem-solving abilities.</li>
+    </ul>
+    <h3 id="the-human-perspective">The Human Perspective<a class="headerlink" href="#the-human-perspective"
+            title="Permanent link">&para;</a></h3>
+    <h4 id="key-concepts-and-definitions_1">Key Concepts and Definitions<a class="headerlink"
+            href="#key-concepts-and-definitions_1" title="Permanent link">&para;</a></h4>
+    <ul>
+        <li><strong>Coexistence with AI</strong>: the idea that humans and AI systems will increasingly interact and
+            influence each other, leading to new possibilities and challenges.</li>
+        <li><strong>Redefining oneself</strong>: the process of reevaluating one's identity and purpose in the face of
+            changing circumstances, such as the emergence of AI.</li>
+    </ul>
+    <h4 id="main-ideas-and-supporting-details_1">Main Ideas and Supporting Details<a class="headerlink"
+            href="#main-ideas-and-supporting-details_1" title="Permanent link">&para;</a></h4>
+    <ul>
+        <li>Lee Sedol's retirement from Go highlights the potential for AI to lead to feelings of disappointment, loss
+            of purpose, and inadequacy in humans.</li>
+        <li>The coexistence of humans and AI raises important questions about how we define ourselves and our place in
+            the world, and how we choose to interact with AI systems.</li>
+    </ul>
+    <h3 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h3>
+    <ul>
+        <li>The story of Lee Sedol and Alphago serves as a reminder of the complex and multifaceted nature of the
+            relationship between humans and AI.</li>
+        <li>As AI continues to evolve and improve, it is essential to consider the potential implications for human
+            identity, purpose, and well-being.</li>
+    </ul>
+    <h3 id="additional-resources">Additional Resources<a class="headerlink" href="#additional-resources"
+            title="Permanent link">&para;</a></h3>
+    <ul>
+        <li>For further study, recommended readings include:<ul>
+                <li>"The Go Bible" by Peter Shotwell</li>
+                <li>"Artificial Intelligence: A Modern Approach" by Stuart Russell and Peter Norvig</li>
+            </ul>
+        </li>
+        <li>Related topics for further study include:<ul>
+                <li>Computer science and artificial intelligence</li>
+                <li>Cognitive psychology and human-computer interaction</li>
+                <li>Philosophy and ethics of AI development and deployment</li>
+            </ul>
+        </li>
+    </ul>
+    <p>Note: There are no specific diagrams or visual concepts described in the lecture transcript. However, the game of
+        Go can be visualized as a 19x19 square grid, with black and white stones placed on the intersections of the
+        grid. The game can be represented using a variety of notations, including the standard Go notation system.</p>
+
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({ startOnLoad: true });
+
+            // Initialize MathJax
+            MathJax.Hub.Config({
+                tex2jax: {
+                    inlineMath: [['$', '$'], ['\(', '\)']],
+                    displayMath: [['$$', '$$'], ['\[', '\]']],
+                    processEscapes: true
+                }
+            });
+
+            // Initialize highlight.js
+            hljs.highlightAll();
+        </script>
+</body>
+
+</html>

@@ -1,19 +1,15 @@
 import React, { useState } from "react";
 import { Editor } from "@tiptap/react";
-import {
-  Bold,
-  Italic,
-  Link as LinkIcon,
-  Image as ImageIcon,
-  Code,
-} from "lucide-react";
+import { Link as LinkIcon, Image as ImageIcon } from "lucide-react";
 import Button from "./Button";
+import TextControls from "./toolbar/TextControls";
 import AlignmentControls from "./toolbar/AlignmentControls";
 import ListControls from "./toolbar/ListControls";
 import FontControls from "./toolbar/FontControls";
 import HighlightControls from "./toolbar/HighlightControls";
 import LayoutControls from "./toolbar/LayoutControls";
-import { languages } from "../../lib/languages";
+import CodeControls from "./toolbar/CodeControls";
+import TextFormatControls from "./toolbar/TextFormatControls";
 
 interface MenuBarProps {
   editor: Editor;
@@ -27,31 +23,14 @@ const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
 
   return (
     <div className="border-b p-2 flex flex-wrap gap-2 items-center bg-gray-50">
-      <div className="flex items-center gap-4 w-full p-2 bg-white rounded-md shadow-sm">
+      <div className="flex items-center gap-4 w-full p-2 bg-white rounded-md shadow-sm overflow-x-auto">
+        <TextControls editor={editor} />
+
+        <div className="w-px h-6 bg-gray-300" />
         <FontControls editor={editor} />
 
         <div className="w-px h-6 bg-gray-300" />
-
-        <div className="flex items-center gap-1">
-          <Button
-            onClick={() => editor.chain().focus().toggleBold().run()}
-            active={editor.isActive("bold")}
-            size="sm"
-            title="Bold"
-            className="hover:bg-gray-100"
-          >
-            <Bold size={18} />
-          </Button>
-          <Button
-            onClick={() => editor.chain().focus().toggleItalic().run()}
-            active={editor.isActive("italic")}
-            size="sm"
-            title="Italic"
-            className="hover:bg-gray-100"
-          >
-            <Italic size={18} />
-          </Button>
-        </div>
+        <TextFormatControls editor={editor} />
 
         <div className="w-px h-6 bg-gray-300" />
         <HighlightControls editor={editor} />
@@ -73,7 +52,6 @@ const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
             active={editor.isActive("link")}
             size="sm"
             title="Add Link"
-            className="hover:bg-gray-100"
           >
             <LinkIcon size={18} />
           </Button>
@@ -105,7 +83,6 @@ const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
             onClick={() => setShowImageInput(!showImageInput)}
             size="sm"
             title="Add Image"
-            className="hover:bg-gray-100"
           >
             <ImageIcon size={18} />
           </Button>
@@ -132,33 +109,7 @@ const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
           )}
         </div>
 
-        <div className="flex items-center gap-2">
-          <Button
-            onClick={() => editor.chain().focus().setCodeBlock().run()}
-            active={editor.isActive("codeBlock")}
-            size="sm"
-            title="Add Code Block"
-            className="hover:bg-gray-100"
-          >
-            <Code size={18} />
-          </Button>
-          <select
-            onChange={(e) => {
-              editor
-                .chain()
-                .focus()
-                .setCodeBlock({ language: e.target.value })
-                .run();
-            }}
-            className="h-8 border rounded-md px-2 py-1 text-sm bg-white hover:bg-gray-50"
-          >
-            {Object.entries(languages).map(([key, { name }]) => (
-              <option key={key} value={key}>
-                {name}
-              </option>
-            ))}
-          </select>
-        </div>
+        <CodeControls editor={editor} />
       </div>
     </div>
   );

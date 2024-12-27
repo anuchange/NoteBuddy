@@ -7,6 +7,7 @@ import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import Highlight from "@tiptap/extension-highlight";
 import FontFamily from "@tiptap/extension-font-family";
 import TextStyle from "@tiptap/extension-text-style";
+import Typography from "@tiptap/extension-typography";
 import BulletList from "@tiptap/extension-bullet-list";
 import OrderedList from "@tiptap/extension-ordered-list";
 import ListItem from "@tiptap/extension-list-item";
@@ -17,6 +18,9 @@ export const useEditorExtensions = (lowlight: Lowlight) => {
     StarterKit.configure({
       bulletList: false,
       orderedList: false,
+      heading: {
+        levels: [1, 2, 3, 4, 5, 6],
+      },
     }),
     BulletList.configure({
       keepMarks: true,
@@ -45,5 +49,6 @@ export const useEditorExtensions = (lowlight: Lowlight) => {
     }),
     FontFamily,
     TextStyle,
+    Typography,
   ] as Extension[];
 };

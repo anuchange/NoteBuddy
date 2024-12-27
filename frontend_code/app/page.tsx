@@ -64,7 +64,7 @@ export default function Home() {
       const res = await axios.post("http://0.0.0.0:8000/api/notes", {
         videoId: youtubeUrl,
       });
-      setNotesData(res.data);
+      setNotesData(res.data.replace(/&para;/g, ""));
     } catch (error) {
       console.error("Error generating notes:", error);
       alert("Failed to generate notes. Please try again later.");

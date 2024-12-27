@@ -21,8 +21,6 @@ const Editor = ({ notesData }) => {
       },
     },
   });
-
-  // Add useEffect to update editor content when notesData changes
   useEffect(() => {
     if (editor && notesData) {
       // Only update if the content is different

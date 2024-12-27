@@ -83,3 +83,36 @@
 2024-12-27 00:43:27,682 - app - INFO - Generating notes for videoId: https://youtu.be/MzwBD-GVUyY?si=jI3u7D39tBGBt-BI
 2024-12-27 00:43:27,684 - app - INFO - Attempting to fetch official transcript...
 2024-12-27 00:43:34,463 - app - INFO - Generated notes response: <starlette.responses.HTMLResponse object at 0x1050ceea0>
+2024-12-27 22:45:29,565 - app - INFO - Generating notes for videoId: https://youtu.be/F8NKVhkZZWI?si=_P8tG6wxlpjOtzFM
+2024-12-27 22:45:29,566 - app - INFO - Attempting to fetch official transcript...
+2024-12-27 22:45:30,572 - app - INFO - This appears to be a longer lecture. Processing in sections...
+2024-12-27 22:45:30,573 - app - INFO - Processing lecture in 2 sections to maintain detail and clarity...
+2024-12-27 22:45:30,573 - app - INFO - Processing section 1 of 2...
+2024-12-27 22:45:34,675 - app - INFO - Processing section 2 of 2...
+2024-12-27 22:45:39,194 - app - INFO - Generated notes response: <starlette.responses.HTMLResponse object at 0x108873b00>
+2024-12-27 23:09:43,838 - app - INFO - Generating notes for videoId: https://www.youtube.com/watch?v=PUaCQUal7rM
+2024-12-27 23:09:43,839 - app - INFO - Attempting to fetch official transcript...
+2024-12-27 23:09:54,341 - app - INFO - Generated notes response: <starlette.responses.HTMLResponse object at 0x108825820>
+2024-12-28 00:13:32,114 - app - INFO - Generating notes for videoId: https://www.youtube.com/watch?v=PUaCQUal7rM
+2024-12-28 00:13:32,116 - app - INFO - Attempting to fetch official transcript...
+2024-12-28 00:13:37,119 - app - INFO - Generated notes response: <starlette.responses.HTMLResponse object at 0x107bd4170>
+2024-12-28 00:15:24,187 - app - INFO - Generating notes for videoId: https://www.youtube.com/watch?v=PUaCQUal7rM
+2024-12-28 00:15:24,189 - app - INFO - Attempting to fetch official transcript...
+2024-12-28 00:15:28,297 - app - INFO - Generated notes response: <starlette.responses.HTMLResponse object at 0x10c144620>
+2024-12-28 00:29:36,474 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x10c147320>
+2024-12-28 00:33:24,019 - app - INFO - Generating notes for videoId: https://www.youtube.com/watch?v=PUaCQUal7rM
+2024-12-28 00:33:24,020 - app - INFO - Attempting to fetch official transcript...
+2024-12-28 00:33:28,564 - app - INFO - Generated notes response: <starlette.responses.HTMLResponse object at 0x10c1c8a40>
+2024-12-28 00:38:50,808 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x10d22bb00>
+2024-12-28 00:39:07,321 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x10d45bc80>
+2024-12-28 00:40:17,207 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x10d47e6f0>
+2024-12-28 00:40:45,689 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x10d47ccb0>
+2024-12-28 00:43:33,157 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x10d45bbf0>
+2024-12-28 00:43:49,616 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x10d3bd490>
+2024-12-28 00:52:32,350 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x10c154f20>
+2024-12-28 00:53:58,539 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x10d47c830>
+2024-12-28 00:57:02,904 - app - INFO - Generating notes for videoId: https://www.youtube.com/watch?v=PUaCQUal7rM
+2024-12-28 00:57:02,905 - app - INFO - Attempting to fetch official transcript...
+2024-12-28 00:57:09,086 - app - INFO - Generated notes response: <starlette.responses.HTMLResponse object at 0x10c0fe8a0>
+2024-12-28 00:58:41,692 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x10d47f740>
+2024-12-28 00:59:23,827 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x10c1561e0>

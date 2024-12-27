@@ -2,7 +2,7 @@ import React from "react";
 import { Download } from "lucide-react";
 import Button from "./Button";
 import { Editor } from "@tiptap/react";
-import { exportToPdf, exportToDocx } from "../../lib/export";
+import { exportToPdf, exportToDocx } from "../lib/export";
 
 interface SaveButtonProps {
   editor: Editor;
