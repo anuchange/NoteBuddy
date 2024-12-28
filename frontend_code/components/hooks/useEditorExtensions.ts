@@ -13,6 +13,83 @@ import OrderedList from "@tiptap/extension-ordered-list";
 import ListItem from "@tiptap/extension-list-item";
 import { Lowlight } from "lowlight";
 
+declare module "@tiptap/core" {
+  interface Commands<ReturnType> {
+    fontSize: {
+      setFontSize: (size: string) => ReturnType;
+      unsetFontSize: () => ReturnType;
+    };
+    lineHeight: {
+      setLineHeight: (height: string) => ReturnType;
+      unsetLineHeight: () => ReturnType;
+    };
+  }
+}
+
+export const TextStyleExtended = TextStyle.extend({
+  addAttributes() {
+    return {
+      ...this.parent?.(),
+      fontSize: {
+        default: null,
+        parseHTML: (element) => element.style.fontSize?.replace("px", ""),
+        renderHTML: (attributes) => {
+          if (!attributes["fontSize"]) {
+            return {};
+          }
+          return {
+            style: `font-size: ${attributes["fontSize"]}px`,
+          };
+        },
+      },
+      lineHeight: {
+        default: null,
+        parseHTML: (element) => element.style.lineHeight,
+        renderHTML: (attributes) => {
+          if (!attributes["lineHeight"]) {
+            return {};
+          }
+          return {
+            style: `line-height: ${attributes["lineHeight"]}`,
+          };
+        },
+      },
+    };
+  },
+
+  addCommands() {
+    return {
+      ...this.parent?.(),
+      setFontSize:
+        (fontSize) =>
+        ({ commands }) => {
+          return commands.setMark(this.name, { fontSize: fontSize });
+        },
+      unsetFontSize:
+        () =>
+        ({ chain }) => {
+          return chain()
+            .setMark(this.name, { fontSize: null })
+            .removeEmptyTextStyle()
+            .run();
+        },
+      setLineHeight:
+        (lineHeight) =>
+        ({ commands }) => {
+          return commands.setMark(this.name, { lineHeight: lineHeight });
+        },
+      unsetLineHeight:
+        () =>
+        ({ chain }) => {
+          return chain()
+            .setMark(this.name, { lineHeight: null })
+            .removeEmptyTextStyle()
+            .run();
+        },
+    };
+  },
+});
+
 export const useEditorExtensions = (lowlight: Lowlight) => {
   return [
     StarterKit.configure({
@@ -48,7 +125,7 @@ export const useEditorExtensions = (lowlight: Lowlight) => {
       multicolor: true,
     }),
     FontFamily,
-    TextStyle,
+    TextStyleExtended, // Changed this line from TextStyle to TextStyleExtended
     Typography,
   ] as Extension[];
 };

@@ -9,11 +9,13 @@ import Button from "../components/button";
 import axios from "axios";
 import NotesEditor from "../components/notesEditor2";
 import Editor from "../components/editor_component/Editor";
+import { Loader2 } from "lucide-react";
 
 export default function Home() {
   const [youtubeUrl, setYoutubeUrl] = useState("");
   const [videoId, setVideoId] = useState("");
   const [notesData, setNotesData] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const editor = useEditor({
     extensions: [StarterKit],
@@ -60,14 +62,18 @@ export default function Home() {
   };
 
   const handleGenerateNotes = async (videoId: string) => {
+    setIsLoading(true);
+
     try {
       const res = await axios.post("http://0.0.0.0:8000/api/notes", {
         videoId: youtubeUrl,
       });
       setNotesData(res.data.replace(/&para;/g, ""));
+      setIsLoading(false);
     } catch (error) {
       console.error("Error generating notes:", error);
       alert("Failed to generate notes. Please try again later.");
+      setIsLoading(false);
     }
   };
 
@@ -82,7 +88,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-7xl mx-auto grid-template-columns-1.5fr 2fr">
         {/* Left Column - YouTube Section */}
         <div className="">
           <div className="bg-white rounded-lg shadow-md p-6">
@@ -118,23 +124,25 @@ export default function Home() {
                 />
               </div>
             )}
-            {videoId && (
-              <button
-                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mt-4"
-                onClick={() => {
-                  handleGenerateNotes(videoId);
-                }}
-              >
-                Generate Notes
-              </button>
-            )}
+            <div className="flex items-center gap-2">
+              {videoId && (
+                <button
+                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mt-4 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  onClick={() => handleGenerateNotes(videoId)}
+                  disabled={isLoading}
+                >
+                  <span>Generate Notes</span>
+                  {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
+                </button>
+              )}
+            </div>
           </div>
           <div className="mt-6">
             <ChatBotUI />
           </div>
-          <div className="mt-6">
+          {/* <div className="mt-6">
             <button />
-          </div>
+          </div> */}
         </div>
         {/* <Quill notesData={notesData} /> */}
         <Editor notesData={notesData} />

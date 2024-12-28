@@ -14,12 +14,14 @@ const TextControls: React.FC<TextControlsProps> = ({ editor }) => {
       <select
         onChange={(e) => {
           const level = parseInt(e.target.value);
-          level === 0 
+          level === 0
             ? editor.chain().focus().setParagraph().run()
             : editor.chain().focus().toggleHeading({ level }).run();
         }}
         value={
-          headingLevels.find(level => editor.isActive('heading', { level })) || 0
+          headingLevels.find((level) =>
+            editor.isActive("heading", { level })
+          ) || 0
         }
         className="h-8 border rounded-md px-2 py-1 text-sm bg-white min-w-[120px]"
       >
@@ -32,12 +34,25 @@ const TextControls: React.FC<TextControlsProps> = ({ editor }) => {
         <option value={6}>Heading 6</option>
       </select>
 
-      <select
+      {/* <select
         onChange={(e) => {
           const style = editor.getAttributes('textStyle');
           editor.chain().focus().setStyle({ ...style, fontSize: e.target.value + 'px' }).run();
         }}
         defaultValue="16"
+        className="h-8 border rounded-md px-2 py-1 text-sm bg-white w-24"
+      >
+        {[8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 48].map((size) => (
+          <option key={size} value={size}>
+            {size}px
+          </option>
+        ))}
+      </select> */}
+      <select
+        onChange={(e) => {
+          editor.chain().focus().setFontSize(e.target.value).run();
+        }}
+        value={editor.getAttributes("textStyle").fontSize || "16"}
         className="h-8 border rounded-md px-2 py-1 text-sm bg-white w-24"
       >
         {[8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 48].map((size) => (

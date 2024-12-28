@@ -23,29 +23,33 @@ const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
 
   return (
     <div className="border-b p-2 flex flex-wrap gap-2 items-center bg-gray-50">
-      <div className="flex items-center gap-4 w-full p-2 bg-white rounded-md shadow-sm overflow-x-auto">
-        <TextControls editor={editor} />
+      <div className="border-b bg-gray-50 w-full">
+        <div className="p-2 overflow-hidden">
+          <div className="flex flex-col gap-2 sm:gap-3 bg-white rounded-md shadow-sm">
+            {/* Top Row */}
+            <div className="flex items-center gap-2 p-2 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+              <TextControls editor={editor} />
+              <div className="w-px h-6 bg-gray-300 shrink-0" />
+              <FontControls editor={editor} />
+              <div className="w-px h-6 bg-gray-300 shrink-0" />
+              <TextFormatControls editor={editor} />
+            </div>
 
-        <div className="w-px h-6 bg-gray-300" />
-        <FontControls editor={editor} />
-
-        <div className="w-px h-6 bg-gray-300" />
-        <TextFormatControls editor={editor} />
-
-        <div className="w-px h-6 bg-gray-300" />
-        <HighlightControls editor={editor} />
-
-        <div className="w-px h-6 bg-gray-300" />
-        <AlignmentControls editor={editor} />
-
-        <div className="w-px h-6 bg-gray-300" />
-        <ListControls editor={editor} />
-
-        <div className="w-px h-6 bg-gray-300" />
-        <LayoutControls editor={editor} />
+            {/* Bottom Row */}
+            <div className="flex items-center gap-2 p-2 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+              <HighlightControls editor={editor} />
+              <div className="w-px h-6 bg-gray-300 shrink-0" />
+              <AlignmentControls editor={editor} />
+              <div className="w-px h-6 bg-gray-300 shrink-0" />
+              <ListControls editor={editor} />
+              <div className="w-px h-6 bg-gray-300 shrink-0" />
+              <LayoutControls editor={editor} />
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div className="flex items-center gap-2 w-full p-2 bg-white rounded-md shadow-sm">
+      <div className="flex items-center gap-2 w-full p-2 bg-white rounded-md shadow-sm w-full">
         <div className="relative">
           <Button
             onClick={() => setShowLinkInput(!showLinkInput)}

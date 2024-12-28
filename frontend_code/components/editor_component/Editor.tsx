@@ -17,7 +17,7 @@ const Editor = ({ notesData }) => {
     editorProps: {
       attributes: {
         class:
-          "prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none",
+          "prose prose-sm max-w-none mx-auto focus:outline-none prose-headings:font-semibold prose-h1:text-xl prose-h2:text-lg prose-h3:text-base prose-p:text-sm prose-pre:text-sm prose-code:text-sm prose-p:text-justify prose-headings:text-left",
       },
     },
   });
@@ -41,7 +41,7 @@ const Editor = ({ notesData }) => {
         <SaveButton editor={editor} />
       </div>
       <MenuBar editor={editor} />
-      <div className="p-6">
+      <div className="p-6 h-96 overflow-y-scroll">
         <EditorContent editor={editor} />
       </div>
     </div>

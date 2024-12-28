@@ -31,8 +31,8 @@ const LayoutControls: React.FC<LayoutControlsProps> = ({ editor }) => {
                 key={height}
                 size="sm"
                 onClick={() => {
-                  const style = editor.getAttributes('textStyle');
-                  editor.chain().focus().setStyle({ ...style, lineHeight: height }).run();
+                  const style = editor.getAttributes("textStyle");
+                  editor.chain().focus().setLineHeight(height).run();
                 }}
                 className="hover:bg-gray-100"
               >
@@ -43,7 +43,7 @@ const LayoutControls: React.FC<LayoutControlsProps> = ({ editor }) => {
         </PopoverContent>
       </Popover>
 
-      <Popover>
+      {/* <Popover>
         <PopoverTrigger asChild>
           <Button size="sm" title="Paragraph Spacing">
             <MoveHorizontal size={18} />
@@ -66,7 +66,7 @@ const LayoutControls: React.FC<LayoutControlsProps> = ({ editor }) => {
             ))}
           </div>
         </PopoverContent>
-      </Popover>
+      </Popover> */}
     </div>
   );
 };

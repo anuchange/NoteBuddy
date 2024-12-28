@@ -116,3 +116,31 @@
 2024-12-28 00:57:09,086 - app - INFO - Generated notes response: <starlette.responses.HTMLResponse object at 0x10c0fe8a0>
 2024-12-28 00:58:41,692 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x10d47f740>
 2024-12-28 00:59:23,827 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x10c1561e0>
+2024-12-28 15:44:11,315 - app - INFO - Generating notes for videoId: https://youtu.be/PUaCQUal7rM?si=F9OKYnEE-GeiwYqD
+2024-12-28 15:44:11,318 - app - INFO - Attempting to fetch official transcript...
+2024-12-28 15:44:15,491 - app - INFO - Generated notes response: <starlette.responses.HTMLResponse object at 0x112184260>
+2024-12-28 15:48:22,994 - app - INFO - Generating notes for videoId: https://youtu.be/PUaCQUal7rM?si=F9OKYnEE-GeiwYqD
+2024-12-28 15:48:22,999 - app - INFO - Attempting to fetch official transcript...
+2024-12-28 15:48:28,377 - app - INFO - Generated notes response: <starlette.responses.HTMLResponse object at 0x1169b5250>
+2024-12-28 16:08:23,976 - app - INFO - Generating notes for videoId: https://youtu.be/PUaCQUal7rM?si=F9OKYnEE-GeiwYqD
+2024-12-28 16:08:23,977 - app - INFO - Attempting to fetch official transcript...
+2024-12-28 16:08:28,123 - app - INFO - Generated notes response: <starlette.responses.HTMLResponse object at 0x1125bb080>
+2024-12-28 16:19:53,960 - app - INFO - Generating notes for videoId: https://youtu.be/PUaCQUal7rM?si=xuUKbm1G4nXfb5Sw
+2024-12-28 16:19:53,961 - app - INFO - Attempting to fetch official transcript...
+2024-12-28 16:19:59,521 - app - INFO - Generated notes response: <starlette.responses.HTMLResponse object at 0x116926270>
+2024-12-28 16:29:12,312 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x116957e90>
+2024-12-28 18:28:53,682 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x1169cae40>
+2024-12-28 18:29:06,825 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x116941b20>
+2024-12-28 18:29:24,374 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x1169b7fb0>
+2024-12-28 18:29:51,733 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x116942600>
+2024-12-28 18:40:45,874 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x1169ca030>
+2024-12-28 18:42:40,003 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x1169b57f0>
+2024-12-28 18:43:13,300 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x116954770>
+2024-12-28 18:44:32,643 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x1169ebe60>
+2024-12-28 18:46:04,620 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x1200186e0>
+2024-12-28 18:47:55,356 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x1169b7e90>
+2024-12-28 18:48:03,147 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x12046f1a0>
+2024-12-28 18:48:16,308 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x1169b6f30>
+2024-12-28 21:01:54,801 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x116c4d5e0>
+2024-12-28 21:01:55,855 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x1169ead50>
+2024-12-28 21:05:10,969 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x116feb8c0>

@@ -32,7 +32,7 @@ const FontControls: React.FC<FontControlsProps> = ({ editor }) => {
         ))}
       </select>
 
-      <input
+      {/* <input
         type="number"
         min="8"
         max="28"
@@ -41,7 +41,7 @@ const FontControls: React.FC<FontControlsProps> = ({ editor }) => {
           editor.chain().focus().setFontSize(e.target.value + 'px').run();
         }}
         className="h-8 border rounded-md px-2 py-1 text-sm bg-white w-20"
-      />
+      /> */}
     </div>
   );
 };

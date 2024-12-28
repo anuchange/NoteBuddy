@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useRef } from "react";
-import { Send, ImageIcon, X } from "lucide-react";
+import { Maximize2, Minimize2, Send, ImageIcon, X } from "lucide-react";
 import Button from "./button";
 import axios from "axios";
 
@@ -16,6 +16,7 @@ const ChatBotUI = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isMaximized, setIsMaximized] = useState(false);
 
   const fileInputRef = useRef(null);
 
@@ -23,6 +24,9 @@ const ChatBotUI = () => {
     setInputText(e.target.value);
   };
 
+  const toggleMaximize = () => {
+    setIsMaximized(!isMaximized);
+  };
   const handleImageSelect = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -73,13 +77,28 @@ const ChatBotUI = () => {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto h-[600px] bg-white rounded-xl shadow-lg flex flex-col">
+    <div
+      className={`bg-white shadow-lg flex flex-col ${
+        isMaximized
+          ? "fixed inset-0 w-full h-full z-50"
+          : "w-full max-w-2xl mx-auto h-[600px] rounded-xl"
+      }`}
+    >
+      {" "}
       <div className="flex flex-col h-full p-6 gap-4">
         {/* Header */}
-        <div className="border-b pb-4">
-          <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-            AI Assistant
-          </h2>
+        <div className="flex items-center justify-between border-b p-4">
+          <h2 className="text-xl font-semibold">AI Assistant</h2>
+          <button
+            onClick={toggleMaximize}
+            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+          >
+            {isMaximized ? (
+              <Minimize2 className="h-5 w-5" />
+            ) : (
+              <Maximize2 className="h-5 w-5" />
+            )}
+          </button>
         </div>
 
         {/* Chat Area */}
@@ -117,13 +136,13 @@ const ChatBotUI = () => {
             <div className="flex justify-start">
               <div className="bg-white text-gray-800 px-4 py-3 rounded-xl max-w-[80%] shadow-sm">
                 <div
-                  className="break-words [&>h1]:scroll-m-20 [&>h1]:text-4xl [&>h1]:font-extrabold [&>h1]:tracking-tight [&>h1]:lg:text-5xl
-                             [&>h2]:scroll-m-20 [&>h2]:text-3xl [&>h2]:font-semibold [&>h2]:tracking-tight [&>h2]:first:mt-0
-                             [&>h3]:scroll-m-20 [&>h3]:text-2xl [&>h3]:font-semibold [&>h3]:tracking-tight
-                             [&>h4]:scroll-m-20 [&>h4]:text-xl [&>h4]:font-semibold [&>h4]:tracking-tight
-                             [&>h5]:scroll-m-20 [&>h5]:text-lg [&>h5]:font-semibold [&>h5]:tracking-tight
-                             [&>h6]:scroll-m-20 [&>h6]:text-base [&>h6]:font-semibold [&>h6]:tracking-tight
-                             [&>p]:leading-7 [&>p]:mb-4"
+                  className="break-words [&>h1]:scroll-m-20 [&>h1]:text-3xl [&>h1]:font-extrabold [&>h1]:tracking-tight [&>h1]:lg:text-3xl [&>h1]:text-left
+          [&>h2]:scroll-m-20 [&>h2]:text-2xl [&>h2]:font-semibold [&>h2]:tracking-tight [&>h2]:first:mt-0 [&>h2]:text-left
+          [&>h3]:scroll-m-20 [&>h3]:text-2xl [&>h3]:font-semibold [&>h3]:tracking-tight [&>h3]:text-left
+          [&>h4]:scroll-m-20 [&>h4]:text-xl [&>h4]:font-semibold [&>h4]:tracking-tight [&>h4]:text-left
+          [&>h5]:scroll-m-20 [&>h5]:text-lg [&>h5]:font-semibold [&>h5]:tracking-tight [&>h5]:text-left
+          [&>h6]:scroll-m-20 [&>h6]:text-base [&>h6]:font-semibold [&>h6]:tracking-tight [&>h6]:text-left
+          [&>p]:leading-7 [&>p]:mb-4 [&>p]:text-justify"
                   dangerouslySetInnerHTML={{ __html: currentResponse }}
                 />
               </div>
