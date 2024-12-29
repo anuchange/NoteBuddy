@@ -16,14 +16,18 @@ const fonts = [
 
 const fontSizes = Array.from({ length: 20 }, (_, i) => i + 8); // 8px to 28px
 
-const FontControls: React.FC<FontControlsProps> = ({ editor }) => {
+const FontControls: React.FC<FontControlsProps> = ({ editor, theme }) => {
   return (
     <div className="flex items-center gap-2">
       <select
         onChange={(e) => {
           editor.chain().focus().setFontFamily(e.target.value).run();
         }}
-        className="h-8 border rounded-md px-2 py-1 text-sm bg-white min-w-[100px]"
+        className={`h-8 border rounded-md px-2 py-1 text-sm ${
+          theme === "dark"
+            ? "bg-gray-900 text-gray-100 border-gray-700"
+            : "bg-white text-gray-900 border-gray-300"
+        }`}
       >
         {fonts.map((font) => (
           <option key={font.value} value={font.value}>
@@ -31,19 +35,9 @@ const FontControls: React.FC<FontControlsProps> = ({ editor }) => {
           </option>
         ))}
       </select>
-
-      {/* <input
-        type="number"
-        min="8"
-        max="28"
-        defaultValue="16"
-        onChange={(e) => {
-          editor.chain().focus().setFontSize(e.target.value + 'px').run();
-        }}
-        className="h-8 border rounded-md px-2 py-1 text-sm bg-white w-20"
-      /> */}
     </div>
   );
 };
+
 
 export default FontControls;

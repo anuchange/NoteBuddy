@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Quill from "../components/quill";
@@ -12,6 +12,7 @@ import Editor from "../components/editor_component/Editor";
 import { Loader2 } from "lucide-react";
 
 export default function Home() {
+  const [theme, setTheme] = useState("light");
   const [youtubeUrl, setYoutubeUrl] = useState("");
   const [videoId, setVideoId] = useState("");
   const [notesData, setNotesData] = useState("");
@@ -20,22 +21,12 @@ export default function Home() {
   const editor = useEditor({
     extensions: [StarterKit],
     content: `<h1>Introduction to International Relations and Diplomacy</h1>
-
-<h2>Key Concepts and Definitions:</h2>
-
-<ul>
-  <li><strong>Diplomacy:</strong> The official channel of communication between two countries, involving negotiations, dialogues, and agreements to maintain peaceful relations.</li>
-  <li><strong>International Relations:</strong> The study of interactions among nations, including their governments, economies, cultures, and histories.</li>
-  <li><strong>Global Politics:</strong> The complex web of relationships and interactions between different nations and international organizations.</li>
-</ul>
-
-<h2>Main Ideas and Supporting Details:</h2>
-
-<ul>
-  <li>The lecture transcript discusses Prime Minister Modi's visit to Kuwait, where he met with the Amir of Kuwait, Sheikh Mishal Al-Ahmad Al-Jaber Al-Sabah, to discuss bilateral issues.</li>
-  <li>The meeting highlights the importance of diplomatic relations between India and Kuwait, with a focus on labor relations, trade, and cultural exchange.</li>
-  <li>Prime Minister Modi also interacted with Indian laborers in Kuwait, emphasizing the significance of their contributions to the Indian economy.</li>
-</ul>`,
+    <h2>Key Concepts and Definitions:</h2>
+    <ul>
+      <li><strong>Diplomacy:</strong> The official channel of communication between two countries, involving negotiations, dialogues, and agreements to maintain peaceful relations.</li>
+      <li><strong>International Relations:</strong> The study of interactions among nations, including their governments, economies, cultures, and histories.</li>
+      <li><strong>Global Politics:</strong> The complex web of relationships and interactions between different nations and international organizations.</li>
+    </ul>`,
     editorProps: {
       attributes: {
         class:
@@ -77,21 +68,86 @@ export default function Home() {
     }
   };
 
-  // const parseHTMLString = (data) => {
-  //   const parser = new DOMParser();
+  const toggleTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    document.documentElement.classList.toggle("dark");
+  };
 
-  //   // convert html string into DOM
-  //   const document = parser.parseFromString(data, "text/html");
-  //   console.log("document=", document, data);
-  //   return document;
-  // };
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedTheme = localStorage.getItem("theme") || "light";
+      setTheme(storedTheme);
+      if (storedTheme === "dark") {
+        document.documentElement.classList.add("dark");
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("theme", theme);
+    }
+  }, [theme]);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className={`min-h-screen bg-gray-100 dark:bg-gray-900 p-6`}>
+      {/* Theme Toggle Button */}
+      <div className="flex justify-end">
+        {/* <button
+          onClick={toggleTheme}
+          className="px-4 py-2 mb-4 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Toggle {theme === "light" ? "Dark" : "Light"} Mode
+        </button> */}
+        <button
+          onClick={toggleTheme}
+          className={`p-3 rounded-full border-2 transition-all mb-2 ${
+            theme === "dark"
+              ? "border-gray-700 bg-gray-800 text-yellow-500 hover:bg-gray-700 focus:ring focus:ring-yellow-500"
+              : "border-gray-300 bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring focus:ring-gray-500"
+          }`}
+        >
+          {theme === "dark" ? (
+            // Light Theme Icon (Sun)
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 3v1m0 16v1m8.66-11.66l-.71.71M5.05 18.36l-.71-.71m13.02-6.71h1M3 12h1m16.95 6.36l-.71-.71M5.05 5.05l-.71.71M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+            </svg>
+          ) : (
+            // Dark Theme Icon (Moon)
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"
+              />
+            </svg>
+          )}
+        </button>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-7xl mx-auto grid-template-columns-1.5fr 2fr">
         {/* Left Column - YouTube Section */}
         <div className="">
-          <div className="bg-white rounded-lg shadow-md p-6">
+          <div className="bg-white dark:bg-gray-800 dark:text-white rounded-lg shadow-md p-6">
             <h2 className="text-2xl font-bold mb-4">YouTube Video Notes</h2>
             <form onSubmit={handleSubmit} className="mb-4">
               <div className="flex gap-2">
@@ -100,7 +156,7 @@ export default function Home() {
                   value={youtubeUrl}
                   onChange={(e) => setYoutubeUrl(e.target.value)}
                   placeholder="Enter YouTube URL"
-                  className="flex-1 p-2 border border-gray-300 rounded"
+                  className="flex-1 p-2 border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-white rounded"
                 />
                 <button
                   type="submit"
@@ -138,15 +194,10 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-6">
-            <ChatBotUI />
+            <ChatBotUI theme={theme} toggleTheme={toggleTheme} />
           </div>
-          {/* <div className="mt-6">
-            <button />
-          </div> */}
         </div>
-        {/* <Quill notesData={notesData} /> */}
-        <Editor notesData={notesData} />
-        {/* <NotesEditor /> */}
+        <Editor notesData={notesData} theme={theme} videoId={videoId} />
       </div>
     </div>
   );

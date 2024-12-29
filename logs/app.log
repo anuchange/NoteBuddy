@@ -144,3 +144,17 @@
 2024-12-28 21:01:54,801 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x116c4d5e0>
 2024-12-28 21:01:55,855 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x1169ead50>
 2024-12-28 21:05:10,969 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x116feb8c0>
+2024-12-29 21:27:17,298 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x105f0e6c0>
+2024-12-29 21:27:34,838 - app - INFO - Generating notes for videoId: https://youtu.be/6cSUNTgJdrw?si=-fSGT6JGh1bBfdnx
+2024-12-29 21:27:34,839 - app - INFO - Attempting to fetch official transcript...
+2024-12-29 21:27:39,358 - app - INFO - Generated notes response: <starlette.responses.HTMLResponse object at 0x105a24ec0>
+2024-12-29 22:36:50,506 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x105aab230>
+2024-12-29 22:44:48,487 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x1060a77d0>
+2024-12-29 22:45:16,783 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x1060a5dc0>
+2024-12-29 22:46:37,874 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x10d82b560>
+2024-12-29 22:47:24,716 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x108ecd220>
+2024-12-29 22:48:46,687 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x10d89b8c0>
+2024-12-29 22:51:15,708 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x10d899580>
+2024-12-29 22:53:11,943 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x10d82ae40>
+2024-12-29 22:53:58,418 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x105cc76e0>
+2024-12-29 23:50:46,783 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x1069ffad0>

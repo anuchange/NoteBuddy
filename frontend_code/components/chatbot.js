@@ -9,7 +9,7 @@ const MessageType = {
   IMAGE: "image",
 };
 
-const ChatBotUI = () => {
+const ChatBotUI = ({ theme, toggleTheme }) => {
   const [currentQuery, setCurrentQuery] = useState(null);
   const [currentResponse, setCurrentResponse] = useState(null);
   const [inputText, setInputText] = useState("");
@@ -27,6 +27,7 @@ const ChatBotUI = () => {
   const toggleMaximize = () => {
     setIsMaximized(!isMaximized);
   };
+
   const handleImageSelect = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -78,20 +79,29 @@ const ChatBotUI = () => {
 
   return (
     <div
-      className={`bg-white shadow-lg flex flex-col ${
+      className={`${
+        theme === "dark"
+          ? "bg-gray-800 text-gray-200"
+          : "bg-white text-gray-900"
+      } shadow-lg flex flex-col ${
         isMaximized
           ? "fixed inset-0 w-full h-full z-50"
           : "w-full max-w-2xl mx-auto h-[600px] rounded-xl"
       }`}
     >
-      {" "}
       <div className="flex flex-col h-full p-6 gap-4">
         {/* Header */}
-        <div className="flex items-center justify-between border-b p-4">
+        <div
+          className={`flex items-center justify-between border-b p-4 ${
+            theme === "dark" ? "border-gray-700" : "border-gray-300"
+          }`}
+        >
           <h2 className="text-xl font-semibold">AI Assistant</h2>
           <button
             onClick={toggleMaximize}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            className={`p-2 rounded-full transition-colors ${
+              theme === "dark" ? "hover:bg-gray-700" : "hover:bg-gray-100"
+            }`}
           >
             {isMaximized ? (
               <Minimize2 className="h-5 w-5" />
@@ -99,14 +109,32 @@ const ChatBotUI = () => {
               <Maximize2 className="h-5 w-5" />
             )}
           </button>
+          {/* <button
+            onClick={toggleTheme}
+            className={`ml-4 p-2 rounded-full transition-colors ${
+              theme === "dark" ? "bg-gray-700 text-white" : "bg-gray-200"
+            }`}
+          >
+            {theme === "dark" ? "🌙" : "☀️"}
+          </button> */}
         </div>
 
         {/* Chat Area */}
-        <div className="flex-grow overflow-y-auto rounded-xl bg-gray-50 p-6">
+        <div
+          className={`flex-grow overflow-y-auto rounded-xl p-6 ${
+            theme === "dark" ? "bg-gray-700" : "bg-gray-50"
+          }`}
+        >
           {currentQuery && (
             <div className="mb-6">
               <div className="flex justify-end">
-                <div className="bg-blue-600 text-white px-4 py-3 rounded-xl max-w-[80%] shadow-sm">
+                <div
+                  className={`${
+                    theme === "dark"
+                      ? "bg-blue-500 text-white"
+                      : "bg-blue-600 text-white"
+                  } px-4 py-3 rounded-xl max-w-[80%] shadow-sm`}
+                >
                   <p className="break-words m-0">{currentQuery.content}</p>
                   {currentQuery.image && (
                     <img
@@ -122,7 +150,11 @@ const ChatBotUI = () => {
 
           {isLoading && (
             <div className="flex justify-start">
-              <div className="bg-gray-200 px-4 py-2 rounded-xl">
+              <div
+                className={`${
+                  theme === "dark" ? "bg-gray-600" : "bg-gray-200"
+                } px-4 py-2 rounded-xl`}
+              >
                 <div className="flex gap-2">
                   <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></div>
                   <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce delay-100"></div>
@@ -134,7 +166,13 @@ const ChatBotUI = () => {
 
           {currentResponse && (
             <div className="flex justify-start">
-              <div className="bg-white text-gray-800 px-4 py-3 rounded-xl max-w-[80%] shadow-sm">
+              <div
+                className={`${
+                  theme === "dark"
+                    ? "bg-gray-600 text-gray-200"
+                    : "bg-white text-gray-800"
+                } px-4 py-3 rounded-xl max-w-[80%] shadow-sm`}
+              >
                 <div
                   className="break-words [&>h1]:scroll-m-20 [&>h1]:text-3xl [&>h1]:font-extrabold [&>h1]:tracking-tight [&>h1]:lg:text-3xl [&>h1]:text-left
           [&>h2]:scroll-m-20 [&>h2]:text-2xl [&>h2]:font-semibold [&>h2]:tracking-tight [&>h2]:first:mt-0 [&>h2]:text-left
@@ -152,30 +190,14 @@ const ChatBotUI = () => {
 
         {/* Error Message */}
         {error && (
-          <div className="bg-red-50 border-l-4 border-red-500 p-4 text-red-700 rounded-lg">
+          <div
+            className={`${
+              theme === "dark"
+                ? "bg-red-900 text-red-300"
+                : "bg-red-50 text-red-700"
+            } border-l-4 p-4 rounded-lg`}
+          >
             {error}
-          </div>
-        )}
-
-        {/* Selected Image Preview */}
-        {selectedImage && (
-          <div className="relative inline-block">
-            <img
-              src={selectedImage}
-              alt="Selected"
-              className="h-20 w-20 object-cover rounded-lg shadow-sm"
-            />
-            <Button
-              variant="destructive"
-              size="small"
-              className="absolute -top-2 -right-2 rounded-full shadow-sm"
-              onClick={() => {
-                setSelectedImage(null);
-                fileInputRef.current.value = "";
-              }}
-            >
-              <X className="h-4 w-4" />
-            </Button>
           </div>
         )}
 
@@ -187,7 +209,11 @@ const ChatBotUI = () => {
               value={inputText}
               onChange={handleInputChange}
               placeholder="Type your message..."
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50"
+              className={`w-full px-4 py-3 rounded-xl border focus:outline-none focus:ring-2 ${
+                theme === "dark"
+                  ? "bg-gray-700 border-gray-600 text-gray-200 focus:ring-blue-500"
+                  : "bg-gray-50 border-gray-300 text-gray-900 focus:ring-blue-500"
+              }`}
             />
           </div>
 
@@ -202,10 +228,17 @@ const ChatBotUI = () => {
           <Button
             variant="outline"
             size="icon"
-            className="rounded-xl"
+            className={`rounded-xl ${
+              theme === "dark" ? "bg-gray-600 text-white" : ""
+            }`}
             onClick={() => fileInputRef.current?.click()}
           >
-            <ImageIcon className="h-5 w-5" />
+            {theme === "dark" ? (
+              <ImageIcon size={18} className="text-gray-100" /> // Dark theme icon
+            ) : (
+              <ImageIcon size={18} className="text-gray-900" /> // Light theme icon
+            )}
+            {/* <ImageIcon className="h-5 w-5" /> */}
           </Button>
 
           <Button type="submit" size="icon" className="rounded-xl">

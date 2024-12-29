@@ -1,16 +1,18 @@
-import React from 'react';
-import { Editor } from '@tiptap/react';
-import Button from '../Button';
+import React from "react";
+import { Editor } from "@tiptap/react";
+import Button from "../Button";
 
 interface TextControlsProps {
   editor: Editor;
+  theme: "light" | "dark";
 }
 
 const headingLevels = [1, 2, 3, 4, 5, 6];
 
-const TextControls: React.FC<TextControlsProps> = ({ editor }) => {
+const TextControls: React.FC<TextControlsProps> = ({ editor, theme }) => {
   return (
     <div className="flex items-center gap-2">
+      {/* Heading Level Selector */}
       <select
         onChange={(e) => {
           const level = parseInt(e.target.value);
@@ -23,7 +25,11 @@ const TextControls: React.FC<TextControlsProps> = ({ editor }) => {
             editor.isActive("heading", { level })
           ) || 0
         }
-        className="h-8 border rounded-md px-2 py-1 text-sm bg-white min-w-[120px]"
+        className={`h-8 border rounded-md px-2 py-1 text-sm min-w-[120px] ${
+          theme === "dark"
+            ? "bg-gray-900 text-gray-100 border-gray-700"
+            : "bg-white text-gray-900 border-gray-300"
+        }`}
       >
         <option value={0}>Paragraph</option>
         <option value={1}>Heading 1</option>
@@ -34,26 +40,17 @@ const TextControls: React.FC<TextControlsProps> = ({ editor }) => {
         <option value={6}>Heading 6</option>
       </select>
 
-      {/* <select
-        onChange={(e) => {
-          const style = editor.getAttributes('textStyle');
-          editor.chain().focus().setStyle({ ...style, fontSize: e.target.value + 'px' }).run();
-        }}
-        defaultValue="16"
-        className="h-8 border rounded-md px-2 py-1 text-sm bg-white w-24"
-      >
-        {[8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 48].map((size) => (
-          <option key={size} value={size}>
-            {size}px
-          </option>
-        ))}
-      </select> */}
+      {/* Font Size Selector */}
       <select
         onChange={(e) => {
           editor.chain().focus().setFontSize(e.target.value).run();
         }}
         value={editor.getAttributes("textStyle").fontSize || "16"}
-        className="h-8 border rounded-md px-2 py-1 text-sm bg-white w-24"
+        className={`h-8 border rounded-md px-2 py-1 text-sm w-24 ${
+          theme === "dark"
+            ? "bg-gray-900 text-gray-100 border-gray-700"
+            : "bg-white text-gray-900 border-gray-300"
+        }`}
       >
         {[8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 48].map((size) => (
           <option key={size} value={size}>

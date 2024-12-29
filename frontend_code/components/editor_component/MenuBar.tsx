@@ -15,58 +15,112 @@ interface MenuBarProps {
   editor: Editor;
 }
 
-const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
+const MenuBar = ({ editor, theme }) => {
   const [linkUrl, setLinkUrl] = useState("");
   const [showLinkInput, setShowLinkInput] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [showImageInput, setShowImageInput] = useState(false);
 
   return (
-    <div className="border-b p-2 flex flex-wrap gap-2 items-center bg-gray-50">
-      <div className="border-b bg-gray-50 w-full">
-        <div className="p-2 overflow-hidden">
-          <div className="flex flex-col gap-2 sm:gap-3 bg-white rounded-md shadow-sm">
+    <div
+      className={`p-2 flex flex-wrap gap-2 items-center border-b ${
+        theme === "dark"
+          ? "bg-gray-800 border-gray-700"
+          : "bg-gray-50 border-gray-300"
+      }`}
+    >
+      <div className={`w-full`}>
+        <div
+          className={`p-2 overflow-hidden ${
+            theme === "dark"
+              ? "bg-gray-900 text-gray-100"
+              : "bg-white text-gray-900"
+          }`}
+        >
+          <div className="flex flex-col gap-2 sm:gap-3 rounded-md shadow-sm">
             {/* Top Row */}
             <div className="flex items-center gap-2 p-2 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
-              <TextControls editor={editor} />
-              <div className="w-px h-6 bg-gray-300 shrink-0" />
-              <FontControls editor={editor} />
-              <div className="w-px h-6 bg-gray-300 shrink-0" />
-              <TextFormatControls editor={editor} />
+              <TextControls editor={editor} theme={theme} />
+              <div
+                className={`w-px h-6 ${
+                  theme === "dark" ? "bg-gray-700" : "bg-gray-300"
+                } shrink-0`}
+              />
+              <FontControls editor={editor} theme={theme} />
+              <div
+                className={`w-px h-6 ${
+                  theme === "dark" ? "bg-gray-700" : "bg-gray-300"
+                } shrink-0`}
+              />
+              <TextFormatControls editor={editor} theme={theme} />
             </div>
 
             {/* Bottom Row */}
             <div className="flex items-center gap-2 p-2 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
-              <HighlightControls editor={editor} />
-              <div className="w-px h-6 bg-gray-300 shrink-0" />
-              <AlignmentControls editor={editor} />
-              <div className="w-px h-6 bg-gray-300 shrink-0" />
-              <ListControls editor={editor} />
-              <div className="w-px h-6 bg-gray-300 shrink-0" />
-              <LayoutControls editor={editor} />
+              <HighlightControls editor={editor} theme={theme} />
+              <div
+                className={`w-px h-6 ${
+                  theme === "dark" ? "bg-gray-700" : "bg-gray-300"
+                } shrink-0`}
+              />
+              <AlignmentControls editor={editor} theme={theme} />
+              <div
+                className={`w-px h-6 ${
+                  theme === "dark" ? "bg-gray-700" : "bg-gray-300"
+                } shrink-0`}
+              />
+              <ListControls editor={editor} theme={theme} />
+              <div
+                className={`w-px h-6 ${
+                  theme === "dark" ? "bg-gray-700" : "bg-gray-300"
+                } shrink-0`}
+              />
+              <LayoutControls editor={editor} theme={theme} />
             </div>
           </div>
         </div>
       </div>
-
-      <div className="flex items-center gap-2 w-full p-2 bg-white rounded-md shadow-sm w-full">
+      {/* Link Input */}
+      <div className="flex items-center gap-2 w-full p-2 rounded-md shadow-sm">
         <div className="relative">
+          {/* Add Link Button */}
           <Button
             onClick={() => setShowLinkInput(!showLinkInput)}
             active={editor.isActive("link")}
             size="sm"
             title="Add Link"
+            className={
+              theme === "dark"
+                ? "bg-gray-800 text-gray-100"
+                : "bg-gray-100 text-gray-900"
+            }
           >
-            <LinkIcon size={18} />
+            {theme === "dark" ? (
+              <LinkIcon size={18} className="text-gray-100" /> // Dark theme icon
+            ) : (
+              <LinkIcon size={18} className="text-gray-900" /> // Light theme icon
+            )}
           </Button>
+
+          {/* Link Input */}
           {showLinkInput && (
-            <div className="absolute top-full left-0 mt-1 bg-white rounded-lg shadow-lg p-2 z-10 w-64 border border-gray-200">
+            <div
+              className={`absolute top-full left-0 mt-1 p-2 z-10 w-64 border rounded-lg shadow-lg ${
+                theme === "dark"
+                  ? "bg-gray-800 border-gray-700 text-gray-100"
+                  : "bg-white border-gray-200 text-gray-900"
+              }`}
+            >
               <input
                 type="url"
                 value={linkUrl}
                 onChange={(e) => setLinkUrl(e.target.value)}
                 placeholder="Enter URL"
-                className="w-full border rounded-md px-2 py-1 text-sm mb-2"
+                className={`w-full border rounded-md px-2 py-1 text-sm ${
+                  theme === "dark"
+                    ? "bg-gray-900 text-gray-100 border-gray-700"
+                    : "bg-white text-gray-900 border-gray-300"
+                }`}
               />
               <Button
                 onClick={() => {
@@ -82,22 +136,45 @@ const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
           )}
         </div>
 
+        {/* Image Input */}
         <div className="relative">
+          {/* Add Image Button */}
           <Button
             onClick={() => setShowImageInput(!showImageInput)}
             size="sm"
             title="Add Image"
+            className={
+              theme === "dark"
+                ? "bg-gray-800 text-gray-100"
+                : "bg-gray-100 text-gray-900"
+            }
           >
-            <ImageIcon size={18} />
+            {theme === "dark" ? (
+              <ImageIcon size={18} className="text-gray-100" /> // Dark theme icon
+            ) : (
+              <ImageIcon size={18} className="text-gray-900" /> // Light theme icon
+            )}
           </Button>
+
+          {/* Image Input */}
           {showImageInput && (
-            <div className="absolute top-full left-0 mt-1 bg-white rounded-lg shadow-lg p-2 z-10 w-64 border border-gray-200">
+            <div
+              className={`absolute top-full left-0 mt-1 p-2 z-10 w-64 border rounded-lg shadow-lg ${
+                theme === "dark"
+                  ? "bg-gray-800 border-gray-700 text-gray-100"
+                  : "bg-white border-gray-200 text-gray-900"
+              }`}
+            >
               <input
                 type="url"
                 value={imageUrl}
                 onChange={(e) => setImageUrl(e.target.value)}
                 placeholder="Enter image URL"
-                className="w-full border rounded-md px-2 py-1 text-sm mb-2"
+                className={`w-full border rounded-md px-2 py-1 text-sm ${
+                  theme === "dark"
+                    ? "bg-gray-900 text-gray-100 border-gray-700"
+                    : "bg-white text-gray-900 border-gray-300"
+                }`}
               />
               <Button
                 onClick={() => {
@@ -113,10 +190,11 @@ const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
           )}
         </div>
 
-        <CodeControls editor={editor} />
+        <CodeControls editor={editor} theme={theme} />
       </div>
     </div>
   );
 };
+
 
 export default MenuBar;
