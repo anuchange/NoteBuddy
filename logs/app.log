@@ -158,3 +158,30 @@
 2024-12-29 22:53:11,943 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x10d82ae40>
 2024-12-29 22:53:58,418 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x105cc76e0>
 2024-12-29 23:50:46,783 - app - INFO - Generated chatbot response chatbot: <starlette.responses.HTMLResponse object at 0x1069ffad0>
+2024-12-30 00:56:23,701 - app - INFO - Generating notes for videoId: https://youtu.be/QCpNFl-Egm8?si=-avnspCbUBSzoSQ4
+2024-12-30 00:56:23,702 - app - INFO - Attempting to fetch official transcript...
+2024-12-30 00:56:24,302 - app - INFO - Generating transcript from audio...
+2024-12-30 00:56:35,727 - app - INFO - Total audio duration: 11.84 minutes
+2024-12-30 00:56:35,728 - app - INFO - Processing in 1 chunks (15 minutes each)
+2024-12-30 00:56:39,166 - app - INFO - Chunk 1 size: 11.01 MB
+2024-12-30 00:56:39,172 - app - ERROR - Error generating transcript: Failed to transcribe audio chunks
+2024-12-30 00:56:39,174 - app - INFO - Generated notes response: <starlette.responses.HTMLResponse object at 0x10ba76f90>
+2024-12-30 00:57:07,469 - app - INFO - Generating notes for videoId: https://youtu.be/QCpNFl-Egm8?si=-avnspCbUBSzoSQ4
+2024-12-30 00:57:07,471 - app - INFO - Attempting to fetch official transcript...
+2024-12-30 00:57:08,073 - app - INFO - Generating transcript from audio...
+2024-12-30 00:57:18,364 - app - INFO - Total audio duration: 11.84 minutes
+2024-12-30 00:57:18,365 - app - INFO - Processing in 1 chunks (15 minutes each)
+2024-12-30 00:57:21,849 - app - INFO - Chunk 1 size: 11.01 MB
+2024-12-30 00:57:21,855 - app - ERROR - Error generating transcript: Failed to transcribe audio chunks
+2024-12-30 00:57:21,857 - app - INFO - Generated notes response: <starlette.responses.HTMLResponse object at 0x1069af680>
+2024-12-30 00:58:16,537 - app - INFO - Generating notes for videoId: https://youtu.be/PUaCQUal7rM?si=ZY81I4j9PtfKABlM
+2024-12-30 00:58:16,539 - app - INFO - Attempting to fetch official transcript...
+2024-12-30 00:58:21,335 - app - INFO - Generated notes response: <starlette.responses.HTMLResponse object at 0x10ba8a330>
+2024-12-30 00:58:50,281 - app - INFO - Generating notes for videoId: https://youtu.be/T0zCxHclf7M?si=ehRW4xQhmK57yNAK
+2024-12-30 00:58:50,282 - app - INFO - Attempting to fetch official transcript...
+2024-12-30 00:58:50,794 - app - INFO - Generating transcript from audio...
+2024-12-30 00:58:53,497 - app - INFO - Total audio duration: 0.24 minutes
+2024-12-30 00:58:53,497 - app - INFO - Processing in 1 chunks (15 minutes each)
+2024-12-30 00:58:53,628 - app - INFO - Chunk 1 size: 0.18 MB
+2024-12-30 00:58:53,629 - app - ERROR - Error generating transcript: Failed to transcribe audio chunks
+2024-12-30 00:58:53,630 - app - INFO - Generated notes response: <starlette.responses.HTMLResponse object at 0x10bae3200>
