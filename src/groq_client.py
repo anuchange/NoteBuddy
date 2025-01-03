@@ -10,14 +10,13 @@ from typing import List, Dict, Any, Optional
 logger = get_logger()
 
 class GroqHandler:
-    def __init__(self):
+    def __init__(self, groq_api=None):
         """Initialize Groq client with configuration settings."""
 
-        self.client = Groq(api_key=Config.GROQ_API_KEY)
         self.CHUNK_SIZE = 6000      # Characters per chunk
         self.OVERLAP_SIZE = 200     # Increased overlap for better context
         self.RATE_LIMIT_DELAY = 1   
-        self.MAX_RETRIES = 3        
+        self.MAX_RETRIES = 2        
 
     def split_text_into_chunks(self, text: str) -> List[str]:
         """Split text into manageable chunks while preserving context."""
@@ -58,10 +57,10 @@ class GroqHandler:
 
         return chunks
 
-    def process_chunk_with_retry(self, chunk: str, system_prompt: str, retry_count: int = 0) -> Optional[Dict[str, Any]]:
+    def process_chunk_with_retry(self, chunk: str, system_prompt: str, client: str, retry_count: int = 0) -> Optional[Dict[str, Any]]:
         """Process a single chunk with retry mechanism."""
         try:
-            response = self.client.chat.completions.create(
+            response = client.chat.completions.create(
                 messages=[
                     {
                         "role": "system",
@@ -83,15 +82,21 @@ class GroqHandler:
         except Exception as e:
             if retry_count < self.MAX_RETRIES:
                 wait_time = self.RATE_LIMIT_DELAY * (2 ** retry_count)
-                logger.warning(f"Processing error. Retrying in {wait_time} seconds...")
+                logger.warning(f"Processing error. Retrying in {wait_time} seconds..., Retry Count: {retry_count}")
                 time.sleep(wait_time)
-                return self.process_chunk_with_retry(chunk, system_prompt, retry_count + 1)
+                return self.process_chunk_with_retry(chunk=chunk, system_prompt=system_prompt, client=client, retry_count=retry_count + 1)
             else:
                 logger.error(f"Failed to process content after {self.MAX_RETRIES} retries: {str(e)}")
                 return None
 
-    def generate_educational_notes(self, transcript_text: str) -> Optional[str]:
+    def generate_educational_notes(self, transcript_text: str, groq_api=None) -> Optional[str]:
+
         """Generate detailed educational notes from transcript."""
+        logger.info("Groq API Key: {}".format(groq_api))
+        if groq_api:
+            client = Groq(api_key=groq_api)
+        else:
+            client = Groq(api_key=Config.GROQ_API_KEY)
         try:
             if len(transcript_text) > self.CHUNK_SIZE:
                 logger.info("This appears to be a longer lecture. Processing in sections...")
@@ -100,7 +105,8 @@ class GroqHandler:
             prompt = self.create_educational_prompt(transcript_text)
             response = self.process_chunk_with_retry(
                 prompt,
-                "You are an expert educational content creator, skilled at breaking down complex topics into clear, organized notes for students."
+                "You are an expert educational content creator, skilled at breaking down complex topics into clear, organized notes for students.",
+                client=client
             )
             
             if response and response.choices:
@@ -187,64 +193,64 @@ Please maintain academic language while ensuring the notes are clear and accessi
         """Remove the redundant summary combination step."""
         pass  # We don't need to combine summaries anymore since we're keeping detailed section notes
 
-    def chat_completion(self, message: str, image=None) -> str:
-            """
-            Get chat completion from Groq
-            Args:
-                message: User's text message
-                image: Optional PIL Image object
-            Returns:
-                str: Assistant's response
-            """
-            try:
-                # Prepare messages
-                messages = [
-                    {
-                        "role": "system",
-                        "content": self._get_chat_system_prompt()
-                    }
-                ]
+    # def chat_completion(self, message: str, image=None) -> str:
+    #         """
+    #         Get chat completion from Groq
+    #         Args:
+    #             message: User's text message
+    #             image: Optional PIL Image object
+    #         Returns:
+    #             str: Assistant's response
+    #         """
+    #         try:
+    #             # Prepare messages
+    #             messages = [
+    #                 {
+    #                     "role": "system",
+    #                     "content": self._get_chat_system_prompt()
+    #                 }
+    #             ]
                 
-                # If there's an image, format message with image
-                if image:
-                    messages.append({
-                        "role": "user",
-                        "content": [
-                            {
-                                "type": "image",
-                                "source": {
-                                    "type": "image",
-                                    "data": image
-                                }
-                            },
-                            {
-                                "type": "text",
-                                "text": message
-                            }
-                        ]
-                    })
-                else:
-                    messages.append({
-                        "role": "user",
-                        "content": message
-                    })
+    #             # If there's an image, format message with image
+    #             if image:
+    #                 messages.append({
+    #                     "role": "user",
+    #                     "content": [
+    #                         {
+    #                             "type": "image",
+    #                             "source": {
+    #                                 "type": "image",
+    #                                 "data": image
+    #                             }
+    #                         },
+    #                         {
+    #                             "type": "text",
+    #                             "text": message
+    #                         }
+    #                     ]
+    #                 })
+    #             else:
+    #                 messages.append({
+    #                     "role": "user",
+    #                     "content": message
+    #                 })
 
-                # Get completion from Groq
-                response = self.client.chat.completions.create(
-                    messages=messages,
-                    model=Config.GROQ_VISION_MODEL,
-                    temperature=0.7,
-                    max_tokens=2048,
-                    stream=False
-                )
+    #             # Get completion from Groq
+    #             response = self.client.chat.completions.create(
+    #                 messages=messages,
+    #                 model=Config.GROQ_VISION_MODEL,
+    #                 temperature=0.7,
+    #                 max_tokens=2048,
+    #                 stream=False
+    #             )
 
-                if response and response.choices:
-                    return response.choices[0].message.content
-                return "I apologize, but I couldn't process your message."
+    #             if response and response.choices:
+    #                 return response.choices[0].message.content
+    #             return "I apologize, but I couldn't process your message."
 
-            except Exception as e:
-                logger.error(f"Error in chat completion: {str(e)}")
-                return "An error occurred while processing your message."
+    #         except Exception as e:
+    #             logger.error(f"Error in chat completion: {str(e)}")
+    #             return "An error occurred while processing your message."
 
     def _get_chat_system_prompt(self) -> str:
         """Get system prompt for chat"""
@@ -281,7 +287,7 @@ Keep responses concise yet informative, and maintain context of the conversation
     #         logger.error(f"Error encoding image: {str(e)}")
     #         return None
 
-    def process_streamed_chat(self, message: str, encoded_image=None):
+    def process_streamed_chat(self, message: str, encoded_image=None, groq_api=None):
             """
             Process chat message with streaming response
             Args:
@@ -290,6 +296,12 @@ Keep responses concise yet informative, and maintain context of the conversation
             Yields:
                 str: Response chunks
             """
+
+            if groq_api:
+                client = Groq(api_key=groq_api)
+            else:
+                client = Groq(api_key=Config.GROQ_API_KEY)
+                
             try:
                 if encoded_image:
                     # For vision model: no system message, only user message with image

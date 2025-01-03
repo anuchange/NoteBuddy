@@ -28,10 +28,12 @@ app.add_middleware(
 # Request models
 class NotesRequest(BaseModel):
     videoId: str
+    groq_api: Optional[str] = None
 
 class ChatbotRequest(BaseModel):
     query: str
     image: Optional[str] = None
+    groq_api: Optional[str] = None
 
 # Response models
 class NotesResponse(BaseModel):
@@ -45,7 +47,7 @@ async def create_notes(request: NotesRequest):
     try:
         # Call the generate_notes function from response_generation.py
         logger.info(f"Generating notes for videoId: {request.videoId}")
-        response = generate_notes(request.videoId)
+        response = generate_notes(request.videoId, request.groq_api)
         logger.info(f"Generated notes response: {response}")
         return response
     except Exception as e:
@@ -56,7 +58,7 @@ async def chat_response(request: ChatbotRequest):
     try:
         # Call the chat response generation function
         # You'll need to import this function from your module
-        response = chat_response_generation(request.query, request.image)
+        response = chat_response_generation(request.query, request.image, request.groq_api)
         logger.info(f"Generated chatbot response chatbot: {response}")
         return response
     except Exception as e:
