@@ -49,7 +49,7 @@ const Editor = ({ notesData, theme, videoId }) => {
         const containerHeight = editorContainer.offsetHeight;
         const headerHeight = editorHeader.offsetHeight;
         const menuBarHeight = menuBar.offsetHeight;
-        setEditorHeight(containerHeight - headerHeight - menuBarHeight);
+        setEditorHeight(`${containerHeight - headerHeight - menuBarHeight}px`);
       }
     };
 
