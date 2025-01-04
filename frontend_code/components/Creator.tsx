@@ -12,25 +12,25 @@ export function Creator() {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="text-4xl font-bold mb-6">
-              Created by developers, for developers
+              Created by developers, for learners
             </h2>
             <p className="text-gray-400 mb-8">
-              With decades of combined experience in software development, our
-              team understands the challenges developers face daily. We're
-              building the tools we've always wanted.
+              With combined expertise in AI and user experience, our team
+              understands the challenges learners face daily. We're building the
+              tool we've always needed for effective video learning.
             </p>
             <div className="flex space-x-6">
               <a
-                href="#"
+                href="https://github.com/anuchange"
                 className="text-cyan-400 hover:text-cyan-300 transition-colors"
               >
                 <Github className="w-6 h-6" />
               </a>
               <a
-                href="#"
+                href="https://github.com/Sohailahmad7692"
                 className="text-cyan-400 hover:text-cyan-300 transition-colors"
               >
-                <Twitter className="w-6 h-6" />
+                <Github className="w-6 h-6" />
               </a>
             </div>
           </div>

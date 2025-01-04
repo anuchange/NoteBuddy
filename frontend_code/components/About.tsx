@@ -4,19 +4,22 @@ import { Code2, Cpu, Workflow } from 'lucide-react';
 const highlights = [
   {
     icon: <Code2 className="w-8 h-8" />,
-    title: "AI-Powered Development",
-    description: "Leverage advanced AI to write, review, and optimize code with unprecedented efficiency."
+    title: "AI-Powered Learning",
+    description:
+      "Leverage advanced AI to capture, organize, and optimize notes with unprecedented efficiency.",
   },
   {
     icon: <Workflow className="w-8 h-8" />,
     title: "Seamless Integration",
-    description: "Works with your existing tools and workflows, enhancing productivity without disruption."
+    description:
+      "Works with your YouTube viewing experience and workflow,enhancing productivity without disruption.",
   },
   {
     icon: <Cpu className="w-8 h-8" />,
-    title: "Intelligent Assistance",
-    description: "Context-aware suggestions and automated refactoring to improve code quality."
-  }
+    title: "ChatBot Assistance",
+    description:
+      "AI chat support to answer questions and illuminate complex topics from your notes.",
+  },
 ];
 
 export function About() {
@@ -26,13 +29,14 @@ export function About() {
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4">About The Product</h2>
           <p className="text-gray-400 max-w-2xl mx-auto">
-            Revolutionizing software development with AI-powered intelligence that understands your code, your intent, and your needs.
+            Revolutionizing video learning with AI-powered intelligence that
+            understands your notes, your focus, and your goals.
           </p>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {highlights.map((item, index) => (
-            <div 
+            <div
               key={index}
               className="p-8 rounded-2xl bg-white/5 hover:bg-white/10 transition-all transform hover:-translate-y-1"
             >

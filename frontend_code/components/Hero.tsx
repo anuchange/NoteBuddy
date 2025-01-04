@@ -17,16 +17,17 @@ export function Hero() {
     <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-16">
       <div className="max-w-4xl mx-auto text-center animate-fade-in z-10">
         <div className="space-y-4 mb-8">
-          <h2 className="text-6xl sm:text-8xl font-bold">A</h2>
-          <h2 className="text-6xl sm:text-8xl font-bold">new</h2>
-          <h2 className="text-6xl sm:text-8xl font-bold">era of</h2>
+          {/* <h2 className="text-6xl sm:text-8xl font-bold">A</h2>
+          <h2 className="text-6xl sm:text-8xl font-bold">new</h2> */}
+          <h2 className="text-4xl sm:text-5xl font-bold">
+            Navigate the Future of
+          </h2>
           <h2 className="text-6xl sm:text-8xl font-bold text-cyan-400">
-            Code Intelligence
+            Digital Learning
           </h2>
         </div>
         <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
-          Redefining the art of software creation, one intelligent edit at a
-          time.
+          Where AI meets learning, creating notes that matter.
         </p>
         <button
           onClick={() => setIsModalOpen(true)}
