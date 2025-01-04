@@ -13,7 +13,7 @@ const Editor = ({ notesData, theme, videoId }) => {
   const editorContainerRef = useRef(null);
   const editorHeaderRef = useRef(null);
   const menuBarRef = useRef(null);
-  const extensions = useEditorExtensions(lowlight);
+  const extensions = useEditorExtensions();
 
   const editor = useEditor({
     extensions,
