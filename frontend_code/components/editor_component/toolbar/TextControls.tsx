@@ -7,7 +7,9 @@ interface TextControlsProps {
   theme: "light" | "dark";
 }
 
-const headingLevels = [1, 2, 3, 4, 5, 6];
+// Define valid heading levels type
+type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
+const headingLevels: HeadingLevel[] = [1, 2, 3, 4, 5, 6];
 
 const TextControls: React.FC<TextControlsProps> = ({ editor, theme }) => {
   return (
@@ -16,9 +18,12 @@ const TextControls: React.FC<TextControlsProps> = ({ editor, theme }) => {
       <select
         onChange={(e) => {
           const level = parseInt(e.target.value);
-          level === 0
-            ? editor.chain().focus().setParagraph().run()
-            : editor.chain().focus().toggleHeading({ level }).run();
+          if (level === 0) {
+            editor.chain().focus().setParagraph().run();
+          } else {
+            // Cast level to HeadingLevel since we know it's valid
+            editor.chain().focus().toggleHeading({ level: level as HeadingLevel }).run();
+          }
         }}
         value={
           headingLevels.find((level) =>
