@@ -10,6 +10,7 @@ import {
 
 interface LayoutControlsProps {
   editor: Editor;
+  theme?: 'dark' | 'light';  // Add theme to props interface
 }
 
 const lineHeights = ['1', '1.2', '1.5', '2', '2.5', '3'];

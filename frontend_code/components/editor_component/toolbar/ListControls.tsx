@@ -5,6 +5,7 @@ import Button from '../Button';
 
 interface ListControlsProps {
   editor: Editor;
+  theme?: 'dark' | 'light';  // Add theme to props interface
 }
 
 const ListControls: React.FC<ListControlsProps> = ({ editor, theme }) => {

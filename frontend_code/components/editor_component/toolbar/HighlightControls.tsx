@@ -5,6 +5,7 @@ import Button from '../Button';
 
 interface HighlightControlsProps {
   editor: Editor;
+  theme?: 'dark' | 'light';  // Add theme to props interface
 }
 
 const highlights = [

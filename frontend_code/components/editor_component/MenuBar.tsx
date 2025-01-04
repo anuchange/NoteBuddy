@@ -13,6 +13,7 @@ import TextFormatControls from "./toolbar/TextFormatControls";
 
 interface MenuBarProps {
   editor: Editor;
+  theme?: 'dark' | 'light';  // Add theme to props interface
 }
 
 const MenuBar = ({ editor, theme }) => {

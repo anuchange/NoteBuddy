@@ -5,6 +5,7 @@ import Button from '../Button';
 
 interface TextFormatControlsProps {
   editor: Editor;
+  theme?: 'dark' | 'light';  // Add theme to props interface
 }
 
 const TextFormatControls: React.FC<TextFormatControlsProps> = ({

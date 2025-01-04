@@ -6,6 +6,7 @@ import { languages } from '../../lib/languages';
 
 interface CodeControlsProps {
   editor: Editor;
+  theme?: 'dark' | 'light';  // Add theme to props interface
 }
 
 const CodeControls: React.FC<CodeControlsProps> = ({ editor, theme }) => {
