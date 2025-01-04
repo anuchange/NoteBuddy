@@ -221,7 +221,7 @@ export default function Home() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-7xl mx-auto grid-template-columns-1.5fr 2fr">
         {/* Left Column - YouTube Section */}
-        {/* {console.log("apiKey=", apiKey)} */}
+        {/* {console.log("apiKey=", api Key)} */}
         <div className="z-10">
           <div className="bg-white dark:bg-gray-800 dark:text-white rounded-lg shadow-md p-6">
             <h2 className="text-2xl font-bold mb-4 text-black dark:text-white">
