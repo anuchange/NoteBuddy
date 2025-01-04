@@ -4,8 +4,8 @@ import { Particle } from './Particle';
 export function useParticleAnimation() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
-  const mouseRef = useRef({ x: 0, y: 0 });
-  const animationFrameRef = useRef<number>();
+  const mouseRef = useRef<{x: number, y: number}>({ x: 0, y: 0 });
+  const animationFrameRef = useRef<number | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
