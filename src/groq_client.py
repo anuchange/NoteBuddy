@@ -100,12 +100,12 @@ class GroqHandler:
         try:
             if len(transcript_text) > self.CHUNK_SIZE:
                 logger.info("This appears to be a longer lecture. Processing in sections...")
-                return self.process_long_content(transcript_text)
+                return self.process_long_content(transcript_text, client)
             
             prompt = self.create_educational_prompt(transcript_text)
             response = self.process_chunk_with_retry(
-                prompt,
-                "You are an expert educational content creator, skilled at breaking down complex topics into clear, organized notes for students.",
+                chunk=prompt,
+                system_prompt="You are an expert educational content creator, skilled at breaking down complex topics into clear, organized notes for students.",
                 client=client
             )
             
@@ -117,7 +117,7 @@ class GroqHandler:
             logger.error(f"Error processing educational content: {str(e)}")
             return None
 
-    def process_long_content(self, transcript_text: str) -> Optional[str]:
+    def process_long_content(self, transcript_text: str, client) -> Optional[str]:
         """Process longer lectures by sections while maintaining educational context."""
         chunks = self.split_text_into_chunks(transcript_text)
         logger.info(f"Processing lecture in {len(chunks)} sections to maintain detail and clarity...")
@@ -137,8 +137,9 @@ class GroqHandler:
             )
             
             response = self.process_chunk_with_retry(
-                section_prompt,
-                "You are an expert educational content creator, skilled at breaking down complex topics into clear, organized notes for students."
+                chunk=section_prompt,
+                system_prompt="You are an expert educational content creator, skilled at breaking down complex topics into clear, organized notes for students.",
+                client=client
             )
             
             if response and response.choices:
