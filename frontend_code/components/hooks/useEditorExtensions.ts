@@ -11,7 +11,7 @@ import Typography from "@tiptap/extension-typography";
 import BulletList from "@tiptap/extension-bullet-list";
 import OrderedList from "@tiptap/extension-ordered-list";
 import ListItem from "@tiptap/extension-list-item";
-import { Lowlight } from "lowlight";
+import { lowlight } from "lowlight";
 
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
@@ -90,7 +90,7 @@ export const TextStyleExtended = TextStyle.extend({
   },
 });
 
-export const useEditorExtensions = (lowlight: Lowlight) => {
+export const useEditorExtensions = (lowlight: lowlight) => {
   return [
     StarterKit.configure({
       bulletList: false,
