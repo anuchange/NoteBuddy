@@ -19,9 +19,6 @@ class YouTubeHandler:
         # Create temporary directory for processing files
         self.temp_dir = tempfile.mkdtemp()
 
-        # Initialize Groq client with API key
-        self.groq_client = Groq(api_key=os.getenv('GROQ_API_KEY'))
-
         # Set chunk duration to 2 minutes to stay within token limits
         self.mins = 15
         self.MAX_CHUNK_DURATION = self.mins * 60 * 1000  
@@ -120,8 +117,12 @@ class YouTubeHandler:
             logger.error(f"Error splitting audio: {str(e)}")
             return None
 
-    def transcribe_audio_chunk(self, chunk_path, chunk_index, total_chunks):
+    def transcribe_audio_chunk(self, chunk_path, chunk_index, total_chunks, groq_api):
         """Transcribe a single audio chunk with retry mechanism."""
+        if groq_api:
+            groq_client = Groq(api_key=groq_api)
+        else:
+            groq_client = Groq(api_key=os.getenv('GROQ_API_KEY'))
         for retry in range(self.MAX_RETRIES):
             try:
                 # Verify file exists and check size
@@ -134,7 +135,7 @@ class YouTubeHandler:
                 
                 # Process the chunk
                 with open(chunk_path, "rb") as file:
-                    transcription = self.groq_client.audio.transcriptions.create(
+                    transcription = groq_client.audio.transcriptions.create(
                         file=file,
                         model="whisper-large-v3",
                         response_format="verbose_json",
@@ -193,7 +194,7 @@ class YouTubeHandler:
 
         return full_text, detailed_transcript
 
-    def get_transcript(self, video_id):
+    def get_transcript(self, video_id, groq_api=None):
         """Get transcript from YouTube API or generate it using Whisper."""
         try:
             # Try getting official transcript first
@@ -203,9 +204,9 @@ class YouTubeHandler:
             return full_text, transcript
         except Exception:
             logger.info("Generating transcript from audio...")
-            return self.generate_transcript_from_audio(video_id)
+            return self.generate_transcript_from_audio(video_id, groq_api)
 
-    def generate_transcript_from_audio(self, video_id):
+    def generate_transcript_from_audio(self, video_id, groq_api):
         """Generate transcript for videos without official transcripts."""
         try:
             audio_path = self.download_audio(video_id)
@@ -219,16 +220,16 @@ class YouTubeHandler:
             # Process chunks with progress tracking
             chunk_transcriptions = []
             total_chunks = len(chunk_paths)
-
+            
             for i, chunk_path in enumerate(chunk_paths):
                 if i > 0:
                     logger.info(f"Waiting {self.RATE_LIMIT_DELAY} seconds...")
                     time.sleep(self.RATE_LIMIT_DELAY)
                     
-                    transcription = self.transcribe_audio_chunk(chunk_path, i, total_chunks)
-
-                    if transcription:
-                        chunk_transcriptions.append(transcription)
+                transcription = self.transcribe_audio_chunk(chunk_path, i, total_chunks, groq_api=groq_api)
+                
+                if transcription:
+                    chunk_transcriptions.append(transcription)
 
             if chunk_transcriptions:
                 return self.merge_transcriptions(chunk_transcriptions)

@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- Mermaid Support -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.3.0/mermaid.min.js"></script>
+
+	<!-- MathJax Support -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js"></script>
+
+	<!-- Highlight.js for additional code highlighting -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+
+	<style>
+		body {
+			max-width: 900px;
+			margin: 0 auto;
+			padding: 20px;
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+			line-height: 1.6;
+		}
+
+		/* Code blocks styling */
+		.highlight {
+			background-color: #272822;
+			padding: 1em;
+			border-radius: 4px;
+			margin: 1em 0;
+			overflow-x: auto;
+		}
+
+		/* Table styling */
+		table {
+			border-collapse: collapse;
+			width: 100%;
+			margin: 1em 0;
+		}
+
+		th,
+		td {
+			border: 1px solid #ddd;
+			padding: 8px;
+			text-align: left;
+		}
+
+		th {
+			background-color: #f5f5f5;
+		}
+
+		/* Mermaid diagram styling */
+		.mermaid {
+			text-align: center;
+			margin: 1em 0;
+		}
+
+		/* Math equations styling */
+		.math {
+			overflow-x: auto;
+			margin: 1em 0;
+		}
+
+		pre {
+			line-height: 125%;
+		}
+
+		td.linenos .normal {
+			color: inherit;
+			background-color: transparent;
+			padding-left: 5px;
+			padding-right: 5px;
+		}
+
+		span.linenos {
+			color: inherit;
+			background-color: transparent;
+			padding-left: 5px;
+			padding-right: 5px;
+		}
+
+		td.linenos .special {
+			color: #000000;
+			background-color: #ffffc0;
+			padding-left: 5px;
+			padding-right: 5px;
+		}
+
+		span.linenos.special {
+			color: #000000;
+			background-color: #ffffc0;
+			padding-left: 5px;
+			padding-right: 5px;
+		}
+
+		.highlight .hll {
+			background-color: #49483e
+		}
+
+		.highlight {
+			background: #272822;
+			color: #f8f8f2
+		}
+
+		.highlight .c {
+			color: #959077
+		}
+
+		/* Comment */
+		.highlight .err {
+			color: #ed007e;
+			background-color: #1e0010
+		}
+
+		/* Error */
+		.highlight .esc {
+			color: #f8f8f2
+		}
+
+		/* Escape */
+		.highlight .g {
+			color: #f8f8f2
+		}
+
+		/* Generic */
+		.highlight .k {
+			color: #66d9ef
+		}
+
+		/* Keyword */
+		.highlight .l {
+			color: #ae81ff
+		}
+
+		/* Literal */
+		.highlight .n {
+			color: #f8f8f2
+		}
+
+		/* Name */
+		.highlight .o {
+			color: #ff4689
+		}
+
+		/* Operator */
+		.highlight .x {
+			color: #f8f8f2
+		}
+
+		/* Other */
+		.highlight .p {
+			color: #f8f8f2
+		}
+
+		/* Punctuation */
+		.highlight .ch {
+			color: #959077
+		}
+
+		/* Comment.Hashbang */
+		.highlight .cm {
+			color: #959077
+		}
+
+		/* Comment.Multiline */
+		.highlight .cp {
+			color: #959077
+		}
+
+		/* Comment.Preproc */
+		.highlight .cpf {
+			color: #959077
+		}
+
+		/* Comment.PreprocFile */
+		.highlight .c1 {
+			color: #959077
+		}
+
+		/* Comment.Single */
+		.highlight .cs {
+			color: #959077
+		}
+
+		/* Comment.Special */
+		.highlight .gd {
+			color: #ff4689
+		}
+
+		/* Generic.Deleted */
+		.highlight .ge {
+			color: #f8f8f2;
+			font-style: italic
+		}
+
+		/* Generic.Emph */
+		.highlight .ges {
+			color: #f8f8f2;
+			font-weight: bold;
+			font-style: italic
+		}
+
+		/* Generic.EmphStrong */
+		.highlight .gr {
+			color: #f8f8f2
+		}
+
+		/* Generic.Error */
+		.highlight .gh {
+			color: #f8f8f2
+		}
+
+		/* Generic.Heading */
+		.highlight .gi {
+			color: #a6e22e
+		}
+
+		/* Generic.Inserted */
+		.highlight .go {
+			color: #66d9ef
+		}
+
+		/* Generic.Output */
+		.highlight .gp {
+			color: #ff4689;
+			font-weight: bold
+		}
+
+		/* Generic.Prompt */
+		.highlight .gs {
+			color: #f8f8f2;
+			font-weight: bold
+		}
+
+		/* Generic.Strong */
+		.highlight .gu {
+			color: #959077
+		}
+
+		/* Generic.Subheading */
+		.highlight .gt {
+			color: #f8f8f2
+		}
+
+		/* Generic.Traceback */
+		.highlight .kc {
+			color: #66d9ef
+		}
+
+		/* Keyword.Constant */
+		.highlight .kd {
+			color: #66d9ef
+		}
+
+		/* Keyword.Declaration */
+		.highlight .kn {
+			color: #ff4689
+		}
+
+		/* Keyword.Namespace */
+		.highlight .kp {
+			color: #66d9ef
+		}
+
+		/* Keyword.Pseudo */
+		.highlight .kr {
+			color: #66d9ef
+		}
+
+		/* Keyword.Reserved */
+		.highlight .kt {
+			color: #66d9ef
+		}
+
+		/* Keyword.Type */
+		.highlight .ld {
+			color: #e6db74
+		}
+
+		/* Literal.Date */
+		.highlight .m {
+			color: #ae81ff
+		}
+
+		/* Literal.Number */
+		.highlight .s {
+			color: #e6db74
+		}
+
+		/* Literal.String */
+		.highlight .na {
+			color: #a6e22e
+		}
+
+		/* Name.Attribute */
+		.highlight .nb {
+			color: #f8f8f2
+		}
+
+		/* Name.Builtin */
+		.highlight .nc {
+			color: #a6e22e
+		}
+
+		/* Name.Class */
+		.highlight .no {
+			color: #66d9ef
+		}
+
+		/* Name.Constant */
+		.highlight .nd {
+			color: #a6e22e
+		}
+
+		/* Name.Decorator */
+		.highlight .ni {
+			color: #f8f8f2
+		}
+
+		/* Name.Entity */
+		.highlight .ne {
+			color: #a6e22e
+		}
+
+		/* Name.Exception */
+		.highlight .nf {
+			color: #a6e22e
+		}
+
+		/* Name.Function */
+		.highlight .nl {
+			color: #f8f8f2
+		}
+
+		/* Name.Label */
+		.highlight .nn {
+			color: #f8f8f2
+		}
+
+		/* Name.Namespace */
+		.highlight .nx {
+			color: #a6e22e
+		}
+
+		/* Name.Other */
+		.highlight .py {
+			color: #f8f8f2
+		}
+
+		/* Name.Property */
+		.highlight .nt {
+			color: #ff4689
+		}
+
+		/* Name.Tag */
+		.highlight .nv {
+			color: #f8f8f2
+		}
+
+		/* Name.Variable */
+		.highlight .ow {
+			color: #ff4689
+		}
+
+		/* Operator.Word */
+		.highlight .pm {
+			color: #f8f8f2
+		}
+
+		/* Punctuation.Marker */
+		.highlight .w {
+			color: #f8f8f2
+		}
+
+		/* Text.Whitespace */
+		.highlight .mb {
+			color: #ae81ff
+		}
+
+		/* Literal.Number.Bin */
+		.highlight .mf {
+			color: #ae81ff
+		}
+
+		/* Literal.Number.Float */
+		.highlight .mh {
+			color: #ae81ff
+		}
+
+		/* Literal.Number.Hex */
+		.highlight .mi {
+			color: #ae81ff
+		}
+
+		/* Literal.Number.Integer */
+		.highlight .mo {
+			color: #ae81ff
+		}
+
+		/* Literal.Number.Oct */
+		.highlight .sa {
+			color: #e6db74
+		}
+
+		/* Literal.String.Affix */
+		.highlight .sb {
+			color: #e6db74
+		}
+
+		/* Literal.String.Backtick */
+		.highlight .sc {
+			color: #e6db74
+		}
+
+		/* Literal.String.Char */
+		.highlight .dl {
+			color: #e6db74
+		}
+
+		/* Literal.String.Delimiter */
+		.highlight .sd {
+			color: #e6db74
+		}
+
+		/* Literal.String.Doc */
+		.highlight .s2 {
+			color: #e6db74
+		}
+
+		/* Literal.String.Double */
+		.highlight .se {
+			color: #ae81ff
+		}
+
+		/* Literal.String.Escape */
+		.highlight .sh {
+			color: #e6db74
+		}
+
+		/* Literal.String.Heredoc */
+		.highlight .si {
+			color: #e6db74
+		}
+
+		/* Literal.String.Interpol */
+		.highlight .sx {
+			color: #e6db74
+		}
+
+		/* Literal.String.Other */
+		.highlight .sr {
+			color: #e6db74
+		}
+
+		/* Literal.String.Regex */
+		.highlight .s1 {
+			color: #e6db74
+		}
+
+		/* Literal.String.Single */
+		.highlight .ss {
+			color: #e6db74
+		}
+
+		/* Literal.String.Symbol */
+		.highlight .bp {
+			color: #f8f8f2
+		}
+
+		/* Name.Builtin.Pseudo */
+		.highlight .fm {
+			color: #a6e22e
+		}
+
+		/* Name.Function.Magic */
+		.highlight .vc {
+			color: #f8f8f2
+		}
+
+		/* Name.Variable.Class */
+		.highlight .vg {
+			color: #f8f8f2
+		}
+
+		/* Name.Variable.Global */
+		.highlight .vi {
+			color: #f8f8f2
+		}
+
+		/* Name.Variable.Instance */
+		.highlight .vm {
+			color: #f8f8f2
+		}
+
+		/* Name.Variable.Magic */
+		.highlight .il {
+			color: #ae81ff
+		}
+
+		/* Literal.Number.Integer.Long */
+	</style>
+</head>
+
+<body>
+	<h3 id="introduction-to-poetic-analysis">Introduction to Poetic Analysis<a class="headerlink"
+			href="#introduction-to-poetic-analysis" title="Permanent link">&para;</a></h3>
+	<p>The provided lecture transcript appears to be a poetic piece, likely in Urdu or Hindi, that explores themes of
+		perception, memory, and the human experience. This section will break down the key concepts, main ideas, and
+		relationships presented in the poem.</p>
+	<h4 id="key-concepts-and-definitions">Key Concepts and Definitions<a class="headerlink"
+			href="#key-concepts-and-definitions" title="Permanent link">&para;</a></h4>
+	<ul>
+		<li><strong>Subjective Reality</strong>: The poem touches on the idea that reality is perceived and interpreted
+			by the individual, highlighting the subjective nature of human experience.</li>
+		<li><strong>Memory and Nostalgia</strong>: The speaker reflects on past memories and experiences, demonstrating
+			the bittersweet nature of nostalgia.</li>
+		<li><strong>Perception vs. Reality</strong>: The poem blurs the lines between what is real and what is
+			perceived, leaving the reader to ponder the distinction between the two.</li>
+	</ul>
+	<h3 id="main-ideas-and-supporting-details">Main Ideas and Supporting Details<a class="headerlink"
+			href="#main-ideas-and-supporting-details" title="Permanent link">&para;</a></h3>
+	<ul>
+		<li><strong>The Power of Suggestion</strong>: The speaker suggests that they have been influenced by unspoken
+			words or thoughts, implying that the power of suggestion can shape our perceptions and understanding of the
+			world.</li>
+		<li><strong>The Fragmented Nature of Memory</strong>: The poem presents memories as fragmented and disjointed,
+			with the speaker recalling bits and pieces of past experiences.</li>
+		<li><strong>The Interplay between Reality and Fantasy</strong>: The speaker's use of dreams and fantasies to
+			cope with the difficulties of reality serves as a commentary on the human tendency to escape into our own
+			minds.</li>
+	</ul>
+	<h4 id="examples-and-analogies">Examples and Analogies<a class="headerlink" href="#examples-and-analogies"
+			title="Permanent link">&para;</a></h4>
+	<ul>
+		<li>The speaker's comparison of their memories to a "khwab" (dream) highlights the ephemeral and fleeting nature
+			of human experience.</li>
+		<li>The image of "aankhon mein chubta kal ka dho" (yesterday's sorrow piercing the eyes) serves as a powerful
+			analogy for the lasting impact of past experiences on our present.</li>
+	</ul>
+	<h3 id="important-relationships-and-connections">Important Relationships and Connections<a class="headerlink"
+			href="#important-relationships-and-connections" title="Permanent link">&para;</a></h3>
+	<ul>
+		<li><strong>Cause-and-Effect Relationships</strong>: The poem suggests that our perceptions and memories are
+			intertwined, with each influencing the other in complex ways.</li>
+		<li><strong>The Relationship between Memory and Emotion</strong>: The speaker's emotions are deeply tied to
+			their memories, demonstrating the significant role that emotions play in shaping our recollections.</li>
+	</ul>
+	<h3 id="practical-applications">Practical Applications<a class="headerlink" href="#practical-applications"
+			title="Permanent link">&para;</a></h3>
+	<ul>
+		<li><strong>Creative Writing</strong>: The poem's use of imagery and metaphor can serve as a model for students
+			looking to explore their own creative writing skills.</li>
+		<li><strong>Critical Thinking</strong>: The poem's themes and ideas can be used to prompt critical thinking and
+			discussion about the nature of reality, perception, and memory.</li>
+	</ul>
+	<h3 id="additional-resources">Additional Resources<a class="headerlink" href="#additional-resources"
+			title="Permanent link">&para;</a></h3>
+	<ul>
+		<li><strong>Recommended Readings</strong>: Students may find it helpful to explore other works of poetry that
+			deal with similar themes, such as the works of Urdu poets like Faiz Ahmed Faiz or Mirza Ghalib.</li>
+		<li><strong>Related Topics</strong>: Further study could involve exploring the psychological and philosophical
+			concepts underlying the poem, such as the nature of perception, the impact of nostalgia on human experience,
+			and the interplay between reality and fantasy.</li>
+	</ul>
+
+	<script>
+		// Initialize Mermaid
+            mermaid.initialize({ startOnLoad: true });
+            
+            // Initialize MathJax
+            MathJax.Hub.Config({
+                tex2jax: {
+                    inlineMath: [['$','$'], ['\(','\)']],
+                    displayMath: [['$$','$$'], ['\[','\]']],
+                    processEscapes: true
+                }
+            });
+            
+            // Initialize highlight.js
+            hljs.highlightAll();
+	</script>
+</body>
+
+</html>

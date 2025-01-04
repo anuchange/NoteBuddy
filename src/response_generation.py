@@ -26,7 +26,7 @@ def generate_notes(youtube_url: str, groq_api=None):
     summary = ""
     if video_id:
 
-        transcript_text, detailed_transcript = youtube_handler.get_transcript(video_id)
+        transcript_text, detailed_transcript = youtube_handler.get_transcript(video_id, groq_api=groq_api)
         if transcript_text:
             summary = groq_handler.generate_educational_notes(transcript_text, groq_api=groq_api)
 
