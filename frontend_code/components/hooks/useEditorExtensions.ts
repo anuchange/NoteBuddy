@@ -11,7 +11,10 @@ import Typography from "@tiptap/extension-typography";
 import BulletList from "@tiptap/extension-bullet-list";
 import OrderedList from "@tiptap/extension-ordered-list";
 import ListItem from "@tiptap/extension-list-item";
-import { lowlight } from "lowlight";
+import { common, createLowlight } from 'lowlight'
+
+// Then create your instance
+const lowlight = createLowlight(common)
 
 declare module "@tiptap/core" {
   interface Commands<ReturnType> {
@@ -90,7 +93,7 @@ export const TextStyleExtended = TextStyle.extend({
   },
 });
 
-export const useEditorExtensions = (lowlight: lowlight) => {
+export const useEditorExtensions = () => {
   return [
     StarterKit.configure({
       bulletList: false,
