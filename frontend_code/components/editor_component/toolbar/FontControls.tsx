@@ -4,8 +4,8 @@ import Button from '../Button';
 
 interface FontControlsProps {
   editor: Editor;
+  theme?: 'dark' | 'light';  // Add theme to props interface
 }
-
 const fonts = [
   { name: 'Default', value: 'inter' },
   { name: 'Calibri', value: 'calibri' },
