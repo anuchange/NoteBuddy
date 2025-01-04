@@ -3,14 +3,14 @@ import { AlignmentType, HeadingLevel } from 'docx';
 interface ParsedContent {
   text: string;
   fontSize: number;
-  headingLevel?: typeof HeadingLevel[keyof typeof HeadingLevel];  // Fixed type definition
-  alignment: AlignmentType;
+  headingLevel?: typeof HeadingLevel[keyof typeof HeadingLevel];
+  alignment: typeof AlignmentType[keyof typeof AlignmentType];  // Fixed type
   isCode: boolean;
   isBold: boolean;
   isItalic: boolean;
 }
 
-const getTextAlignment = (element: Element): AlignmentType => {
+const getTextAlignment = (element: Element): typeof AlignmentType[keyof typeof AlignmentType] => {
   const style = window.getComputedStyle(element);
   const textAlign = style.textAlign;
   switch (textAlign) {
