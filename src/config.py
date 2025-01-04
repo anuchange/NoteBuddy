@@ -13,11 +13,11 @@ class Config:
     GROQ_MODEL = "llama-3.3-70b-versatile"
     GROQ_VISION_MODEL="llama-3.2-90b-vision-preview"
     
-    # File Storage
-    NOTES_DIRECTORY = "saved_notes"
+    # # File Storage
+    # NOTES_DIRECTORY = "saved_notes"
     
-    # Ensure the notes directory exists
-    os.makedirs(NOTES_DIRECTORY, exist_ok=True)
+    # # Ensure the notes directory exists
+    # os.makedirs(NOTES_DIRECTORY, exist_ok=True)
     
     # Custom CSS for the application
     CUSTOM_CSS = """
