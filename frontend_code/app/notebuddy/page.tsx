@@ -224,7 +224,9 @@ export default function Home() {
         {/* {console.log("apiKey=", apiKey)} */}
         <div className="z-10">
           <div className="bg-white dark:bg-gray-800 dark:text-white rounded-lg shadow-md p-6">
-            <h2 className="text-2xl font-bold mb-4">YouTube Video Notes</h2>
+            <h2 className="text-2xl font-bold mb-4 text-black dark:text-white">
+              YouTube Video Notes
+            </h2>
             <form onSubmit={handleSubmit} className="mb-4">
               <div className="flex gap-2">
                 <input
