@@ -376,3 +376,79 @@
 2025-01-03 23:47:06,372 - app - INFO - Chunk 1 size: 2.17 MB
 2025-01-03 23:47:06,372 - app - ERROR - Error generating transcript: Failed to transcribe audio chunks
 2025-01-03 23:47:06,483 - app - INFO - Generated notes response: <starlette.responses.HTMLResponse object at 0x000001C2F9F50050>
+2025-01-04 16:36:47,541 - app - INFO - Generating notes for videoId: https://www.youtube.com/watch?v=dTu5dTEzVM4
+2025-01-04 16:36:47,541 - app - INFO - Groq API: None
+2025-01-04 16:36:47,541 - app - INFO - Attempting to fetch official transcript...
+2025-01-04 16:36:48,911 - app - INFO - Generating transcript from audio...
+2025-01-04 16:36:56,971 - app - INFO - Total audio duration: 2.39 minutes
+2025-01-04 16:36:56,971 - app - INFO - Processing in 1 chunks (15 minutes each)
+2025-01-04 16:36:58,236 - app - INFO - Chunk 1 size: 2.17 MB
+2025-01-04 16:36:58,241 - app - ERROR - Error generating transcript: Failed to transcribe audio chunks
+2025-01-04 16:36:58,278 - app - INFO - Generated notes response: <starlette.responses.HTMLResponse object at 0x00000215E9CD3FE0>
+2025-01-04 16:39:05,377 - app - INFO - Generating notes for videoId: https://www.youtube.com/watch?v=dTu5dTEzVM4
+2025-01-04 16:39:05,378 - app - INFO - Groq API: None
+2025-01-04 16:39:05,378 - app - INFO - Attempting to fetch official transcript...
+2025-01-04 16:39:06,298 - app - INFO - Generating transcript from audio...
+2025-01-04 16:39:14,641 - app - INFO - Total audio duration: 2.39 minutes
+2025-01-04 16:39:14,641 - app - INFO - Processing in 1 chunks (15 minutes each)
+2025-01-04 16:39:15,946 - app - INFO - Chunk 1 size: 2.17 MB
+2025-01-04 16:39:15,949 - app - ERROR - Error generating transcript: Failed to transcribe audio chunks
+2025-01-04 16:39:15,955 - app - INFO - Generated notes response: <starlette.responses.HTMLResponse object at 0x00000215EA559D90>
+2025-01-04 16:39:30,871 - app - INFO - Generating notes for videoId: https://www.youtube.com/watch?v=dTu5dTEzVM4
+2025-01-04 16:39:30,871 - app - INFO - Groq API: None
+2025-01-04 16:39:30,871 - app - INFO - Attempting to fetch official transcript...
+2025-01-04 16:39:31,681 - app - INFO - Generating transcript from audio...
+2025-01-04 16:39:38,666 - app - INFO - Total audio duration: 2.39 minutes
+2025-01-04 16:39:38,666 - app - INFO - Processing in 1 chunks (15 minutes each)
+2025-01-04 16:39:40,042 - app - INFO - Chunk 1 size: 2.17 MB
+2025-01-04 16:39:40,045 - app - INFO - Processing 1 audio chunks...-----------------
+2025-01-04 16:39:40,045 - app - ERROR - Error generating transcript: Failed to transcribe audio chunks
+2025-01-04 16:39:40,101 - app - INFO - Generated notes response: <starlette.responses.HTMLResponse object at 0x000001BBF11FC3B0>
+2025-01-04 16:42:11,382 - app - INFO - Generating notes for videoId: https://www.youtube.com/watch?v=dTu5dTEzVM4
+2025-01-04 16:42:11,382 - app - INFO - Groq API: None
+2025-01-04 16:42:11,382 - app - INFO - Attempting to fetch official transcript...
+2025-01-04 16:42:12,259 - app - INFO - Generating transcript from audio...
+2025-01-04 16:42:19,361 - app - INFO - Total audio duration: 2.39 minutes
+2025-01-04 16:42:19,362 - app - INFO - Processing in 1 chunks (15 minutes each)
+2025-01-04 16:42:20,880 - app - INFO - Chunk 1 size: 2.17 MB
+2025-01-04 16:42:20,884 - app - INFO - Processing chunk 1/1C:\Users\anuch\AppData\Local\Temp\tmpf1egtw_y\chunk_0.mp3...---------s-s-s-----
+2025-01-04 16:42:20,884 - app - ERROR - Error generating transcript: Failed to transcribe audio chunks
+2025-01-04 16:42:20,911 - app - INFO - Generated notes response: <starlette.responses.HTMLResponse object at 0x0000027F935FD040>
+2025-01-04 16:45:32,215 - app - INFO - Generating notes for videoId: https://www.youtube.com/watch?v=dTu5dTEzVM4
+2025-01-04 16:45:32,215 - app - INFO - Groq API: None
+2025-01-04 16:45:32,215 - app - INFO - Attempting to fetch official transcript...
+2025-01-04 16:45:33,127 - app - INFO - Generating transcript from audio...
+2025-01-04 16:45:41,368 - app - INFO - Total audio duration: 2.39 minutes
+2025-01-04 16:45:41,369 - app - INFO - Processing in 1 chunks (15 minutes each)
+2025-01-04 16:45:42,669 - app - INFO - Chunk 1 size: 2.17 MB
+2025-01-04 16:45:42,672 - app - INFO - Processing chunk 1/1C:\Users\anuch\AppData\Local\Temp\tmpe8fsthzs\chunk_0.mp3...---------s-s-s-----
+2025-01-04 16:45:42,673 - app - ERROR - Error generating transcript: YouTubeHandler.transcribe_audio_chunk() missing 1 required positional argument: 'groq_api'
+2025-01-04 16:45:42,727 - app - INFO - Generated notes response: <starlette.responses.HTMLResponse object at 0x000002220EDBC080>
+2025-01-04 16:47:18,525 - app - INFO - Generating notes for videoId: https://www.youtube.com/watch?v=dTu5dTEzVM4
+2025-01-04 16:47:18,525 - app - INFO - Groq API: None
+2025-01-04 16:47:18,526 - app - INFO - Attempting to fetch official transcript...
+2025-01-04 16:47:19,419 - app - INFO - Generating transcript from audio...
+2025-01-04 16:47:27,523 - app - INFO - Total audio duration: 2.39 minutes
+2025-01-04 16:47:27,524 - app - INFO - Processing in 1 chunks (15 minutes each)
+2025-01-04 16:47:29,083 - app - INFO - Chunk 1 size: 2.17 MB
+2025-01-04 16:47:33,181 - app - INFO - -----------
+2025-01-04 16:47:33,183 - app - INFO - Groq API Key: None
+2025-01-04 16:47:42,188 - app - INFO - Generated notes response: <starlette.responses.HTMLResponse object at 0x0000024C4FFDFAD0>
+2025-01-04 16:50:55,191 - app - INFO - Generating notes for videoId: https://www.youtube.com/watch?v=dTu5dTEzVM4
+2025-01-04 16:50:55,191 - app - INFO - Groq API: None
+2025-01-04 16:50:55,191 - app - INFO - Attempting to fetch official transcript...
+2025-01-04 16:50:56,173 - app - INFO - Generating transcript from audio...
+2025-01-04 16:51:03,062 - app - INFO - Total audio duration: 2.39 minutes
+2025-01-04 16:51:03,063 - app - INFO - Processing in 1 chunks (15 minutes each)
+2025-01-04 16:51:04,421 - app - INFO - Chunk 1 size: 2.17 MB
+2025-01-04 16:51:08,937 - app - INFO - Groq API Key: None
+2025-01-04 16:51:12,921 - app - INFO - Generated notes response: <starlette.responses.HTMLResponse object at 0x0000020D74EB5FD0>
+2025-01-04 16:53:16,591 - app - INFO - Generating notes for videoId: https://www.youtube.com/watch?v=dTu5dTEzVM4
+2025-01-04 16:53:16,591 - app - INFO - Groq API: None
+2025-01-04 16:53:16,591 - app - INFO - Attempting to fetch official transcript...
+2025-01-04 16:53:17,491 - app - INFO - Generating transcript from audio...
+2025-01-04 16:53:24,597 - app - INFO - Total audio duration: 2.39 minutes
+2025-01-04 16:53:24,598 - app - INFO - Processing in 1 chunks (15 minutes each)
+2025-01-04 16:53:25,822 - app - INFO - Chunk 1 size: 2.17 MB
+2025-01-04 16:53:29,860 - app - INFO - Groq API Key: None
+2025-01-04 16:53:32,681 - app - INFO - Generated notes response: <starlette.responses.HTMLResponse object at 0x00000209698D5F70>
