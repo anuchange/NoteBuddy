@@ -1,7 +1,7 @@
 import { AlignmentType, HeadingLevel } from 'docx';
 
 // First, define the HeadingLevel type
-type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
+// type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
 interface ParsedContent {
   text: string;
