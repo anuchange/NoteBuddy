@@ -44,10 +44,7 @@ export const exportToDocx = async (editor: Editor) => {
   
   const children = parsedContent.map(({ text, headingLevel, alignment, isCode, isBold, isItalic }) => {
     return new Paragraph({
-      heading: headingLevel ? {
-        level: headingLevel,
-        style: `Heading${headingLevel}`
-      } : undefined,
+      heading: headingLevel || undefined,  // Just pass the HeadingLevel enum value directly
       alignment,
       children: [
         new TextRun({
