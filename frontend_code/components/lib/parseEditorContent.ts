@@ -1,9 +1,12 @@
 import { AlignmentType, HeadingLevel } from 'docx';
 
+// First, define the HeadingLevel type
+type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
+
 interface ParsedContent {
   text: string;
   fontSize: number;
-  headingLevel?: HeadingLevel;
+  headingLevel?: HeadingLevel;  // Now using the type we defined
   alignment: AlignmentType;
   isCode: boolean;
   isBold: boolean;
