@@ -34,6 +34,7 @@
     "docx": "^8.5.0",
     "highlight.js": "^11.9.0",
     "html2canvas": "^1.4.1",
+    "js-cookie": "^3.0.5",
     "jspdf": "^2.5.1",
     "lowlight": "^3.1.0",
     "lucide-react": "^0.469.0",
@@ -44,7 +45,8 @@
     "remark-html": "^16.0.1",
     "shadcn-ui": "^0.9.4",
     "tailwind-merge": "^2.6.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zustand": "^5.0.2"
   },
   "devDependencies": {
     "@shadcn/ui": "^0.0.4",

@@ -3,6 +3,7 @@ import React, { useState, useRef } from "react";
 import { Maximize2, Minimize2, Send, ImageIcon, X } from "lucide-react";
 import Button from "./button";
 import axios from "axios";
+import useStore from "../app/lib/store";
 
 const MessageType = {
   TEXT: "text",
@@ -17,6 +18,7 @@ const ChatBotUI = ({ theme, toggleTheme }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [isMaximized, setIsMaximized] = useState(false);
+  const { apiKey, setApikey } = useStore();
 
   const fileInputRef = useRef(null);
 
@@ -61,6 +63,7 @@ const ChatBotUI = ({ theme, toggleTheme }) => {
 
       try {
         const response = await axios.post("http://0.0.0.0:8000/api/chatbot", {
+          groq_api: apiKey,
           query: inputText,
           image: selectedImage,
         });

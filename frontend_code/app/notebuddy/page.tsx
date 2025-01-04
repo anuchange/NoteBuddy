@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, use } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
+import Cookies from "js-cookie";
 import StarterKit from "@tiptap/starter-kit";
 // import Quill from "../components/quill";
 import ChatBotUI from "../../components/chatbot";
@@ -10,13 +11,20 @@ import axios from "axios";
 // import NotesEditor from "../../components/notesEditor2";
 import Editor from "../../components/editor_component/Editor";
 import { Loader2 } from "lucide-react";
+import useStore from "../lib/store";
+import { useRouter } from "next/navigation";
+import { ParticleBackground } from "../../components/ParticleBackground/ParticleBackground";
 
 export default function Home() {
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState("dark");
   const [youtubeUrl, setYoutubeUrl] = useState("");
   const [videoId, setVideoId] = useState("");
   const [notesData, setNotesData] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { apiKey, setApikey } = useStore();
+  const [isUserSession, setIsUserSession] = useState(false);
+  const sessionInterval = useRef(null);
+  const router = useRouter();
 
   const editor = useEditor({
     extensions: [StarterKit],
@@ -57,13 +65,13 @@ export default function Home() {
 
     try {
       const res = await axios.post("http://0.0.0.0:8000/api/notes", {
+        groq_api: apiKey,
         videoId: youtubeUrl,
       });
       setNotesData(res.data.replace(/&para;/g, ""));
       setIsLoading(false);
     } catch (error) {
       console.error("Error generating notes:", error);
-      alert("Failed to generate notes. Please try again later.");
       setIsLoading(false);
     }
   };
@@ -90,7 +98,72 @@ export default function Home() {
     }
   }, [theme]);
 
+  useEffect(() => {
+    if (!apiKey) {
+      // Check if the user session cookie is valid
+      const userSessionCookie = getCookie("userSession");
+      if (userSessionCookie && !isCookieExpired("userSession")) {
+        setIsUserSession(true);
+
+        // Set up the interval to check the cookie periodically
+        sessionInterval.current = setInterval(() => {
+          if (isCookieExpired("userSession")) {
+            console.log("User session expired!");
+            clearInterval(sessionInterval.current);
+            sessionInterval.current = null;
+            setIsUserSession(false);
+          }
+        }, 1000);
+      } else {
+        // If no valid session, set to false immediately
+        setIsUserSession(false);
+      }
+    } else {
+      setIsUserSession(true);
+    }
+
+    // Cleanup function to clear the interval on component unmount
+    return () => {
+      if (sessionInterval.current) {
+        clearInterval(sessionInterval.current);
+        sessionInterval.current = null;
+      }
+    };
+  }, [apiKey]);
+
+  const isCookieExpired = (cookieName) => {
+    const cookieValue = getCookie(cookieName);
+    if (!cookieValue) return true;
+
+    try {
+      const parsedValue = JSON.parse(decodeURIComponent(cookieValue));
+      if (parsedValue.expiry) {
+        const now = new Date().getTime();
+        return now > parsedValue.expiry;
+      }
+      return false;
+    } catch (error) {
+      console.error("Error parsing cookie value:", error);
+      return true;
+    }
+  };
+
+  //  const getCookie = (cookieName) => {
+  //    const cookieValue = Cookies.get(cookieName); // Returns the value of the cookie or `undefined` if it doesn't exist
+  //    return cookieValue;
+  //  };
+  const getCookie = (name) => {
+    const cookies = document.cookie.split("; ");
+    const cookie = cookies.find((c) => c.startsWith(`${name}=`));
+    return cookie ? cookie.split("=")[1] : null;
+  };
+
+  const goToHomepage = () => {
+    router.push("/");
+  };
+
   return (
+    // isUserSession ? (
     <div className={`min-h-screen bg-gray-100 dark:bg-gray-900 p-6`}>
       {/* Theme Toggle Button */}
       <div className="flex justify-end">
@@ -102,7 +175,7 @@ export default function Home() {
         </button> */}
         <button
           onClick={toggleTheme}
-          className={`p-3 rounded-full border-2 transition-all mb-2 ${
+          className={`p-3 rounded-full border-2 transition-all mb-2 z-10 ${
             theme === "dark"
               ? "border-gray-700 bg-gray-800 text-yellow-500 hover:bg-gray-700 focus:ring focus:ring-yellow-500"
               : "border-gray-300 bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring focus:ring-gray-500"
@@ -143,10 +216,13 @@ export default function Home() {
           )}
         </button>
       </div>
-
+      <div>
+        <ParticleBackground />
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-7xl mx-auto grid-template-columns-1.5fr 2fr">
         {/* Left Column - YouTube Section */}
-        <div className="">
+        {console.log("apiKey=", apiKey)}
+        <div className="z-10">
           <div className="bg-white dark:bg-gray-800 dark:text-white rounded-lg shadow-md p-6">
             <h2 className="text-2xl font-bold mb-4">YouTube Video Notes</h2>
             <form onSubmit={handleSubmit} className="mb-4">
@@ -199,6 +275,51 @@ export default function Home() {
         </div>
         <Editor notesData={notesData} theme={theme} videoId={videoId} />
       </div>
+      {!isUserSession ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
+          <div className="relative bg-black border border-white/10 rounded-2xl max-w-md w-full p-6 animate-fade-in">
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold mb-2 text-white">
+                Your Demo Session Expired
+              </h2>
+              <p className="text-gray-400">
+                Your demo session is expired. Please try again with{" "}
+                <strong>groq_api</strong>. If you don't have one, create an
+                account by logging in here.
+              </p>
+            </div>
+            <button
+              onClick={goToHomepage}
+              className="w-full bg-cyan-400 text-black font-medium py-3 rounded-lg hover:bg-cyan-300 transition-colors"
+            >
+              Go to Homepage
+            </button>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
+  // )
+  // : (
+  //   <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  //     <div className="relative bg-black border border-white/10 rounded-2xl max-w-md w-full p-6 animate-fade-in">
+  //       <div className="mb-6">
+  //         <h2 className="text-2xl font-bold mb-2 text-white">
+  //           Your Demo Session Expired
+  //         </h2>
+  //         <p className="text-gray-400">
+  //           Your demo session is expired. Please try again with{" "}
+  //           <strong>groq_api</strong>. If you don't have one, create an account
+  //           by logging in here.
+  //         </p>
+  //       </div>
+  //       <button
+  //         onClick={goToHomepage}
+  //         className="w-full bg-cyan-400 text-black font-medium py-3 rounded-lg hover:bg-cyan-300 transition-colors"
+  //       >
+  //         Go to Homepage
+  //       </button>
+  //     </div>
+  //   </div>
+  // );
 }

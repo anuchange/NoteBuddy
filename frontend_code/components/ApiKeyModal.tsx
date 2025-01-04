@@ -1,25 +1,57 @@
 "use client";
 import React, { useState } from "react";
 import { X, ExternalLink, Key } from "lucide-react";
+import useStore from "../app/lib/store";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+
+// const setCookie = (cookieName, cookieValue, expiryDate) => {
+//   Cookies.set(cookieName, cookieValue, {
+//     path: "/", // Path where the cookie is accessible
+//     expires: expiryDate, // Expiration in days
+//     sameSite: "strict", // Prevent cross-site request forgery
+//     secure: true, // Use secure cookies (only sent over HTTPS)
+//   });
+
+//   console.log("Cookie set successfully!");
+// };
 
 interface ApiKeyModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (apiKey: string | null) => void;
+  onSubmit: (apiKeyData: string | null) => void;
 }
 
 export function ApiKeyModal({ isOpen, onClose, onSubmit }: ApiKeyModalProps) {
-  const [apiKey, setApiKey] = useState("");
+  const [apiKeyData, setApiKeyData] = useState("");
+  const { apiKey, setApikey } = useStore();
+  const router = useRouter();
 
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(apiKey);
+    setApikey(apiKeyData);
+    // onSubmit(apiKeyData);
+    if (apiKeyData) {
+      router.push("/notebuddy");
+    }
   };
 
+  const setCookie = (name, value, expiryTime) => {
+    const expiry = new Date().getTime() + expiryTime; // Expiry time in milliseconds
+    const cookieValue = JSON.stringify({ value, expiry }); // JSON string
+    document.cookie = `${name}=${encodeURIComponent(cookieValue)}; path=/;`;
+  };
+
+  // Example: Set a userSession cookie for 10 minutes
+  // setCookie("userSession", { user: "demoUser" }, 10 * 60 * 1000);
+
   const handleTryIt = () => {
-    onSubmit(null);
+    // onSubmit(null);
+    router.push("/notebuddy");
+    // setCookie("userSession", "user_expiry", 0.000694444);
+    setCookie("userSession", { user: "demoUser" }, 5 * 60 * 1000);
   };
 
   return (
@@ -47,8 +79,8 @@ export function ApiKeyModal({ isOpen, onClose, onSubmit }: ApiKeyModalProps) {
           <div>
             <input
               type="password"
-              value={apiKey}
-              onChange={(e) => setApiKey(e.target.value)}
+              value={apiKeyData}
+              onChange={(e) => setApiKeyData(e.target.value)}
               placeholder="sk-xxxxxx..."
               className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
             />

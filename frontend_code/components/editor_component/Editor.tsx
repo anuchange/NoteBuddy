@@ -75,7 +75,7 @@ const Editor = ({ notesData, theme, videoId }) => {
   return (
     <div
       ref={editorContainerRef}
-      className={`rounded-lg shadow-lg overflow-hidden ${
+      className={`rounded-lg shadow-lg overflow-hidden z-10 ${
         theme === "dark"
           ? "bg-gray-800 border-gray-700"
           : "bg-white border-gray-300"

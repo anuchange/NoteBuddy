@@ -349,7 +349,7 @@ Keep responses concise yet informative, and maintain context of the conversation
                     ]
                     model = Config.GROQ_MODEL
 
-                response = self.client.chat.completions.create(
+                response = client.chat.completions.create(
                     messages=messages,
                     model=model,
                     temperature=0.7,
