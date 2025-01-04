@@ -1,12 +1,9 @@
 import { AlignmentType, HeadingLevel } from 'docx';
 
-// First, define the HeadingLevel type
-// type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
-
 interface ParsedContent {
   text: string;
   fontSize: number;
-  headingLevel?: HeadingLevel;  // Now using the type we defined
+  headingLevel?: typeof HeadingLevel[keyof typeof HeadingLevel];  // Fixed type definition
   alignment: AlignmentType;
   isCode: boolean;
   isBold: boolean;
@@ -24,7 +21,7 @@ const getTextAlignment = (element: Element): AlignmentType => {
   }
 };
 
-const getHeadingLevel = (element: Element): HeadingLevel | undefined => {
+const getHeadingLevel = (element: Element): typeof HeadingLevel[keyof typeof HeadingLevel] | undefined => {
   const tagName = element.tagName.toLowerCase();
   switch (tagName) {
     case 'h1': return HeadingLevel.HEADING_1;
