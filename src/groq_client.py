@@ -1,9 +1,6 @@
 from groq import Groq
 from .config import Config
 import time
-import base64
-import io
-from PIL import Image
 from .logger import get_logger
 from typing import List, Dict, Any, Optional
 

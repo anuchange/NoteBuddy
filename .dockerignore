@@ -1,0 +1,16 @@
+.env
+data
+frontend_code
+logs
+saved_notes
+smart_notes
+streamlit_src
+.gitignore
+.vercelignore
+.python-version
+*.log
+*.toml
+*.md
+streamlit_app.py
+*.lock
+*.json
