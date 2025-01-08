@@ -11,4 +11,11 @@ services:
       - "8000:8000"
     environment:
       - ENVIRONMENT=development
+      - PYTHONUNBUFFERED=1
+      - CHROME_BINARY=/usr/bin/google-chrome
+    security_opt:
+      - seccomp=unconfined
+    shm_size: '2gb'
+    cap_add:
+      - SYS_ADMIN
     restart: unless-stopped

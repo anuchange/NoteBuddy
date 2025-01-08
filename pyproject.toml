@@ -75,4 +75,8 @@ dependencies = [
     "urllib3==2.2.3",
     "watchdog==6.0.0",
     "wavedrom==2.0.3.post3",
+    "pytube>=15.0.0",
+    "youtube-dl>=2021.12.17",
+    "selenium>=4.27.1",
+    "webdriver-manager>=4.0.2",
 ]

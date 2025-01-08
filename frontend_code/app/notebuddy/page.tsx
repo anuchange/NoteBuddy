@@ -64,7 +64,7 @@ export default function Home() {
     setIsLoading(true);
 
     try {
-      const res = await axios.post("http://0.0.0.0:8000/api/notes", {
+      const res = await axios.post("https://notebuddy-qxlo.onrender.com/api/notes", {
         groq_api: apiKey,
         videoId: youtubeUrl,
       });

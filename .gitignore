@@ -7,6 +7,6 @@ wheels/
 *.egg-info
 .env
 *.log
-
+cookies*
 # Virtual environments
 .venv

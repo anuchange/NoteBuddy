@@ -12,6 +12,8 @@ from .logger import get_logger
 
 logger = get_logger()
 
+
+
 class YouTubeHandler:
     def __init__(self):
         """Initialize the YouTube handler with necessary configurations."""
@@ -54,13 +56,15 @@ class YouTubeHandler:
             ydl_opts = {
                 'format': 'bestaudio/best',
                 'outtmpl': str(output_path),
+                'cookiefile': str(Path('cookies.txt').resolve()),  # Using absolute path
                 'postprocessors': [{
                     'key': 'FFmpegExtractAudio',
                     'preferredcodec': 'mp3',
                     'preferredquality': '192',
                 }],
                 'quiet': True,
-                'no_warnings': True
+                'no_warnings': True,
+                'ignoreerrors': True  # Added to handle some common errors
             }
 
             # Download the audio
@@ -196,10 +200,16 @@ class YouTubeHandler:
 
     def get_transcript(self, video_id, groq_api=None):
         """Get transcript from YouTube API or generate it using Whisper."""
+        cookies_path = "cookies.txt" 
         try:
             # Try getting official transcript first
             logger.info("Attempting to fetch official transcript...")
-            transcript = YouTubeTranscriptApi.get_transcript(video_id)
+            logger.info(f"Cookies path --{cookies_path}")
+            with open(cookies_path, 'r') as file:
+                cook = file.read()
+            logger.info(f"Cookies present \n {cook}")
+            transcript = YouTubeTranscriptApi.get_transcript(video_id, cookies=str(Path('cookies.txt').resolve()))
+            # logger.info(transcript)
             full_text = ' '.join([entry['text'] for entry in transcript])
             return full_text, transcript
         except Exception:
@@ -220,16 +230,16 @@ class YouTubeHandler:
             # Process chunks with progress tracking
             chunk_transcriptions = []
             total_chunks = len(chunk_paths)
-            
+
             for i, chunk_path in enumerate(chunk_paths):
                 if i > 0:
                     logger.info(f"Waiting {self.RATE_LIMIT_DELAY} seconds...")
                     time.sleep(self.RATE_LIMIT_DELAY)
                     
-                transcription = self.transcribe_audio_chunk(chunk_path, i, total_chunks, groq_api=groq_api)
-                
-                if transcription:
-                    chunk_transcriptions.append(transcription)
+                    transcription = self.transcribe_audio_chunk(chunk_path, i, total_chunks)
+                    logger.info("-----------",transcription)
+                    if transcription:
+                        chunk_transcriptions.append(transcription)
 
             if chunk_transcriptions:
                 return self.merge_transcriptions(chunk_transcriptions)

@@ -5,6 +5,7 @@ from src.response_generation import generate_notes, chat_response_generation
 from typing import Optional
 import logging
 from src.logger import setup_logger
+from src.cookies_getter import save_youtube_cookies
 
 # Configure once at application startup
 logger = setup_logger(
@@ -40,10 +41,19 @@ class NotesResponse(BaseModel):
 
 class ChatbotResponse(BaseModel):
     response: str
+    
+@app.get("/api/userlogin")
+def user_login():
+    # Get youtube cookies for the session
+    logger.info("Generating cookies.....")
+    # save_youtube_cookies()
+    logger.info("Saved cookies")
+    return "Login successful!"
 
 @app.post("/api/notes", response_model=NotesResponse)
 async def create_notes(request: NotesRequest):
     try:
+
         # Call the generate_notes function from response_generation.py
         logger.info(f"Generating notes for videoId: {request.videoId}")
         response = generate_notes(request.videoId, request.groq_api)
