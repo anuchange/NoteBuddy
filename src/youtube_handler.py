@@ -205,9 +205,9 @@ class YouTubeHandler:
             # Try getting official transcript first
             logger.info("Attempting to fetch official transcript...")
             logger.info(f"Cookies path --{cookies_path}")
-            with open(cookies_path, 'r') as file:
-                cook = file.read()
-            logger.info(f"Cookies present \n {cook}")
+            # with open(cookies_path, 'r') as file:
+            #     cook = file.read()
+            # logger.info(f"Cookies present \n {cook}")
             transcript = YouTubeTranscriptApi.get_transcript(video_id, cookies=str(Path('cookies.txt').resolve()))
             # logger.info(transcript)
             full_text = ' '.join([entry['text'] for entry in transcript])
@@ -236,10 +236,10 @@ class YouTubeHandler:
                     logger.info(f"Waiting {self.RATE_LIMIT_DELAY} seconds...")
                     time.sleep(self.RATE_LIMIT_DELAY)
                     
-                    transcription = self.transcribe_audio_chunk(chunk_path, i, total_chunks)
-                    logger.info("-----------",transcription)
-                    if transcription:
-                        chunk_transcriptions.append(transcription)
+                transcription = self.transcribe_audio_chunk(chunk_path, i, total_chunks, groq_api=groq_api)
+                logger.info("-----------",transcription)
+                if transcription:
+                    chunk_transcriptions.append(transcription)
 
             if chunk_transcriptions:
                 return self.merge_transcriptions(chunk_transcriptions)
