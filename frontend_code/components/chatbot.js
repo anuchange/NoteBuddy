@@ -62,7 +62,7 @@ const ChatBotUI = ({ theme, toggleTheme }) => {
       setIsLoading(true);
 
       try {
-        const response = await axios.post("https://notebuddy-qxlo.onrender.com/api/chatbot", {
+        const response = await axios.post("https://notebuddy-sogq.onrender.com/api/chatbot", {
           groq_api: apiKey,
           query: inputText,
           image: selectedImage,

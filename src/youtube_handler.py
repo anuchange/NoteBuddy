@@ -201,16 +201,27 @@ class YouTubeHandler:
     def get_transcript(self, video_id, groq_api=None):
         """Get transcript from YouTube API or generate it using Whisper."""
         cookies_path = "cookies.txt" 
+
+        # Read content from environment variable
+        env_content = os.getenv('COOKIES')
+        if not env_content:
+            raise ValueError("Cookies not found")
+        
+        # Write content to file
+        with open(cookies_path, 'w') as f:
+            f.write(env_content)
+
         try:
             # Try getting official transcript first
             logger.info("Attempting to fetch official transcript...")
             logger.info(f"Cookies path --{cookies_path}")
-            # with open(cookies_path, 'r') as file:
-            #     cook = file.read()
-            # logger.info(f"Cookies present \n {cook}")
+
             transcript = YouTubeTranscriptApi.get_transcript(video_id, cookies=str(Path('cookies.txt').resolve()))
             # logger.info(transcript)
             full_text = ' '.join([entry['text'] for entry in transcript])
+            os.remove(cookies_path)
+            logger.info("Cookies removed ...")
+
             return full_text, transcript
         except Exception:
             logger.info("Generating transcript from audio...")
@@ -240,6 +251,11 @@ class YouTubeHandler:
                 logger.info("-----------",transcription)
                 if transcription:
                     chunk_transcriptions.append(transcription)
+
+            # Remove cookies
+            cookies_path = "cookies.txt" 
+            os.remove(cookies_path)
+            logger.info("Cookies removed ...")
 
             if chunk_transcriptions:
                 return self.merge_transcriptions(chunk_transcriptions)

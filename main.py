@@ -50,6 +50,13 @@ def user_login():
     logger.info("Saved cookies")
     return "Login successful!"
 
+@app.post("/api/ping")
+async def ping():
+   try:
+       return {"status": "success", "message": "System is up"}
+   except Exception as e:
+       raise HTTPException(status_code=500, detail=str(e))
+
 @app.post("/api/notes", response_model=NotesResponse)
 async def create_notes(request: NotesRequest):
     try:

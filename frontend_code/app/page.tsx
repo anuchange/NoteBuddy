@@ -12,14 +12,14 @@ import { ParticleBackground } from "../components/ParticleBackground/ParticleBac
 function App() {
   useEffect(()=>{
     // try {
-          // const res = await axios.post("https://notebuddy-qxlo.onrender.com
       (async()=>{
-        try{
-          const res = await axios.get("https://notebuddy-qxlo.onrender.com");
-        } catch(e){
-          console.log("Error", e);
+        try {
+          const res = await axios.post("https://notebuddy-sogq.onrender.com/api/ping");
+          console.log("Status:", res.data);
+        } catch(e) {
+          console.log("Error:", e);
         }
-      })()
+      })();
   }, [])
   return (
     <div className="min-h-screen bg-black text-white">

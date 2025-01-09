@@ -29,7 +29,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY main.py .
 COPY src/ src/
-COPY cookies.txt .
 
 EXPOSE 8000
 
