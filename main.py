@@ -5,7 +5,7 @@ from src.response_generation import generate_notes, chat_response_generation
 from typing import Optional
 import logging
 from src.logger import setup_logger
-from src.cookies_getter import save_youtube_cookies
+# from src.cookies_getter import save_youtube_cookies
 
 # Configure once at application startup
 logger = setup_logger(

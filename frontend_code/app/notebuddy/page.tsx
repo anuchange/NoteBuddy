@@ -64,10 +64,13 @@ export default function Home() {
     setIsLoading(true);
 
     try {
-      const res = await axios.post("https://notebuddy-sogq.onrender.com/api/notes", {
-        groq_api: apiKey,
-        videoId: youtubeUrl,
-      });
+      const res = await axios.post(
+        "https://notebuddy-sogq.onrender.com/api/notes",
+        {
+          groq_api: apiKey,
+          videoId: youtubeUrl,
+        }
+      );
       setNotesData(res.data.replace(/&para;/g, ""));
       setIsLoading(false);
     } catch (error) {

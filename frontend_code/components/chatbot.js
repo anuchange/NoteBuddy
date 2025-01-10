@@ -62,11 +62,14 @@ const ChatBotUI = ({ theme, toggleTheme }) => {
       setIsLoading(true);
 
       try {
-        const response = await axios.post("https://notebuddy-sogq.onrender.com/api/chatbot", {
-          groq_api: apiKey,
-          query: inputText,
-          image: selectedImage,
-        });
+        const response = await axios.post(
+          "https://notebuddy-sogq.onrender.com/api/chatbot",
+          {
+            groq_api: apiKey,
+            query: inputText,
+            image: selectedImage,
+          }
+        );
         setCurrentResponse(response.data.replace(/&para;/g, ""));
       } catch (error) {
         setError("Failed to get response. Please try again.");
