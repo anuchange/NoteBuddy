@@ -10,7 +10,7 @@ interface ParsedContent {
   isItalic: boolean;
 }
 
-const getTextAlignment = (element: Element): AlignmentType => {
+const getTextAlignment = (element: Element): typeof AlignmentType => {
   const style = window.getComputedStyle(element);
   const textAlign = style.textAlign;
   switch (textAlign) {
