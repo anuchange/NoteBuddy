@@ -1,56 +1,49 @@
-import { AlignmentType, HeadingLevel } from "docx";
+import { HeadingLevel, AlignmentType } from "docx";
 
 interface ParsedContent {
   text: string;
   fontSize: number;
-  headingLevel?: typeof HeadingLevel;
-  alignment: typeof AlignmentType;
+  headingLevel: typeof HeadingLevel | undefined;  // Updated to match return type
+  alignment: typeof AlignmentType;  // Using typeof for enum type
   isCode: boolean;
   isBold: boolean;
   isItalic: boolean;
 }
 
-// Define our custom alignment type
-type AlignmentType = "center" | "end" | "left" | "right" | "start" | "both" | "mediumKashida" | "distribute" | "numTab" | "highKashida" | "lowKashida" | "thaiDistribute";
-
-const getTextAlignment = (element: Element): AlignmentType => {  // Return our custom type
-  const style = window.getComputedStyle(element);
-  const textAlign = style.textAlign;
-  switch (textAlign) {
-    case "right":
-      return "right";
-    case "center":
-      return "center";
-    case "justify":
-      return "both";  // "justify" maps to "both"
-    default:
-      return "left";
-  }
-};
-
-// Define the heading level type based on the error message
-type HeadingLevel = "Heading1" | "Heading2" | "Heading3" | "Heading4" | "Heading5" | "Heading6" | "Title";
-
-const getHeadingLevel = (element: Element): HeadingLevel | undefined => {
+const getHeadingLevel = (element: Element): typeof HeadingLevel | undefined => {
   const tagName = element.tagName.toLowerCase();
   switch (tagName) {
     case "h1":
-      return "Heading1";
+      return HeadingLevel.HEADING_1;
     case "h2":
-      return "Heading2";
+      return HeadingLevel.HEADING_2;
     case "h3":
-      return "Heading3";
+      return HeadingLevel.HEADING_3;
     case "h4":
-      return "Heading4";
+      return HeadingLevel.HEADING_4;
     case "h5":
-      return "Heading5";
+      return HeadingLevel.HEADING_5;
     case "h6":
-      return "Heading6";
+      return HeadingLevel.HEADING_6;
     default:
       return undefined;
   }
 };
 
+const getTextAlignment = (element: Element): typeof AlignmentType => {
+  const style = window.getComputedStyle(element);
+  const textAlign = style.textAlign;
+  switch (textAlign) {
+    case "right":
+      return AlignmentType.RIGHT;
+    case "center":
+      return AlignmentType.CENTER;
+    case "justify":
+      return AlignmentType.JUSTIFIED;
+    default:
+      return AlignmentType.LEFT;
+  }
+};
 
 export const parseEditorContent = (content: string): ParsedContent[] => {
   const container = document.createElement("div");
