@@ -51,7 +51,7 @@ export function ApiKeyModal({ isOpen, onClose, onSubmit }: ApiKeyModalProps) {
     // onSubmit(null);
     router.push("/notebuddy");
     // setCookie("userSession", "user_expiry", 0.000694444);
-    setCookie("userSession", { user: "demoUser" }, 30 * 60 * 1000);
+    setCookie("userSession", { user: "demoUser" }, 5 * 60 * 1000);
   };
 
   return (

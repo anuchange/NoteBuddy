@@ -86,6 +86,20 @@ export default function Home() {
   };
 
   useEffect(() => {
+    // try {
+    (async () => {
+      try {
+        const res = await axios.post(
+          "https://notebuddy-sogq.onrender.com/api/ping"
+        );
+        console.log("Status:", res.data);
+      } catch (e) {
+        console.log("Error:", e);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
     if (typeof window !== "undefined") {
       const storedTheme = localStorage.getItem("theme") || "light";
       setTheme(storedTheme);

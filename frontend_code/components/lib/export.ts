@@ -14,156 +14,143 @@ import html2canvas from "html2canvas";
 export const exportToPdf = async (editor: Editor) => {
   try {
     const editorElement = document.querySelector(".ProseMirror") as HTMLElement;
-    if (!editorElement) throw new Error("Editor element not found");
+    if (!editorElement) {
+      throw new Error("Editor element not found");
+    }
 
+    // Create a temporary container with A4 dimensions
+    const tempContainer = document.createElement("div");
+    tempContainer.style.position = "absolute";
+    tempContainer.style.left = "-9999px";
+    tempContainer.style.width = "210mm"; // A4 width
+    tempContainer.style.backgroundColor = "white";
+    document.body.appendChild(tempContainer);
+
+    // Clone and prepare content for high-quality capture
+    const clonedElement = editorElement.cloneNode(true) as HTMLElement;
+    clonedElement.style.width = "170mm"; // Content width (A4 - margins)
+    clonedElement.style.margin = "0";
+    clonedElement.style.padding = "0";
+    clonedElement.style.height = "auto";
+    tempContainer.appendChild(clonedElement);
+
+    // Process and optimize SVG elements
+    const svgElements = clonedElement.getElementsByTagName("svg");
+    for (const svg of Array.from(svgElements)) {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const img = new Image();
+      img.src = "data:image/svg+xml;base64," + btoa(svgData);
+      await new Promise((resolve) => {
+        img.onload = () => {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx?.drawImage(img, 0, 0);
+          const pngData = canvas.toDataURL("image/png");
+          const newImg = document.createElement("img");
+          newImg.src = pngData;
+          newImg.style.width = svg.style.width;
+          newImg.style.height = svg.style.height;
+          svg.parentNode?.replaceChild(newImg, svg);
+          resolve(null);
+        };
+      });
+    }
+
+    // Wait for all resources to load
+    await document.fonts.ready;
+    const images = Array.from(clonedElement.getElementsByTagName("img"));
+    await Promise.all(
+      images.map((img) => {
+        if (img.complete) return Promise.resolve();
+        return new Promise((resolve) => {
+          img.onload = resolve;
+          img.onerror = resolve;
+        });
+      })
+    );
+
+    // PDF dimensions and settings
+    const pdfWidth = 210; // mm
+    const pdfHeight = 297; // mm
+    const margin = 20; // mm
+    const contentWidth = pdfWidth - 2 * margin;
+    const pageHeight = pdfHeight - 2 * margin; // Available content height per page
+
+    // Create PDF with A4 dimensions
     const pdf = new jsPDF({
       orientation: "portrait",
-      unit: "pt",
+      unit: "mm",
       format: "a4",
+      compress: true,
     });
 
-    const margin = 40;
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-    const maxWidth = pageWidth - 2 * margin;
+    clonedElement.querySelectorAll("*").forEach((el) => {
+      console.log("Element:", el);
+      console.log("Element tag:", el.tagName);
+      console.log("");
 
-    // Text styles with appropriate spacing
-    const styles = {
-      section: {
-        fontSize: 11,
-        lineHeight: 1.2,
-        spaceBefore: 12,
-        spaceAfter: 4,
-      },
-      title: {
-        fontSize: 14,
-        lineHeight: 1.3,
-        spaceBefore: 16,
-        spaceAfter: 12,
-        bold: true,
-      },
-      heading: {
-        fontSize: 12,
-        lineHeight: 1.3,
-        spaceBefore: 14,
-        spaceAfter: 8,
-        bold: true,
-      },
-      paragraph: {
-        fontSize: 11,
-        lineHeight: 1.4,
-        spaceBefore: 6,
-        spaceAfter: 10,
-      },
-    };
-
-    let currentY = margin;
-
-    const renderParagraph = (text: string, style: any = styles.paragraph) => {
-      pdf.setFontSize(style.fontSize);
-      pdf.setFont("helvetica", style.bold ? "bold" : "normal");
-
-      // Split text into words to handle proper wrapping
-      const words = text.trim().split(/\s+/);
-      let currentLine = "";
-      const lines = [];
-
-      words.forEach((word) => {
-        const testLine = currentLine ? `${currentLine} ${word}` : word;
-        const testWidth = pdf.getStringUnitWidth(testLine) * style.fontSize;
-
-        if (testWidth > maxWidth) {
-          lines.push(currentLine);
-          currentLine = word;
-        } else {
-          currentLine = testLine;
+      // Skip the CODE tag and its descendants
+      let currentElement = el;
+      while (currentElement) {
+        if (currentElement.tagName.toUpperCase() === "CODE") {
+          return; // Skip this element and its descendants
         }
-      });
-      if (currentLine) {
-        lines.push(currentLine);
+        currentElement = currentElement.parentElement;
       }
 
-      // Add spacing before paragraph
-      currentY += style.spaceBefore;
+      // Apply color only if not inside a CODE block
+      (el as HTMLElement).style.color = "#000000";
+    });
 
-      // Render each line
-      lines.forEach((line) => {
-        if (currentY > pageHeight - margin) {
-          pdf.addPage();
-          currentY = margin;
-        }
-        pdf.text(line, margin, currentY);
-        currentY += style.fontSize * style.lineHeight;
-      });
+    // Render the canvas
+    const canvas = await html2canvas(clonedElement, {
+      scale: 3, // Higher scale for better quality
+      useCORS: true,
+      backgroundColor: "#ffffff",
+    });
 
-      // Add spacing after paragraph
-      currentY += style.spaceAfter;
-    };
+    const totalHeightInMM = (canvas.height / canvas.width) * contentWidth; // Convert px height to mm
+    let remainingHeight = totalHeightInMM; // Keep track of remaining height
+    let yOffset = 0; // Y-offset for each page
 
-    const processNode = (node: HTMLElement) => {
-      const nodeType = node.nodeName.toLowerCase();
-      const text = node.textContent?.trim() || "";
+    while (remainingHeight > 0) {
+      const canvasPage = document.createElement("canvas");
+      const pageCanvasHeight = Math.min(
+        canvas.height,
+        Math.floor((pageHeight / totalHeightInMM) * canvas.height)
+      );
 
-      switch (nodeType) {
-        case "h1":
-          renderParagraph(text, styles.title);
-          break;
-        case "h2":
-          renderParagraph(text, styles.heading);
-          break;
-        case "h3":
-          renderParagraph(text, styles.heading);
-          break;
-        case "p":
-          // Check if this paragraph is a section header
-          if (node.textContent?.includes("Section")) {
-            renderParagraph(text, styles.section);
-          } else {
-            // Handle specific text patterns
-            const lines = text.split(/\n|(?<=\.)(?=\s)/);
-            lines.forEach((line) => {
-              if (line.trim()) {
-                // Check if line starts with a key term
-                if (line.includes(":")) {
-                  const [term, definition] = line.split(":");
-                  if (term && definition) {
-                    // Render term in bold
-                    pdf.setFont("helvetica", "bold");
-                    pdf.setFontSize(styles.paragraph.fontSize);
-                    pdf.text(term.trim() + ":", margin, currentY);
+      canvasPage.width = canvas.width;
+      canvasPage.height = pageCanvasHeight;
 
-                    // Render definition in normal font
-                    pdf.setFont("helvetica", "normal");
-                    renderParagraph(definition.trim(), {
-                      ...styles.paragraph,
-                      spaceBefore: 2,
-                      spaceAfter: 6,
-                    });
-                  }
-                } else {
-                  renderParagraph(line.trim());
-                }
-              }
-            });
-          }
-          break;
-        default:
-          if (text) {
-            renderParagraph(text);
-          }
-      }
-    };
+      const ctx = canvasPage.getContext("2d")!;
+      ctx.drawImage(
+        canvas,
+        0,
+        yOffset, // Start drawing from the current offset
+        canvas.width,
+        pageCanvasHeight,
+        0,
+        0,
+        canvasPage.width,
+        canvasPage.height
+      );
 
-    // Process all content recursively
-    const processContent = (element: HTMLElement) => {
-      Array.from(element.childNodes).forEach((node) => {
-        if (node.nodeType === Node.ELEMENT_NODE) {
-          processNode(node as HTMLElement);
-        }
-      });
-    };
+      const pageImage = canvasPage.toDataURL("image/png");
+      pdf.addImage(pageImage, "PNG", margin, margin, contentWidth, pageHeight);
 
-    processContent(editorElement);
+      remainingHeight -= pageHeight;
+      yOffset += pageCanvasHeight;
+
+      if (remainingHeight > 0) pdf.addPage(); // Add a new page if there's remaining content
+    }
+
+    // Clean up
+    document.body.removeChild(tempContainer);
+
+    // Save the PDF
     pdf.save("document.pdf");
   } catch (error) {
     console.error("Error generating PDF:", error);
@@ -358,4 +345,105 @@ export const exportToDocx = async (editor: Editor) => {
     console.error("Error generating DOCX:", error);
     alert("Error generating DOCX. Please try again.");
   }
+};
+
+export const printEditor = (editor: Editor) => {
+  const content = editor.getHTML();
+
+  // Create a new window for printing
+  const printWindow = window.open("", "_blank");
+  if (!printWindow) {
+    alert("Please allow popups to print the document");
+    return;
+  }
+
+  // Add content and styles to the new window
+  printWindow.document.write(`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Print Document</title>
+        <style>
+          @media print {
+            body {
+              margin: 0;
+              padding: 20mm;
+              font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            }
+            
+            /* Editor content styles */
+            .content {
+              max-width: 100%;
+            }
+            
+            /* Typography */
+            h1, h2, h3, h4, h5, h6 {
+              margin: 1em 0 0.5em;
+              line-height: 1.2;
+              break-after: avoid;
+            }
+            
+            p {
+              margin: 0.5em 0;
+              line-height: 1.5;
+            }
+            
+            /* Code blocks */
+            pre {
+              background: #f5f5f5;
+              padding: 1em;
+              border-radius: 4px;
+              overflow-x: auto;
+              white-space: pre-wrap;
+              page-break-inside: avoid;
+            }
+            
+            /* Lists */
+            ul, ol {
+              padding-left: 2em;
+              margin: 0.5em 0;
+            }
+            
+            /* Images */
+            img {
+              max-width: 100%;
+              height: auto;
+              page-break-inside: avoid;
+            }
+            
+            /* Links */
+            a {
+              color: #2563eb;
+              text-decoration: underline;
+            }
+            
+            /* Tables */
+            table {
+              width: 100%;
+              border-collapse: collapse;
+              margin: 1em 0;
+              page-break-inside: avoid;
+            }
+            
+            /* Highlighted text */
+            mark[data-color="yellow"] { background-color: #fef9c3; }
+            mark[data-color="green"] { background-color: #dcfce7; }
+            mark[data-color="blue"] { background-color: #dbeafe; }
+            mark[data-color="red"] { background-color: #fee2e2; }
+          }
+        </style>
+      </head>
+      <body>
+        <div class="content">${content}</div>
+        <script>
+          window.onload = () => {
+            window.print();
+            window.onafterprint = () => window.close();
+          }
+        </script>
+      </body>
+    </html>
+  `);
+
+  printWindow.document.close();
 };
