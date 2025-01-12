@@ -291,16 +291,34 @@ export const exportToDocx = async (editor: Editor) => {
       return undefined;
     };
 
-    const getAlignment = (textAlign: string): typeof AlignmentType => {
+    type TextAlignmentType = "center" | "end" | "left" | "right" | "start" | "both" | "mediumKashida" | "distribute" | "numTab" | "highKashida" | "lowKashida" | "thaiDistribute";
+
+    const getAlignment = (textAlign: string): TextAlignmentType => {
       switch (textAlign) {
         case "right":
-          return "right" as typeof AlignmentType;
+          return "right";
         case "center":
-          return "center" as typeof AlignmentType;
+          return "center";
         case "justify":
-          return "both" as typeof AlignmentType; // justify maps to both
+          return "both";  // justify maps to both
+        case "start":
+          return "start";
+        case "end":
+          return "end";
+        case "mediumKashida":
+          return "mediumKashida";
+        case "distribute":
+          return "distribute";
+        case "numTab":
+          return "numTab";
+        case "highKashida":
+          return "highKashida";
+        case "lowKashida":
+          return "lowKashida";
+        case "thaiDistribute":
+          return "thaiDistribute";
         default:
-          return "left" as typeof AlignmentType;
+          return "left";
       }
     };
     // Process all nodes
