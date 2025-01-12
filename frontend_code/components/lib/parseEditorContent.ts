@@ -28,7 +28,7 @@ const getTextAlignment = (element: Element): AlignmentType => {  // Return our c
   }
 };
 
-const getHeadingLevel = (element: Element): HeadingLevel | undefined => {
+const getHeadingLevel = (element: Element): typeof HeadingLevel | undefined => {
   const tagName = element.tagName.toLowerCase();
   switch (tagName) {
     case "h1":
