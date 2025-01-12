@@ -304,7 +304,7 @@ export const exportToDocx = async (editor: Editor) => {
     //   }
     // };
 
-    const getAlignment = (textAlign: string): AlignmentType => {
+    const getAlignment = (textAlign: string): typeof AlignmentType => {
       switch (textAlign) {
         case "right":
           return AlignmentType.RIGHT;
