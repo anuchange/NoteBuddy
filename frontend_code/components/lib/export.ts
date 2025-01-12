@@ -291,9 +291,9 @@ export const exportToDocx = async (editor: Editor) => {
       return undefined;
     };
 
-    type TextAlignmentType = "center" | "end" | "left" | "right" | "start" | "both" | "mediumKashida" | "distribute" | "numTab" | "highKashida" | "lowKashida" | "thaiDistribute";
+    type AlignmentType = "center" | "end" | "left" | "right" | "start" | "both" | "mediumKashida" | "distribute" | "numTab" | "highKashida" | "lowKashida" | "thaiDistribute";
 
-    const getAlignment = (textAlign: string): TextAlignmentType => {
+    const getAlignment = (textAlign: string): AlignmentType => {
       switch (textAlign) {
         case "right":
           return "right";

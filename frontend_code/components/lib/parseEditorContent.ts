@@ -3,7 +3,7 @@ import { AlignmentType, HeadingLevel } from "docx";
 interface ParsedContent {
   text: string;
   fontSize: number;
-  headingLevel?: HeadingLevel;
+  headingLevel?: typeof HeadingLevel;
   alignment: AlignmentType;
   isCode: boolean;
   isBold: boolean;
