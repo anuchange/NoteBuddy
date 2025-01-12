@@ -4,24 +4,25 @@ interface ParsedContent {
   text: string;
   fontSize: number;
   headingLevel?: HeadingLevelType;
-  alignment: AlignmentType;
+  alignment: Alignment;
   isCode: boolean;
   isBold: boolean;
   isItalic: boolean;
 }
+type Alignment = 'LEFT' | 'RIGHT' | 'CENTER' | 'JUSTIFIED';
 
-const getTextAlignment = (element: Element): AlignmentType => {
+const getTextAlignment = (element: Element): Alignment => {
   const style = window.getComputedStyle(element);
   const textAlign = style.textAlign;
   switch (textAlign) {
     case "right":
-      return AlignmentType.RIGHT;
+      return 'RIGHT';
     case "center":
-      return AlignmentType.CENTER;
+      return 'CENTER';
     case "justify":
-      return AlignmentType.JUSTIFIED;
+      return 'JUSTIFIED';
     default:
-      return AlignmentType.LEFT;
+      return 'LEFT';
   }
 };
 
