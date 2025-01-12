@@ -4,7 +4,7 @@ interface ParsedContent {
   text: string;
   fontSize: number;
   headingLevel?: typeof HeadingLevel;
-  alignment: AlignmentType;
+  alignment: typeof AlignmentType;
   isCode: boolean;
   isBold: boolean;
   isItalic: boolean;
