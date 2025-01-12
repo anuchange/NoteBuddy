@@ -28,25 +28,29 @@ const getTextAlignment = (element: Element): AlignmentType => {  // Return our c
   }
 };
 
-const getHeadingLevel = (element: Element): typeof HeadingLevel | undefined => {
+// Define the heading level type based on the error message
+type HeadingLevel = "Heading1" | "Heading2" | "Heading3" | "Heading4" | "Heading5" | "Heading6" | "Title";
+
+const getHeadingLevel = (element: Element): HeadingLevel | undefined => {
   const tagName = element.tagName.toLowerCase();
   switch (tagName) {
     case "h1":
-      return HeadingLevel.HEADING_1;
+      return "Heading1";
     case "h2":
-      return HeadingLevel.HEADING_2;
+      return "Heading2";
     case "h3":
-      return HeadingLevel.HEADING_3;
+      return "Heading3";
     case "h4":
-      return HeadingLevel.HEADING_4;
+      return "Heading4";
     case "h5":
-      return HeadingLevel.HEADING_5;
+      return "Heading5";
     case "h6":
-      return HeadingLevel.HEADING_6;
+      return "Heading6";
     default:
       return undefined;
   }
 };
+
 
 export const parseEditorContent = (content: string): ParsedContent[] => {
   const container = document.createElement("div");
