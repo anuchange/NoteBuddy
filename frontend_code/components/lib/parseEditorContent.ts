@@ -10,18 +10,21 @@ interface ParsedContent {
   isItalic: boolean;
 }
 
-const getTextAlignment = (element: Element): typeof AlignmentType => {
+// Define our custom alignment type
+type AlignmentType = "center" | "end" | "left" | "right" | "start" | "both" | "mediumKashida" | "distribute" | "numTab" | "highKashida" | "lowKashida" | "thaiDistribute";
+
+const getTextAlignment = (element: Element): AlignmentType => {  // Return our custom type
   const style = window.getComputedStyle(element);
   const textAlign = style.textAlign;
   switch (textAlign) {
     case "right":
-      return typeof AlignmentType.RIGHT;
+      return "right";
     case "center":
-      return typeof AlignmentType.CENTER;
+      return "center";
     case "justify":
-      return typeof AlignmentType.JUSTIFIED;
+      return "both";  // "justify" maps to "both"
     default:
-      return typeof AlignmentType.LEFT;
+      return "left";
   }
 };
 
