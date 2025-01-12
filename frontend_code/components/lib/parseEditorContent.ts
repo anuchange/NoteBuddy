@@ -1,16 +1,31 @@
-import { HeadingLevel, AlignmentType } from "docx";
+import { AlignmentType, HeadingLevel } from "docx";
 
 interface ParsedContent {
   text: string;
   fontSize: number;
-  headingLevel: typeof HeadingLevel | undefined;  // Updated to match return type
-  alignment: typeof AlignmentType;  // Using typeof for enum type
+  headingLevel?: HeadingLevel;
+  alignment: AlignmentType;
   isCode: boolean;
   isBold: boolean;
   isItalic: boolean;
 }
 
-const getHeadingLevel = (element: Element): typeof HeadingLevel | undefined => {
+const getTextAlignment = (element: Element): AlignmentType => {
+  const style = window.getComputedStyle(element);
+  const textAlign = style.textAlign;
+  switch (textAlign) {
+    case "right":
+      return AlignmentType.RIGHT;
+    case "center":
+      return AlignmentType.CENTER;
+    case "justify":
+      return AlignmentType.JUSTIFIED;
+    default:
+      return AlignmentType.LEFT;
+  }
+};
+
+const getHeadingLevel = (element: Element): HeadingLevel | undefined => {
   const tagName = element.tagName.toLowerCase();
   switch (tagName) {
     case "h1":
@@ -27,21 +42,6 @@ const getHeadingLevel = (element: Element): typeof HeadingLevel | undefined => {
       return HeadingLevel.HEADING_6;
     default:
       return undefined;
-  }
-};
-
-const getTextAlignment = (element: Element): typeof AlignmentType => {
-  const style = window.getComputedStyle(element);
-  const textAlign = style.textAlign;
-  switch (textAlign) {
-    case "right":
-      return AlignmentType.RIGHT;
-    case "center":
-      return AlignmentType.CENTER;
-    case "justify":
-      return AlignmentType.JUSTIFIED;
-    default:
-      return AlignmentType.LEFT;
   }
 };
 
