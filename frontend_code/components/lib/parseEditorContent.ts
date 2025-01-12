@@ -15,13 +15,13 @@ const getTextAlignment = (element: Element): typeof AlignmentType => {
   const textAlign = style.textAlign;
   switch (textAlign) {
     case "right":
-      return AlignmentType.RIGHT;
+      return typeof AlignmentType.RIGHT;
     case "center":
-      return AlignmentType.CENTER;
+      return typeof AlignmentType.CENTER;
     case "justify":
-      return AlignmentType.JUSTIFIED;
+      return typeof AlignmentType.JUSTIFIED;
     default:
-      return AlignmentType.LEFT;
+      return typeof AlignmentType.LEFT;
   }
 };
 
