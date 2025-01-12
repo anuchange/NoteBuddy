@@ -291,19 +291,6 @@ export const exportToDocx = async (editor: Editor) => {
       return undefined;
     };
 
-    // const getAlignment = (textAlign: string): typeof AlignmentType => {
-    //   switch (textAlign) {
-    //     case "right":
-    //       return AlignmentType.RIGHT;
-    //     case "center":
-    //       return AlignmentType.CENTER;
-    //     case "justify":
-    //       return AlignmentType.JUSTIFIED;
-    //     default:
-    //       return AlignmentType.LEFT;
-    //   }
-    // };
-
     const getAlignment = (textAlign: string): typeof AlignmentType => {
       switch (textAlign) {
         case "right":
@@ -312,29 +299,10 @@ export const exportToDocx = async (editor: Editor) => {
           return AlignmentType.CENTER;
         case "justify":
           return AlignmentType.JUSTIFIED;
-        case "start":
-          return AlignmentType.START;
-        case "end":
-          return AlignmentType.END;
-        case "both":
-          return AlignmentType.BOTH;
-        case "mediumKashida":
-          return AlignmentType.MEDIUM_KASHIDA;
-        case "distribute":
-          return AlignmentType.DISTRIBUTE;
-        case "numTab":
-          return AlignmentType.NUM_TAB;
-        case "highKashida":
-          return AlignmentType.HIGH_KASHIDA;
-        case "lowKashida":
-          return AlignmentType.LOW_KASHIDA;
-        case "thaiDistribute":
-          return AlignmentType.THAI_DISTRIBUTE;
         default:
           return AlignmentType.LEFT;
       }
     };
-
     // Process all nodes
     const processedNodes = await processChildNodes(doc.body);
 
