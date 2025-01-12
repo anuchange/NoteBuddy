@@ -10,6 +10,7 @@ import {
   ImageRun,
 } from "docx";
 import html2canvas from "html2canvas";
+type AlignmentType = "left" | "right" | "center" | "justify";
 
 export const exportToPdf = async (editor: Editor) => {
   try {
@@ -291,7 +292,7 @@ export const exportToDocx = async (editor: Editor) => {
       return undefined;
     };
 
-    const getAlignment = (textAlign: string): AlignmentType => {
+    const getAlignment = (textAlign: string): typeof AlignmentType => {
       switch (textAlign) {
         case "right":
           return AlignmentType.RIGHT;
