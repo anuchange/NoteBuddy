@@ -294,13 +294,13 @@ export const exportToDocx = async (editor: Editor) => {
     const getAlignment = (textAlign: string): typeof AlignmentType => {
       switch (textAlign) {
         case "right":
-          return AlignmentType.RIGHT;
+          return "right" as typeof AlignmentType;
         case "center":
-          return AlignmentType.CENTER;
+          return "center" as typeof AlignmentType;
         case "justify":
-          return AlignmentType.JUSTIFIED;
+          return "both" as typeof AlignmentType; // justify maps to both
         default:
-          return AlignmentType.LEFT;
+          return "left" as typeof AlignmentType;
       }
     };
     // Process all nodes
