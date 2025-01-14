@@ -3,43 +3,46 @@ import { AlignmentType, HeadingLevel } from "docx";
 interface ParsedContent {
   text: string;
   fontSize: number;
-  headingLevel?: HeadingLevel;
-  alignment: AlignmentType;
+  headingLevel?: HeadingLevelType;
+  alignment: Alignment;
   isCode: boolean;
   isBold: boolean;
   isItalic: boolean;
 }
+type Alignment = 'LEFT' | 'RIGHT' | 'CENTER' | 'JUSTIFIED';
 
-const getTextAlignment = (element: Element): AlignmentType => {
+const getTextAlignment = (element: Element): Alignment => {
   const style = window.getComputedStyle(element);
   const textAlign = style.textAlign;
   switch (textAlign) {
     case "right":
-      return AlignmentType.RIGHT;
+      return 'RIGHT';
     case "center":
-      return AlignmentType.CENTER;
+      return 'CENTER';
     case "justify":
-      return AlignmentType.JUSTIFIED;
+      return 'JUSTIFIED';
     default:
-      return AlignmentType.LEFT;
+      return 'LEFT';
   }
 };
 
-const getHeadingLevel = (element: Element): HeadingLevel | undefined => {
+type HeadingLevelType = 'HEADING_1' | 'HEADING_2' | 'HEADING_3' | 'HEADING_4' | 'HEADING_5' | 'HEADING_6';
+
+const getHeadingLevel = (element: Element): HeadingLevelType | undefined => {
   const tagName = element.tagName.toLowerCase();
   switch (tagName) {
     case "h1":
-      return HeadingLevel.HEADING_1;
+      return 'HEADING_1';
     case "h2":
-      return HeadingLevel.HEADING_2;
+      return 'HEADING_2';
     case "h3":
-      return HeadingLevel.HEADING_3;
+      return 'HEADING_3';
     case "h4":
-      return HeadingLevel.HEADING_4;
+      return 'HEADING_4';
     case "h5":
-      return HeadingLevel.HEADING_5;
+      return 'HEADING_5';
     case "h6":
-      return HeadingLevel.HEADING_6;
+      return 'HEADING_6';
     default:
       return undefined;
   }

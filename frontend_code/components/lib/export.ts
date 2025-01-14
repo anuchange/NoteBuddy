@@ -10,7 +10,6 @@ import {
   ImageRun,
 } from "docx";
 import html2canvas from "html2canvas";
-type AlignmentType = "left" | "right" | "center" | "justify";
 
 export const exportToPdf = async (editor: Editor) => {
   try {
@@ -292,19 +291,36 @@ export const exportToDocx = async (editor: Editor) => {
       return undefined;
     };
 
-    const getAlignment = (textAlign: string): typeof AlignmentType => {
+    type AlignmentType = "center" | "end" | "left" | "right" | "start" | "both" | "mediumKashida" | "distribute" | "numTab" | "highKashida" | "lowKashida" | "thaiDistribute";
+
+    const getAlignment = (textAlign: string): AlignmentType => {
       switch (textAlign) {
         case "right":
-          return AlignmentType.RIGHT;
+          return "right";
         case "center":
-          return AlignmentType.CENTER;
+          return "center";
         case "justify":
-          return AlignmentType.JUSTIFIED;
+          return "both";  // justify maps to both
+        case "start":
+          return "start";
+        case "end":
+          return "end";
+        case "mediumKashida":
+          return "mediumKashida";
+        case "distribute":
+          return "distribute";
+        case "numTab":
+          return "numTab";
+        case "highKashida":
+          return "highKashida";
+        case "lowKashida":
+          return "lowKashida";
+        case "thaiDistribute":
+          return "thaiDistribute";
         default:
-          return AlignmentType.LEFT;
+          return "left";
       }
     };
-
     // Process all nodes
     const processedNodes = await processChildNodes(doc.body);
 
