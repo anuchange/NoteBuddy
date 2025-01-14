@@ -18,9 +18,11 @@ const ChatBotUI = ({ theme, toggleTheme }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [isMaximized, setIsMaximized] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
   const { apiKey, setApikey } = useStore();
 
   const fileInputRef = useRef(null);
+  const dropZoneRef = useRef(null);
 
   const handleInputChange = (e) => {
     setInputText(e.target.value);
@@ -33,16 +35,55 @@ const ChatBotUI = ({ theme, toggleTheme }) => {
   const handleImageSelect = (e) => {
     const file = e.target.files[0];
     if (file) {
-      if (file.type.startsWith("image/")) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          setSelectedImage(e.target.result);
-        };
-        reader.readAsDataURL(file);
-        setError("");
-      } else {
-        setError("Please select an image file");
-      }
+      processImageFile(file);
+    }
+  };
+
+  const processImageFile = (file) => {
+    if (file.type.startsWith("image/")) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setSelectedImage(e.target.result);
+      };
+      reader.readAsDataURL(file);
+      setError("");
+    } else {
+      setError("Please select an image file");
+    }
+  };
+
+  const handleDragEnter = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+      processImageFile(files[0]);
+    }
+  };
+
+  const removeSelectedImage = () => {
+    setSelectedImage(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
     }
   };
 
@@ -79,7 +120,9 @@ const ChatBotUI = ({ theme, toggleTheme }) => {
 
       setInputText("");
       setSelectedImage(null);
-      fileInputRef.current.value = "";
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     }
   };
 
@@ -115,21 +158,18 @@ const ChatBotUI = ({ theme, toggleTheme }) => {
               <Maximize2 className="h-5 w-5" />
             )}
           </button>
-          {/* <button
-            onClick={toggleTheme}
-            className={`ml-4 p-2 rounded-full transition-colors ${
-              theme === "dark" ? "bg-gray-700 text-white" : "bg-gray-200"
-            }`}
-          >
-            {theme === "dark" ? "🌙" : "☀️"}
-          </button> */}
         </div>
 
         {/* Chat Area */}
         <div
-          className={`flex-grow overflow-y-auto rounded-xl p-6 ${
+          ref={dropZoneRef}
+          className={`flex-grow overflow-y-auto rounded-xl p-6 relative ${
             theme === "dark" ? "bg-gray-700" : "bg-gray-50"
-          }`}
+          } ${isDragging ? "border-2 border-dashed border-blue-500" : ""}`}
+          onDragEnter={handleDragEnter}
+          onDragLeave={handleDragLeave}
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
         >
           {currentQuery && (
             <div className="mb-6">
@@ -192,6 +232,14 @@ const ChatBotUI = ({ theme, toggleTheme }) => {
               </div>
             </div>
           )}
+
+          {isDragging && (
+            <div className="absolute inset-0 bg-blue-500 bg-opacity-10 flex items-center justify-center">
+              <p className="text-blue-500 text-lg font-medium">
+                Drop image here
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Error Message */}
@@ -204,6 +252,23 @@ const ChatBotUI = ({ theme, toggleTheme }) => {
             } border-l-4 p-4 rounded-lg`}
           >
             {error}
+          </div>
+        )}
+
+        {/* Image Preview */}
+        {selectedImage && (
+          <div className="relative inline-block">
+            <img
+              src={selectedImage}
+              alt="Preview"
+              className="max-h-32 rounded-lg"
+            />
+            <button
+              onClick={removeSelectedImage}
+              className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1"
+            >
+              <X className="h-4 w-4" />
+            </button>
           </div>
         )}
 
@@ -240,11 +305,10 @@ const ChatBotUI = ({ theme, toggleTheme }) => {
             onClick={() => fileInputRef.current?.click()}
           >
             {theme === "dark" ? (
-              <ImageIcon size={18} className="text-gray-100" /> // Dark theme icon
+              <ImageIcon size={18} className="text-gray-100" />
             ) : (
-              <ImageIcon size={18} className="text-gray-900" /> // Light theme icon
+              <ImageIcon size={18} className="text-gray-900" />
             )}
-            {/* <ImageIcon className="h-5 w-5" /> */}
           </Button>
 
           <Button type="submit" size="icon" className="rounded-xl">
