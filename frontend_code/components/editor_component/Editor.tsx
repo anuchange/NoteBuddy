@@ -60,7 +60,7 @@ const Editor = ({ notesData, theme, videoId }) => {
 
         // Insert image into editor
         if (editor) {
-          editor.chain().focus().setImage({ src: imageUrl }).run();
+          editor.chain().focus().setImage({ src: imageUrl as string }).run();
         }
       };
       reader.readAsDataURL(file);
